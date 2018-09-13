@@ -1,0 +1,113 @@
+vga_xga.o: vga_xga.cpp \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h \
+ /opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stddef.h \
+ ../../include/dosbox.h ../../config.h ../../include/logging.h \
+ ../../include/inout.h ../../include/vga.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/math.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/huge_val.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/huge_valf.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/huge_vall.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/inf.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/nan.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/mathdef.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sgidefs.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/mathcalls.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdio.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/types.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wordsize.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/typesizes.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_stdio.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/wchar.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wchar.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/pthreadtypes.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/endian.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/endian.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/byteswap.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-common.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-16.h \
+ /opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stdarg.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/stdio_lim.h \
+ ../../include/callback.h ../../include/mem.h ../../include/cpu.h \
+ ../../include/regs.h
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h:
+
+/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stddef.h:
+
+../../include/dosbox.h:
+
+../../config.h:
+
+../../include/logging.h:
+
+../../include/inout.h:
+
+../../include/vga.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/math.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/huge_val.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/huge_valf.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/huge_vall.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/inf.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/nan.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/mathdef.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sgidefs.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/mathcalls.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdio.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/types.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wordsize.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/typesizes.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_stdio.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/wchar.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wchar.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/pthreadtypes.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/endian.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/endian.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/byteswap.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-common.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-16.h:
+
+/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stdarg.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/stdio_lim.h:
+
+../../include/callback.h:
+
+../../include/mem.h:
+
+../../include/cpu.h:
+
+../../include/regs.h:

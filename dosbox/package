@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mv src/dosbox bin/
+cp src/dosbox.png bin/

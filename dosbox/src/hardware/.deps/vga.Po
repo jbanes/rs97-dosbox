@@ -1,0 +1,30 @@
+vga.o: vga.cpp ../../include/dosbox.h ../../config.h \
+ ../../include/logging.h ../../include/video.h ../../include/pic.h \
+ ../../include/vga.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h \
+ /opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stddef.h
+
+../../include/dosbox.h:
+
+../../config.h:
+
+../../include/logging.h:
+
+../../include/video.h:
+
+../../include/pic.h:
+
+../../include/vga.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h:
+
+/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stddef.h:

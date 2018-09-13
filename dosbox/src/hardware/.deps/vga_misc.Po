@@ -1,0 +1,51 @@
+vga_misc.o: vga_misc.cpp ../../include/dosbox.h ../../config.h \
+ ../../include/logging.h ../../include/inout.h ../../include/pic.h \
+ ../../include/vga.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/math.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/huge_val.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/huge_valf.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/huge_vall.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/inf.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/nan.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/mathdef.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sgidefs.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/mathcalls.h
+
+../../include/dosbox.h:
+
+../../config.h:
+
+../../include/logging.h:
+
+../../include/inout.h:
+
+../../include/pic.h:
+
+../../include/vga.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/math.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/huge_val.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/huge_valf.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/huge_vall.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/inf.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/nan.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/mathdef.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sgidefs.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/mathcalls.h:

@@ -1,0 +1,1818 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="100">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="." name="0">
+      <df name="src">
+        <df name="cpu">
+          <in>callback.cpp</in>
+          <in>core_dyn_x86.cpp</in>
+          <in>core_dynrec.cpp</in>
+          <in>core_full.cpp</in>
+          <in>core_normal.cpp</in>
+          <in>core_prefetch.cpp</in>
+          <in>core_simple.cpp</in>
+          <in>cpu.cpp</in>
+          <in>flags.cpp</in>
+          <in>modrm.cpp</in>
+          <in>paging.cpp</in>
+        </df>
+        <df name="debug">
+          <in>debug.cpp</in>
+          <in>debug_disasm.cpp</in>
+          <in>debug_gui.cpp</in>
+        </df>
+        <df name="dos">
+          <in>cdrom.cpp</in>
+          <in>cdrom_image.cpp</in>
+          <in>cdrom_ioctl_linux.cpp</in>
+          <in>cdrom_ioctl_os2.cpp</in>
+          <in>dos.cpp</in>
+          <in>dos_classes.cpp</in>
+          <in>dos_devices.cpp</in>
+          <in>dos_execute.cpp</in>
+          <in>dos_files.cpp</in>
+          <in>dos_ioctl.cpp</in>
+          <in>dos_keyboard_layout.cpp</in>
+          <in>dos_memory.cpp</in>
+          <in>dos_misc.cpp</in>
+          <in>dos_mscdex.cpp</in>
+          <in>dos_programs.cpp</in>
+          <in>dos_tables.cpp</in>
+          <in>drive_cache.cpp</in>
+          <in>drive_fat.cpp</in>
+          <in>drive_iso.cpp</in>
+          <in>drive_local.cpp</in>
+          <in>drive_virtual.cpp</in>
+          <in>drives.cpp</in>
+        </df>
+        <df name="fpu">
+          <in>fpu.cpp</in>
+        </df>
+        <df name="gui">
+          <in>midi.cpp</in>
+          <in>render.cpp</in>
+          <in>render_scalers.cpp</in>
+          <in>sdl_mapper.cpp</in>
+          <in>sdl_vkeyboard.cpp</in>
+          <in>sdlmain.cpp</in>
+        </df>
+        <df name="hardware">
+          <df name="serialport">
+            <in>directserial.cpp</in>
+            <in>libserial.cpp</in>
+            <in>misc_util.cpp</in>
+            <in>nullmodem.cpp</in>
+            <in>serialdummy.cpp</in>
+            <in>serialport.cpp</in>
+            <in>softmodem.cpp</in>
+          </df>
+          <in>adlib.cpp</in>
+          <in>cmos.cpp</in>
+          <in>dbopl.cpp</in>
+          <in>disney.cpp</in>
+          <in>dma.cpp</in>
+          <in>gameblaster.cpp</in>
+          <in>gus.cpp</in>
+          <in>hardware.cpp</in>
+          <in>iohandler.cpp</in>
+          <in>ipx.cpp</in>
+          <in>ipxserver.cpp</in>
+          <in>joystick.cpp</in>
+          <in>keyboard.cpp</in>
+          <in>memory.cpp</in>
+          <in>mixer.cpp</in>
+          <in>mpu401.cpp</in>
+          <in>pci_bus.cpp</in>
+          <in>pcspeaker.cpp</in>
+          <in>pic.cpp</in>
+          <in>sblaster.cpp</in>
+          <in>tandy_sound.cpp</in>
+          <in>timer.cpp</in>
+          <in>vga.cpp</in>
+          <in>vga_attr.cpp</in>
+          <in>vga_crtc.cpp</in>
+          <in>vga_dac.cpp</in>
+          <in>vga_draw.cpp</in>
+          <in>vga_gfx.cpp</in>
+          <in>vga_memory.cpp</in>
+          <in>vga_misc.cpp</in>
+          <in>vga_other.cpp</in>
+          <in>vga_paradise.cpp</in>
+          <in>vga_s3.cpp</in>
+          <in>vga_seq.cpp</in>
+          <in>vga_tseng.cpp</in>
+          <in>vga_xga.cpp</in>
+        </df>
+        <df name="ints">
+          <in>bios.cpp</in>
+          <in>bios_disk.cpp</in>
+          <in>bios_keyboard.cpp</in>
+          <in>ems.cpp</in>
+          <in>int10.cpp</in>
+          <in>int10_char.cpp</in>
+          <in>int10_memory.cpp</in>
+          <in>int10_misc.cpp</in>
+          <in>int10_modes.cpp</in>
+          <in>int10_pal.cpp</in>
+          <in>int10_put_pixel.cpp</in>
+          <in>int10_vesa.cpp</in>
+          <in>int10_video_state.cpp</in>
+          <in>int10_vptable.cpp</in>
+          <in>mouse.cpp</in>
+          <in>xms.cpp</in>
+        </df>
+        <df name="misc">
+          <in>cross.cpp</in>
+          <in>messages.cpp</in>
+          <in>programs.cpp</in>
+          <in>setup.cpp</in>
+          <in>support.cpp</in>
+        </df>
+        <df name="shell">
+          <in>shell.cpp</in>
+          <in>shell_batch.cpp</in>
+          <in>shell_cmds.cpp</in>
+          <in>shell_misc.cpp</in>
+        </df>
+        <in>dosbox.cpp</in>
+      </df>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+      <itemPath>configure</itemPath>
+      <itemPath>nbproject/private/launcher.properties</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <flagsDictionary>
+        <element flagsID="0" commonFlags="-march=mips32 -mtune=mips32 -O2 -ffast-math"/>
+      </flagsDictionary>
+      <codeAssistance>
+        <buildAnalyzer>false</buildAnalyzer>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+        </makeTool>
+        <preBuild>
+          <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
+          <preBuildCommand></preBuildCommand>
+        </preBuild>
+      </makefileType>
+      <folder path="0/src/fpu">
+        <ccTool>
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>src/fpu</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="0/src/ints">
+        <ccTool>
+          <incDir>
+            <pElem>include</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <item path="src/cpu/callback.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+            <pElem>src/cpu</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/cpu/core_dyn_x86.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>src/cpu</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/cpu/core_dynrec.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="src/cpu/core_full.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>src/cpu/core_full</pElem>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+            <pElem>src/cpu</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/cpu/core_normal.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>src/cpu/core_normal</pElem>
+            <pElem>.</pElem>
+            <pElem>src/cpu</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/cpu/core_prefetch.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>src/cpu/core_normal</pElem>
+            <pElem>.</pElem>
+            <pElem>src/cpu</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/cpu/core_simple.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>src/cpu/core_normal</pElem>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+            <pElem>src/cpu</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/cpu/cpu.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>src/cpu</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/cpu/flags.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>src/cpu</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/cpu/modrm.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>src/cpu</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/cpu/paging.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/cpu</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/debug/debug.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="src/debug/debug_disasm.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="src/debug/debug_gui.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="src/dos/cdrom.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/cdrom_image.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/cdrom_ioctl_linux.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm-generic</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/linux</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/cdrom_ioctl_os2.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>include</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/dos.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/dos_classes.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/dos_devices.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>src/ints</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/dos_execute.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/dos_files.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/dos_ioctl.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/dos_keyboard_layout.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>src/ints</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/dos_memory.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/dos_misc.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/dos_mscdex.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/dos_programs.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/dos_tables.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/drive_cache.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/drive_fat.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/drive_iso.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/drive_local.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/drive_virtual.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dos/drives.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/dos</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/dosbox.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>src/ints</pElem>
+            <pElem>src</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/fpu/fpu.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="src/gui/midi.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>.</pElem>
+            <pElem>src/gui</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gui/render.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>src/gui</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gui/render_scalers.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>src/gui</pElem>
+            <pElem>include</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gui/sdl_mapper.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL</pElem>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>src/gui</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gui/sdl_vkeyboard.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL</pElem>
+            <pElem>src/gui</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/gui/sdlmain.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL</pElem>
+            <pElem>src/gui</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/adlib.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/cmos.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/dbopl.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/disney.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/dma.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/gameblaster.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/gus.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>.</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/hardware.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>src/libs/zmbv</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/iohandler.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>src/cpu</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/ipx.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/ipxserver.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL</pElem>
+            <pElem>include</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/joystick.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/keyboard.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/memory.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/mixer.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/mpu401.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/pci_bus.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/pcspeaker.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/pic.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/sblaster.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/serialport/directserial.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>include</pElem>
+            <pElem>src/hardware/serialport</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/serialport/libserial.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>src/hardware/serialport</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/serialport/misc_util.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/netinet</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL</pElem>
+            <pElem>include</pElem>
+            <pElem>src/hardware/serialport</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/serialport/nullmodem.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL</pElem>
+            <pElem>src/hardware/serialport</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/serialport/serialdummy.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>include</pElem>
+            <pElem>src/hardware/serialport</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/serialport/serialport.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL</pElem>
+            <pElem>src/hardware/serialport</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/serialport/softmodem.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL</pElem>
+            <pElem>src/hardware/serialport</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/tandy_sound.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/timer.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/vga.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/vga_attr.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/vga_crtc.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/vga_dac.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/vga_draw.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+            <pElem>src/gui</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/vga_gfx.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/vga_memory.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/vga_misc.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/vga_other.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/vga_paradise.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/vga_s3.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/vga_seq.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/vga_tseng.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/hardware/vga_xga.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>src/hardware</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/ints/bios.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys</pElem>
+            <pElem>src/ints</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/ints/bios_disk.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>src/ints</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/ints/bios_keyboard.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL</pElem>
+            <pElem>src/ints</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/ints/ems.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/ints</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/ints/int10.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>src/ints</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/ints/int10_char.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>src/ints</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/ints/int10_memory.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>src/ints</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/ints/int10_misc.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>src/ints</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/ints/int10_modes.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>src/ints</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/ints/int10_pal.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>src/ints</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/ints/int10_put_pixel.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>src/ints</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/ints/int10_vesa.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/ints</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/ints/int10_video_state.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>src/ints</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/ints/int10_vptable.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>src/ints</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/ints/mouse.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/ints</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/ints/xms.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/ints</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/misc/cross.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>include</pElem>
+            <pElem>src/misc</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/misc/messages.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>include</pElem>
+            <pElem>src/misc</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/misc/programs.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>.</pElem>
+            <pElem>src/misc</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/misc/setup.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>src/misc</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/misc/support.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>.</pElem>
+            <pElem>src/misc</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/shell/shell.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>src/shell</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/shell/shell_batch.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>.</pElem>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/shell</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/shell/shell_cmds.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>src/shell</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/shell/shell_misc.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/ext</pElem>
+            <pElem>include</pElem>
+            <pElem>/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits</pElem>
+            <pElem>/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/debug</pElem>
+            <pElem>.</pElem>
+            <pElem>src/shell</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

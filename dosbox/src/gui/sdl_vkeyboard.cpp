@@ -291,6 +291,91 @@ _exit:
     return ret;
 }
 
+void VKEYB_BlitDoubledSurface(SDL_Surface *source, int left, int top, SDL_Surface *destination)
+{
+    int x, y;
+    int w = source->pitch;
+    int h = source->h;
+    
+    int bytes = source->format->BytesPerPixel;
+    int offset = left * bytes;
+    int trailing = destination->pitch - source->pitch - offset;
+    
+    uint8_t* s8 = (uint8_t*)source->pixels;
+    uint64_t* s64 = (uint64_t*)source->pixels;
+    
+    uint8_t* d8 = (uint8_t*)destination->pixels;
+    uint64_t* d64 = (uint64_t*)destination->pixels;
+
+    // Move down the buffer to where we want to start rendering
+    d8 += (destination->pitch * top);
+
+    for(y=0; y<h; y++)
+    {
+        d8 += offset;
+        
+        for(x=0; x<w; )
+        {
+            if(w-x >= 64)
+            {
+                d64 = (uint64_t*)((void*)d8);
+                s64 = (uint64_t*)((void*)s8);
+                
+                *d64++ = *s64++;
+                *d64++ = *s64++;
+                *d64++ = *s64++;
+                *d64++ = *s64++;
+                *d64++ = *s64++;
+                *d64++ = *s64++;
+                *d64++ = *s64++;
+                *d64++ = *s64++;
+                
+                x += 64;
+                d8 = (uint8_t*)((void*)d64);
+                s8 = (uint8_t*)((void*)s64);
+            }
+            else
+            {
+                *d8++ = *s8++;
+                x++;
+            }
+        }
+        
+        d8 += trailing;
+        d8 += offset;
+        s8 -= w;
+        
+        for(x=0; x<w; )
+        {
+            if(w-x >= 64)
+            {
+                d64 = (uint64_t*)((void*)d8);
+                s64 = (uint64_t*)((void*)s8);
+                
+                *d64++ = *s64++;
+                *d64++ = *s64++;
+                *d64++ = *s64++;
+                *d64++ = *s64++;
+                *d64++ = *s64++;
+                *d64++ = *s64++;
+                *d64++ = *s64++;
+                *d64++ = *s64++;
+                
+                x += 64;
+                d8 = (uint8_t*)((void*)d64);
+                s8 = (uint8_t*)((void*)s64);
+            }
+            else
+            {
+                *d8++ = *s8++;
+                x++;
+            }
+        }
+
+        d8 += trailing;
+    }
+}
+
 void VKEYB_BlitVkeyboard(SDL_Surface *surface)
 {
     if(!vkeyb_active) return;
@@ -343,7 +428,7 @@ void VKEYB_BlitVkeyboard(SDL_Surface *surface)
     dest.x = vkeyb.x;
     dest.y = vkeyb.y;
         
-    SDL_BlitSurface(vkeyb.surface, 0, surface, &dest);
+    VKEYB_BlitDoubledSurface(vkeyb.surface, vkeyb.x, vkeyb.y, surface);
 }
 
 void VKEYB_CleanVkeyboard(SDL_Surface *surface)
@@ -352,7 +437,7 @@ void VKEYB_CleanVkeyboard(SDL_Surface *surface)
     dest.x = vkeyb.x;
     dest.y = vkeyb.y;
     dest.w = 287;
-    dest.h = 80;
+    dest.h = 80 * 2;
 
     SDL_FillRect(surface, &dest, 0);
     vkeyb_last = false;

@@ -635,8 +635,8 @@ void RENDER_Init(Section * sec)
     if(f == "forced") render.scale.forced = true;
    
     if (scaler == "none") { render.scale.op = scalerOpNormal; render.scale.size = 1; }
-    else if (scaler == "normal2x") { render.scale.op = scalerOpNormal; render.scale.size = 2; }
-    else if (scaler == "normal3x") { render.scale.op = scalerOpNormal; render.scale.size = 3; }
+    else if (scaler == "normal2x" && render.scale.forced) { render.scale.op = scalerOpNormal; render.scale.size = 2; }
+    else if (scaler == "normal3x" && render.scale.forced) { render.scale.op = scalerOpNormal; render.scale.size = 3; }
 #if RENDER_USE_ADVANCED_SCALERS>2
     else if (scaler == "advmame2x") { render.scale.op = scalerOpAdvMame; render.scale.size = 2; }
     else if (scaler == "advmame3x") { render.scale.op = scalerOpAdvMame; render.scale.size = 3; }

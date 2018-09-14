@@ -606,17 +606,17 @@ dosurface:
 
             if(width == 640 && height == 400)
             {
-                printf("Selected 640x400 scaler");
+                printf("==Selected 640x400 scaler==\n");
                 GFX_PDownscale = (bpp == 16 ? &GFX_Downscale_640x400_to_320x240_16 : &GFX_Downscale_640x400_to_320x240_32);
             }
             else if(width == 640 && height == 480)
             {
-                printf("Selected 640x480 scaler");
+                printf("==Selected 640x480 scaler==\n");
                 GFX_PDownscale = (bpp == 16 ? &GFX_Downscale_640x480_to_320x240_16 : &GFX_Downscale_640x480_to_320x240_32);
             }
             else if(width == 320 && height == 200)
             {
-                printf("Selected 320x200 scaler");
+                printf("==Selected 320x200 scaler==\n");
                 GFX_PDownscale = (bpp == 16 ? &GFX_Downscale_320x200_to_320x240_16 : &GFX_Downscale_320x200_to_320x240_32);
             }
         }
@@ -629,8 +629,9 @@ dosurface:
         
         if(sdl.surface == NULL) E_Exit("Could not set windowed video mode %ix%i-%i: %s",width,height,bpp,SDL_GetError());
         
-        printf("Blit Surface: %i x %i\n", sdl.blit.surface->w, sdl.blit.surface->h);
+        printf("Blit Surface: %i x %i / ", sdl.blit.surface->w, sdl.blit.surface->h);
         printf("Surface: %i x %i\n", sdl.surface->w, sdl.surface->h);
+        printf("\n"); // Add an empty line to the log
         
         if(sdl.surface) 
         {
@@ -910,26 +911,46 @@ void GFX_RestoreMode(void) {
 void GFX_BlitDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
 {
     int x, y;
-    int div = source->pitch == 640 ? 2 : 1;
-    int w = source->w;
+    int w = source->pitch/8; // Divide by 8 for 64 bit copy
     int h = source->h;
+    int trailing = (destination->pitch - source->pitch)/8;
 
-    uint32_t *s = (uint32_t*)source->pixels;
-    uint32_t *d = (uint32_t*)destination->pixels;
+    uint64_t *s = (uint64_t*)source->pixels;
+    uint64_t *d = (uint64_t*)destination->pixels;
 
-    w /= div;
-    
-    // The number of lines has to be divided by 4 rather than 2 due to the line-doubling on the screen
-    if(destination->h/2 > source->h) d += (((destination->h/2 - source->h)/4) * destination->pitch);
+    // Center the screen
+    d += (destination->h/2 - source->h) * destination->pitch/8;
 
     for(y=0; y<h; y++)
     {
-        for(x=0; x<w; x++)
+        for(x=0; x<w; x+=8)
         {
             *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
         }
-
-        d += (destination->pitch / (div * 2));
+        
+        d += trailing;
+        s -= w;
+        
+        for(x=0; x<w; x+=8)
+        {
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+        }
+        
+        d += trailing;
     }
 }
 

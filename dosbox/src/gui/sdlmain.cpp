@@ -647,44 +647,6 @@ dosurface:
 
         retFlags |= GFX_SCALING;
         break;
-#if (HAVE_DDRAW_H) && defined(WIN32)
-    case SCREEN_SURFACE_DDRAW:
-        if (flags & GFX_CAN_15) bpp=15;
-        if (flags & GFX_CAN_16) bpp=16;
-        if (flags & GFX_CAN_32) bpp=32;
-        if (!GFX_SetupSurfaceScaled((sdl.desktop.doublebuf && sdl.desktop.fullscreen) ? SDL_DOUBLEBUF : 0,bpp)) goto dosurface;
-        sdl.blit.rect.top=sdl.clip.y;
-        sdl.blit.rect.left=sdl.clip.x;
-        sdl.blit.rect.right=sdl.clip.x+sdl.clip.w;
-        sdl.blit.rect.bottom=sdl.clip.y+sdl.clip.h;
-        sdl.blit.surface=SDL_CreateRGBSurface(SDL_HWSURFACE,sdl.draw.width,sdl.draw.height,
-                sdl.surface->format->BitsPerPixel,
-                sdl.surface->format->Rmask,
-                sdl.surface->format->Gmask,
-                sdl.surface->format->Bmask,
-                0);
-        if (!sdl.blit.surface || (!sdl.blit.surface->flags&SDL_HWSURFACE)) {
-            if (sdl.blit.surface) {
-                SDL_FreeSurface(sdl.blit.surface);
-                sdl.blit.surface=0;
-            }
-            LOG_MSG("Failed to create ddraw surface, back to normal surface.");
-            goto dosurface;
-        }
-        switch (sdl.surface->format->BitsPerPixel) {
-        case 15:
-            retFlags = GFX_CAN_15 | GFX_SCALING | GFX_HARDWARE;
-            break;
-        case 16:
-            retFlags = GFX_CAN_16 | GFX_SCALING | GFX_HARDWARE;
-               break;
-        case 32:
-            retFlags = GFX_CAN_32 | GFX_SCALING | GFX_HARDWARE;
-               break;
-        }
-        sdl.desktop.type=SCREEN_SURFACE_DDRAW;
-        break;
-#endif
     case SCREEN_OVERLAY:
         if (sdl.overlay) {
             SDL_FreeYUVOverlay(sdl.overlay);
@@ -1003,70 +965,79 @@ void GFX_BlitScaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
 
 void GFX_BlitDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
 {
-    if(sdl.desktop.fullscreen) GFX_BlitScaledDinguxSurface(source, destination);
+    if(sdl.desktop.fullscreen && source->h < 240) GFX_BlitScaledDinguxSurface(source, destination);
     else GFX_BlitUnscaledDinguxSurface(source, destination);
 }
 
-bool GFX_StartUpdate(Bit8u * & pixels,Bitu & pitch) {
-    if (!sdl.active || sdl.updating)
-        return false;
-    switch (sdl.desktop.type) {
-    case SCREEN_SURFACE:
-        if (sdl.blit.surface) {
-            if (SDL_MUSTLOCK(sdl.blit.surface) && SDL_LockSurface(sdl.blit.surface))
-                return false;
-            pixels=(Bit8u *)sdl.blit.surface->pixels;
-            pitch=sdl.blit.surface->pitch;
-        } else {
-            if (SDL_MUSTLOCK(sdl.surface) && SDL_LockSurface(sdl.surface))
-                return false;
-            pixels=(Bit8u *)sdl.surface->pixels;
-            pixels+=sdl.clip.y*sdl.surface->pitch;
-            pixels+=sdl.clip.x*sdl.surface->format->BytesPerPixel;
-            pitch=sdl.surface->pitch;
-        }
-        sdl.updating=true;
-        return true;
-    case SCREEN_SURFACE_DINGUX:
-        if (sdl.blit.surface) {
-            pixels=(Bit8u *)sdl.blit.surface->pixels;
-            pitch=sdl.blit.surface->pitch;
-        } else {
-            if (SDL_MUSTLOCK(sdl.surface)) SDL_LockSurface(sdl.surface);
-            pixels=(Bit8u *)sdl.surface->pixels;
-            pixels+=sdl.clip.y*sdl.surface->pitch;
-            pixels+=sdl.clip.x*sdl.surface->format->BytesPerPixel;
-            pitch=sdl.surface->pitch;
-        }
-        sdl.updating=true;
-        return true;
-#if (HAVE_DDRAW_H) && defined(WIN32)
-    case SCREEN_SURFACE_DDRAW:
-        if (SDL_LockSurface(sdl.blit.surface)) {
-//            LOG_MSG("SDL Lock failed");
-            return false;
-        }
-        pixels=(Bit8u *)sdl.blit.surface->pixels;
-        pitch=sdl.blit.surface->pitch;
-        sdl.updating=true;
-        return true;
-#endif
-    case SCREEN_OVERLAY:
-        if (SDL_LockYUVOverlay(sdl.overlay)) return false;
-        pixels=(Bit8u *)*(sdl.overlay->pixels);
-        pitch=*(sdl.overlay->pitches);
-        sdl.updating=true;
-        return true;
+bool GFX_StartUpdate(Bit8u * & pixels,Bitu & pitch) 
+{
+    if (!sdl.active || sdl.updating) return false;
+    
+    switch(sdl.desktop.type) 
+    {
+        case SCREEN_SURFACE:
+            if (sdl.blit.surface) 
+            {
+                if(SDL_MUSTLOCK(sdl.blit.surface) && SDL_LockSurface(sdl.blit.surface)) return false;
+                
+                pixels = (Bit8u *)sdl.blit.surface->pixels;
+                pitch = sdl.blit.surface->pitch;
+            } 
+            else 
+            {
+                if (SDL_MUSTLOCK(sdl.surface) && SDL_LockSurface(sdl.surface)) return false;
+                
+                pixels=(Bit8u *)sdl.surface->pixels;
+                pixels+=sdl.clip.y*sdl.surface->pitch;
+                pixels+=sdl.clip.x*sdl.surface->format->BytesPerPixel;
+                pitch=sdl.surface->pitch;
+            }
+            
+            sdl.updating = true;
+            
+            return true;
+
+        case SCREEN_SURFACE_DINGUX:
+            
+            if (sdl.blit.surface) 
+            {
+                pixels = (Bit8u *)sdl.blit.surface->pixels;
+                pitch = sdl.blit.surface->pitch;
+            } 
+            else 
+            {
+                if(SDL_MUSTLOCK(sdl.surface)) SDL_LockSurface(sdl.surface);
+                
+                pixels = (Bit8u *)sdl.surface->pixels;
+                pixels += sdl.clip.y*sdl.surface->pitch;
+                pixels += sdl.clip.x*sdl.surface->format->BytesPerPixel;
+                pitch = sdl.surface->pitch;
+            }
+            
+            sdl.updating=true;
+            
+            return true;
+
+        case SCREEN_OVERLAY:
+            if(SDL_LockYUVOverlay(sdl.overlay)) return false;
+
+            pixels=(Bit8u *)*(sdl.overlay->pixels);
+            pitch=*(sdl.overlay->pitches);
+            sdl.updating=true;
+
+            return true;
+        
 #if C_OPENGL
-    case SCREEN_OPENGL:
-        pixels=(Bit8u *)sdl.opengl.framebuf;
-        pitch=sdl.opengl.pitch;
-        sdl.updating=true;
-        return true;
+        case SCREEN_OPENGL:
+            pixels=(Bit8u *)sdl.opengl.framebuf;
+            pitch=sdl.opengl.pitch;
+            sdl.updating=true;
+            return true;
 #endif
-    default:
-        break;
+        default:
+            break;
     }
+    
     return false;
 }
 
@@ -1840,23 +1811,6 @@ void GFX_Events() {
         }
     }
 }
-
-#if defined (WIN32)
-static BOOL WINAPI ConsoleEventHandler(DWORD event) {
-    switch (event) {
-    case CTRL_SHUTDOWN_EVENT:
-    case CTRL_LOGOFF_EVENT:
-    case CTRL_CLOSE_EVENT:
-    case CTRL_BREAK_EVENT:
-        raise(SIGTERM);
-        return TRUE;
-    case CTRL_C_EVENT:
-    default: //pass to the next handler
-        return FALSE;
-    }
-}
-#endif
-
 
 /* static variable to show wether there is not a valid stdout.
  * Fixes some bugs when -noconsole is used in a read only directory */

@@ -435,8 +435,6 @@ void VKEYB_BlitDoubledSurface(SDL_Surface *source, int left, int top, SDL_Surfac
 void VKEYB_BlitVkeyboard(SDL_Surface *surface)
 {
     if(!vkeyb_active) return;
-        
-//    SDL_Rect dest;
     
     if(vkeyb_rerender)
     {
@@ -485,9 +483,6 @@ void VKEYB_BlitVkeyboard(SDL_Surface *surface)
         
         vkeyb_rerender = false;
     }
-
-//    dest.x = vkeyb.x;
-//    dest.y = vkeyb.y;
         
     VKEYB_BlitDoubledSurface(vkeyb.surface, vkeyb.x, vkeyb.y, surface);
 }

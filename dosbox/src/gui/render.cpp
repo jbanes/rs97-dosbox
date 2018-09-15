@@ -534,6 +534,7 @@ void RENDER_SetSize(Bitu width, Bitu height, Bitu bpp, float fps, double ratio, 
 {
     double target;
     
+    printf("\n"); // Add an empty line to the log
     printf("RENDER_SetSize(%i, %i, %i, %f, %f, %i, %i)\n", width, height, bpp, fps, ratio, dblw, dblh);
     
     RENDER_Halt();

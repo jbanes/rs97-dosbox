@@ -578,8 +578,7 @@ dosurface:
         if (flags & GFX_CAN_32) bpp = 32;
         sdl.desktop.type = SCREEN_SURFACE_DINGUX;
 
-        sdl.surface = SDL_SetVideoMode(320, 480, 16, 
-                                    /*(flags & GFX_CAN_RANDOM) ? SDL_SWSURFACE :*/ SDL_HWSURFACE);
+        sdl.surface = SDL_SetVideoMode(320, 480, 16, SDL_HWSURFACE);
         sdl.blit.buffer = SDL_CreateRGBSurface(SDL_SWSURFACE, // for mixing menu and game screen
                                     sdl.desktop.full.width,
                                     sdl.desktop.full.height,
@@ -631,7 +630,6 @@ dosurface:
         
         printf("Blit Surface: %i x %i / ", sdl.blit.surface->w, sdl.blit.surface->h);
         printf("Surface: %i x %i\n", sdl.surface->w, sdl.surface->h);
-        printf("\n"); // Add an empty line to the log
         
         if(sdl.surface) 
         {
@@ -839,76 +837,58 @@ static void CaptureMouse(bool pressed) {
     GFX_CaptureMouse();
 }
 
-#if defined (WIN32)
-STICKYKEYS stick_keys = {sizeof(STICKYKEYS), 0};
-void sticky_keys(bool restore){
-    static bool inited = false;
-    if (!inited){
-        inited = true;
-        SystemParametersInfo(SPI_GETSTICKYKEYS, sizeof(STICKYKEYS), &stick_keys, 0);
-    } 
-    if (restore) {
-        SystemParametersInfo(SPI_SETSTICKYKEYS, sizeof(STICKYKEYS), &stick_keys, 0);
-        return;
-    }
-    //Get current sticky keys layout:
-    STICKYKEYS s = {sizeof(STICKYKEYS), 0};
-    SystemParametersInfo(SPI_GETSTICKYKEYS, sizeof(STICKYKEYS), &s, 0);
-    if ( !(s.dwFlags & SKF_STICKYKEYSON)) { //Not on already
-        s.dwFlags &= ~SKF_HOTKEYACTIVE;
-        SystemParametersInfo(SPI_SETSTICKYKEYS, sizeof(STICKYKEYS), &s, 0);
-    }
-}
-#endif
-
-void GFX_SwitchFullScreen(void) {
+void GFX_SwitchFullScreen(void) 
+{
     sdl.desktop.fullscreen=!sdl.desktop.fullscreen;
-    if (sdl.desktop.fullscreen) {
-        if (!sdl.mouse.locked) GFX_CaptureMouse();
-#if defined (WIN32)
-        sticky_keys(false); //disable sticky keys in fullscreen mode
-#endif
-    } else {
-        if (sdl.mouse.locked) GFX_CaptureMouse();
-#if defined (WIN32)        
-        sticky_keys(true); //restore sticky keys to default state in windowed mode.
-#endif
+    
+    if(sdl.desktop.fullscreen) 
+    {
+        if(!sdl.mouse.locked) GFX_CaptureMouse();
+    } 
+    else 
+    {
+        if(sdl.mouse.locked) GFX_CaptureMouse();
     }
+    
     GFX_ResetScreen();
 }
 
-static void SwitchFullScreen(bool pressed) {
-    if (!pressed)
-        return;
+static void SwitchFullScreen(bool pressed) 
+{
+    if(!pressed) return;
 
-    if (sdl.desktop.lazy_fullscreen) {
-//        sdl.desktop.lazy_fullscreen_req=true;
-        LOG_MSG("GFX LF: fullscreen switching not supported");
-    } else {
-        GFX_SwitchFullScreen();
+    if(sdl.desktop.lazy_fullscreen) LOG_MSG("GFX LF: fullscreen switching not supported");
+    else GFX_SwitchFullScreen();
+}
+
+void GFX_SwitchLazyFullscreen(bool lazy) 
+{
+    sdl.desktop.lazy_fullscreen = lazy;
+    sdl.desktop.lazy_fullscreen_req = false;
+}
+
+void GFX_SwitchFullscreenNoReset(void) 
+{
+    sdl.desktop.fullscreen = !sdl.desktop.fullscreen;
+}
+
+bool GFX_LazyFullscreenRequested(void) 
+{
+    if(sdl.desktop.lazy_fullscreen) 
+    {
+        return sdl.desktop.lazy_fullscreen_req;
     }
-}
-
-void GFX_SwitchLazyFullscreen(bool lazy) {
-    sdl.desktop.lazy_fullscreen=lazy;
-    sdl.desktop.lazy_fullscreen_req=false;
-}
-
-void GFX_SwitchFullscreenNoReset(void) {
-    sdl.desktop.fullscreen=!sdl.desktop.fullscreen;
-}
-
-bool GFX_LazyFullscreenRequested(void) {
-    if (sdl.desktop.lazy_fullscreen) return sdl.desktop.lazy_fullscreen_req;
+    
     return false;
 }
 
-void GFX_RestoreMode(void) {
-    GFX_SetSize(sdl.draw.width,sdl.draw.height,sdl.draw.flags,sdl.draw.scalex,sdl.draw.scaley,sdl.draw.callback);
+void GFX_RestoreMode(void) 
+{
+    GFX_SetSize(sdl.draw.width, sdl.draw.height, sdl.draw.flags, sdl.draw.scalex, sdl.draw.scaley, sdl.draw.callback);
     GFX_UpdateSDLCaptureState();
 }
 
-void GFX_BlitDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
+void GFX_BlitUnscaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
 {
     int x, y;
     int w = source->pitch/8; // Divide by 8 for 64 bit copy
@@ -952,6 +932,79 @@ void GFX_BlitDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
         
         d += trailing;
     }
+}
+
+void GFX_BlitScaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
+{
+    int x, y;
+    int w = source->pitch/8; // Divide by 8 for 64 bit copy
+    int h = source->h;
+    int trailing = (destination->pitch - source->pitch)/8;
+    
+    int scaleFactor = (source->h*2) / (destination->h - source->h*2);
+    int counter = 0;
+
+    uint64_t *s = (uint64_t*)source->pixels;
+    uint64_t *d = (uint64_t*)destination->pixels;
+
+    for(y=0; y<h; y++)
+    {
+        for(x=0; x<w; x+=8)
+        {
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+        }
+        
+        d += trailing;
+        s -= w;
+        
+        for(x=0; x<w; x+=8)
+        {
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+        }
+        
+        d += trailing;
+        counter += 2;
+        
+        if(counter > scaleFactor)
+        {
+            s -= w;
+
+            for(x=0; x<w; x+=8)
+            {
+                *d++ = *s++;
+                *d++ = *s++;
+                *d++ = *s++;
+                *d++ = *s++;
+                *d++ = *s++;
+                *d++ = *s++;
+                *d++ = *s++;
+                *d++ = *s++;
+            }
+
+            d += trailing;
+            counter -= scaleFactor;
+        }
+    }
+}
+
+void GFX_BlitDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
+{
+    if(sdl.desktop.fullscreen) GFX_BlitScaledDinguxSurface(source, destination);
+    else GFX_BlitUnscaledDinguxSurface(source, destination);
 }
 
 bool GFX_StartUpdate(Bit8u * & pixels,Bitu & pitch) {

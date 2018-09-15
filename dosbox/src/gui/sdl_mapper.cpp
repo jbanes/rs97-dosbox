@@ -2151,10 +2151,24 @@ static bool MAPPER_LoadBinds(void) {
 	return true;
 }
 
-void MAPPER_CheckEvent(SDL_Event * event) {
+void MAPPER_CheckEvent(SDL_Event* event) {
 	for (CBindGroup_it it=bindgroups.begin();it!=bindgroups.end();it++) {
 		if ((*it)->CheckEvent(event)) return;
 	}
+        
+        // Scancode 107 is power
+        // Scancode 4 is brightness / menu
+        
+        if(event->type == SDL_KEYDOWN && event->key.keysym.scancode == 107)
+        {
+            printf("Received shutdown command: %i, %i\n", event->key.keysym.scancode, event->key.keysym.sym);
+            SDL_Quit();
+        }
+        
+//        if(event->type == SDL_KEYDOWN)
+//        {
+//            printf("Unhandled key: %i, %i\n", event->key.keysym.scancode, event->key.keysym.sym);
+//        }
 }
 
 void BIND_MappingEvents(void) {

@@ -275,38 +275,38 @@ static void KillSwitch(bool pressed) {
     throw 1;
 }
 
-static void PauseDOSBox(bool pressed) {
-    if (!pressed)
-        return;
-    GFX_SetTitle(-1,-1,true);
-    bool paused = true;
-    KEYBOARD_ClrBuffer();
-    SDL_Delay(500);
+static void PauseDOSBox(bool pressed) 
+{
+    if(!pressed) return;
+    
     SDL_Event event;
-    while (SDL_PollEvent(&event)) {
+    bool paused = true;
+    
+    GFX_SetTitle(-1, -1, true);
+    KEYBOARD_ClrBuffer();
+    
+    SDL_Delay(500);
+    
+    while (SDL_PollEvent(&event)) 
+    {
         // flush event queue.
     }
 
-    while (paused) {
+    while(paused) 
+    {
         SDL_WaitEvent(&event);    // since we're not polling, cpu usage drops to 0.
-        switch (event.type) {
-
+        
+        switch(event.type) 
+        {
             case SDL_QUIT: KillSwitch(true); break;
             case SDL_KEYDOWN:   // Must use Pause/Break Key to resume.
             case SDL_KEYUP:
-            if(event.key.keysym.sym == SDLK_PAUSE) {
+            if(event.key.keysym.sym == SDLK_PAUSE || event.key.keysym.scancode == 4) {
 
                 paused = false;
                 GFX_SetTitle(-1,-1,false);
                 break;
             }
-#if defined (MACOSX)
-            if (event.key.keysym.sym == SDLK_q && (event.key.keysym.mod == KMOD_RMETA || event.key.keysym.mod == KMOD_LMETA) ) {
-                /* On macs, all aps exit when pressing cmd-q */
-                KillSwitch(true);
-                break;
-            } 
-#endif
         }
     }
 }
@@ -1683,131 +1683,136 @@ bool GFX_IsFullscreen(void) {
     return sdl.desktop.fullscreen;
 }
 
-void GFX_Events() {
+void GFX_Events() 
+{
     SDL_Event event;
+    
 #if defined (REDUCE_JOYSTICK_POLLING)
-    static int poll_delay=0;
-    int time=GetTicks();
-    if (time-poll_delay>20) {
-        poll_delay=time;
-        if (sdl.num_joysticks>0) SDL_JoystickUpdate();
+    static int poll_delay = 0;
+    int time = GetTicks();
+    
+    if(time-poll_delay > 20) 
+    {
+        poll_delay = time;
+        
+        if(sdl.num_joysticks > 0) SDL_JoystickUpdate();
+        
         MAPPER_UpdateJoysticks();
     }
 #endif
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-        case SDL_ACTIVEEVENT:
-            if (event.active.state & SDL_APPINPUTFOCUS) {
-                if (event.active.gain) {
-                    if (sdl.desktop.fullscreen && !sdl.mouse.locked)
-                        GFX_CaptureMouse();
-                    SetPriority(sdl.priority.focus);
-                    CPU_Disable_SkipAutoAdjust();
-                } else {
-                    if (sdl.mouse.locked) {
-#ifdef WIN32
-                        if (sdl.desktop.fullscreen) {
-                            VGA_KillDrawing();
-                            GFX_ForceFullscreenExit();
+    
+    while(SDL_PollEvent(&event)) 
+    {   
+        switch(event.type) 
+        {
+            case SDL_ACTIVEEVENT:
+                if(event.active.state & SDL_APPINPUTFOCUS) 
+                {
+                    if(event.active.gain) 
+                    {
+                        if(sdl.desktop.fullscreen && !sdl.mouse.locked) GFX_CaptureMouse();
+                        
+                        SetPriority(sdl.priority.focus);
+                        CPU_Disable_SkipAutoAdjust();
+                    } 
+                    else 
+                    {
+                        if(sdl.mouse.locked) 
+                        {
+                            GFX_CaptureMouse();
                         }
-#endif
-                        GFX_CaptureMouse();
+                        
+                        SetPriority(sdl.priority.nofocus);
+                        GFX_LosingFocus();
+                        CPU_Enable_SkipAutoAdjust();
                     }
-                    SetPriority(sdl.priority.nofocus);
-                    GFX_LosingFocus();
-                    CPU_Enable_SkipAutoAdjust();
                 }
-            }
 
-            /* Non-focus priority is set to pause; check to see if we've lost window or input focus
-             * i.e. has the window been minimised or made inactive?
-             */
-            if (sdl.priority.nofocus == PRIORITY_LEVEL_PAUSE) {
-                if ((event.active.state & (SDL_APPINPUTFOCUS | SDL_APPACTIVE)) && (!event.active.gain)) {
-                    /* Window has lost focus, pause the emulator.
-                     * This is similar to what PauseDOSBox() does, but the exit criteria is different.
-                     * Instead of waiting for the user to hit Alt-Break, we wait for the window to
-                     * regain window or input focus.
-                     */
-                    bool paused = true;
-                    SDL_Event ev;
+                /* Non-focus priority is set to pause; check to see if we've lost window or input focus
+                 * i.e. has the window been minimised or made inactive?
+                 */
+                if(sdl.priority.nofocus == PRIORITY_LEVEL_PAUSE) 
+                {
+                    if((event.active.state & (SDL_APPINPUTFOCUS | SDL_APPACTIVE)) && (!event.active.gain)) 
+                    {
+                        /* Window has lost focus, pause the emulator.
+                         * This is similar to what PauseDOSBox() does, but the exit criteria is different.
+                         * Instead of waiting for the user to hit Alt-Break, we wait for the window to
+                         * regain window or input focus.
+                         */
+                        bool paused = true;
+                        SDL_Event ev;
 
-                    GFX_SetTitle(-1,-1,true);
-                    KEYBOARD_ClrBuffer();
-//                    SDL_Delay(500);
-//                    while (SDL_PollEvent(&ev)) {
-                        // flush event queue.
-//                    }
+                        GFX_SetTitle(-1, -1, true);
+                        KEYBOARD_ClrBuffer();
 
-                    while (paused) {
-                        // WaitEvent waits for an event rather than polling, so CPU usage drops to zero
-                        SDL_WaitEvent(&ev);
+                        while(paused) 
+                        {
+                            // WaitEvent waits for an event rather than polling, so CPU usage drops to zero
+                            SDL_WaitEvent(&ev);
 
-                        switch (ev.type) {
-                        case SDL_QUIT: throw(0); break; // a bit redundant at linux at least as the active events gets before the quit event.
-                        case SDL_ACTIVEEVENT:     // wait until we get window focus back
-                            if (ev.active.state & (SDL_APPINPUTFOCUS | SDL_APPACTIVE)) {
-                                // We've got focus back, so unpause and break out of the loop
-                                if (ev.active.gain) {
-                                    paused = false;
-                                    GFX_SetTitle(-1,-1,false);
-                                }
+                            switch(ev.type) 
+                            {
+                                case SDL_QUIT: throw(0); break; // a bit redundant at linux at least as the active events gets before the quit event.
+                                case SDL_ACTIVEEVENT:     // wait until we get window focus back
+                                    if(ev.active.state & (SDL_APPINPUTFOCUS | SDL_APPACTIVE)) 
+                                    {
+                                        // We've got focus back, so unpause and break out of the loop
+                                        if (ev.active.gain) 
+                                        {
+                                            paused = false;
+                                            GFX_SetTitle(-1, -1, false);
+                                        }
 
-                                /* Now poke a "release ALT" command into the keyboard buffer
-                                 * we have to do this, otherwise ALT will 'stick' and cause
-                                 * problems with the app running in the DOSBox.
-                                 */
-                                KEYBOARD_AddKey(KBD_leftalt, false);
-                                KEYBOARD_AddKey(KBD_rightalt, false);
+                                        /* Now poke a "release ALT" command into the keyboard buffer
+                                         * we have to do this, otherwise ALT will 'stick' and cause
+                                         * problems with the app running in the DOSBox.
+                                         */
+                                        KEYBOARD_AddKey(KBD_leftalt, false);
+                                        KEYBOARD_AddKey(KBD_rightalt, false);
+                                    }
+                                    break;
                             }
-                            break;
                         }
                     }
                 }
-            }
-            break;
-        case SDL_MOUSEMOTION:
-            HandleMouseMotion(&event.motion);
-            break;
-        case SDL_MOUSEBUTTONDOWN:
-        case SDL_MOUSEBUTTONUP:
-            HandleMouseButton(&event.button);
-            break;
-        case SDL_VIDEORESIZE:
-//            HandleVideoResize(&event.resize);
-            break;
-        case SDL_QUIT:
-            throw(0);
-            break;
-        case SDL_VIDEOEXPOSE:
-            if (sdl.draw.callback) sdl.draw.callback( GFX_CallBackRedraw );
-            break;
-#ifdef WIN32
-        case SDL_KEYDOWN:
-        case SDL_KEYUP:
-            // ignore event alt+tab
-            if (event.key.keysym.sym==SDLK_LALT) sdl.laltstate = event.key.type;
-            if (event.key.keysym.sym==SDLK_RALT) sdl.raltstate = event.key.type;
-            if (((event.key.keysym.sym==SDLK_TAB)) &&
-                ((sdl.laltstate==SDL_KEYDOWN) || (sdl.raltstate==SDL_KEYDOWN))) break;
-#endif
-#if defined (MACOSX)            
-        case SDL_KEYDOWN:
-        case SDL_KEYUP:
-            /* On macs CMD-Q is the default key to close an application */
-            if (event.key.keysym.sym == SDLK_q && (event.key.keysym.mod == KMOD_RMETA || event.key.keysym.mod == KMOD_LMETA) ) {
-                KillSwitch(true);
                 break;
-            } 
-#endif
-        default:
-            // a hack to implement virtual keyboard
-            if(sdl.desktop.type == SCREEN_SURFACE_DINGUX) {
-                if(!VKEYB_CheckEvent(&event)) break; // else event is modified
-            }
+                
+            case SDL_MOUSEMOTION:
+                HandleMouseMotion(&event.motion);
+                break;
+                
+            case SDL_MOUSEBUTTONDOWN:
+            case SDL_MOUSEBUTTONUP:
+                HandleMouseButton(&event.button);
+                break;
+                
+            case SDL_VIDEORESIZE:
+    //            HandleVideoResize(&event.resize);
+                break;
+                
+            case SDL_QUIT:
+                throw(0);
+                break;
+                
+            case SDL_VIDEOEXPOSE:
+                if (sdl.draw.callback) sdl.draw.callback( GFX_CallBackRedraw );
+                break;
+                
+            default:
+                // a hack to implement virtual keyboard
+                if(sdl.desktop.type == SCREEN_SURFACE_DINGUX) 
+                {
+                    if(!VKEYB_CheckEvent(&event)) break; // else event is modified
+                }
+                
+                if(event.type == SDL_KEYDOWN && event.key.keysym.scancode == 4)
+                {
+                    PauseDOSBox(true);
+                }
 
-            void MAPPER_CheckEvent(SDL_Event * event);
-            MAPPER_CheckEvent(&event);
+                void MAPPER_CheckEvent(SDL_Event * event);
+                MAPPER_CheckEvent(&event);
         }
     }
 }

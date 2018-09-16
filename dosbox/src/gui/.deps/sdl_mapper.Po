@@ -134,15 +134,7 @@ sdl_mapper.o: sdl_mapper.cpp \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits/atomic_word.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/bits/basic_string.tcc \
  ../../include/mapper.h ../../include/setup.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/cstdio \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_syswm.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/X11/XKBlib.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/X11/Xlib.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/X11/X.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/X11/Xfuncproto.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/X11/Xosdefs.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/X11/extensions/XKBstr.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/X11/extensions/XKB.h
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/cstdio
 
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/vector:
 
@@ -425,19 +417,3 @@ sdl_mapper.o: sdl_mapper.cpp \
 ../../include/setup.h:
 
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/cstdio:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_syswm.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/X11/XKBlib.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/X11/Xlib.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/X11/X.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/X11/Xfuncproto.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/X11/Xosdefs.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/X11/extensions/XKBstr.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/X11/extensions/XKB.h:

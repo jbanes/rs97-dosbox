@@ -361,7 +361,7 @@ typedef char assert_right_size [MAX_SCANCODES == (sizeof(sdlkey_map)/sizeof(sdlk
 #else // !MACOSX
 
 #define MAX_SCANCODES 212
-static SDLKey sdlkey_map[MAX_SCANCODES]={SDLK_UNKNOWN,SDLK_ESCAPE,
+static SDLKey sdlkey_map[MAX_SCANCODES] = {SDLK_UNKNOWN,SDLK_ESCAPE,
     SDLK_1,SDLK_2,SDLK_3,SDLK_4,SDLK_5,SDLK_6,SDLK_7,SDLK_8,SDLK_9,SDLK_0,
     /* 0x0c: */
     SDLK_MINUS,SDLK_EQUALS,SDLK_BACKSPACE,SDLK_TAB,
@@ -392,59 +392,38 @@ static SDLKey sdlkey_map[MAX_SCANCODES]={SDLK_UNKNOWN,SDLK_ESCAPE,
 #undef Z
 
 
-SDLKey MapSDLCode(Bitu skey) {
-    if (usescancodes) {
-        if (skey<MAX_SCANCODES) return sdlkey_map[skey];
+SDLKey MapSDLCode(Bitu skey) 
+{
+    if(usescancodes) 
+    {
+        if(skey<MAX_SCANCODES) return sdlkey_map[skey];
         else return SDLK_UNKNOWN;
-    } else return (SDLKey)skey;
+    } 
+    else 
+    {
+        return (SDLKey)skey;
+    }
 }
 
-Bitu GetKeyCode(SDL_keysym keysym) {
-    if (usescancodes) {
-        Bitu key=(Bitu)keysym.scancode;
-        if (key==0
-#if defined (MACOSX)
-            /* On Mac on US keyboards, scancode 0 is actually the 'a'
-             * key.  For good measure exclude all printables from this
-             * condition. */
-            && (keysym.sym < SDLK_SPACE || keysym.sym > SDLK_WORLD_95)
-#endif
-            ) {
+Bitu GetKeyCode(SDL_keysym keysym) 
+{
+    if (usescancodes) 
+    {
+        Bitu key = (Bitu)keysym.scancode;
+        
+        if(key==0) 
+        {
             /* try to retrieve key from symbolic key as scancode is zero */
-            if (keysym.sym<MAX_SDLKEYS) key=scancode_map[(Bitu)keysym.sym];
+            if(keysym.sym < MAX_SDLKEYS) key = scancode_map[(Bitu)keysym.sym];
         } 
 #if !defined (WIN32) && !defined (MACOSX) && !defined(OS2)
         /* Linux adds 8 to all scancodes */
-        else key-=8;
-#endif
-#if defined (WIN32)
-        switch (key) {
-            case 0x1c:    // ENTER
-            case 0x1d:    // CONTROL
-            case 0x35:    // SLASH
-            case 0x37:    // PRINTSCREEN
-            case 0x38:    // ALT
-            case 0x45:    // PAUSE
-            case 0x47:    // HOME
-            case 0x48:    // cursor UP
-            case 0x49:    // PAGE UP
-            case 0x4b:    // cursor LEFT
-            case 0x4d:    // cursor RIGHT
-            case 0x4f:    // END
-            case 0x50:    // cursor DOWN
-            case 0x51:    // PAGE DOWN
-            case 0x52:    // INSERT
-            case 0x53:    // DELETE
-                if (GFX_SDLUsingWinDIB()) key=scancode_map[(Bitu)keysym.sym];
-                break;
-        }
+        else key -= 8;
 #endif
         return key;
-    } else {
-#if defined (WIN32)
-        /* special handling of 102-key under windows */
-        if ((keysym.sym==SDLK_BACKSLASH) && (keysym.scancode==0x56)) return (Bitu)SDLK_LESS;
-#endif
+    } 
+    else 
+    {
         return (Bitu)keysym.sym;
     }
 }
@@ -2159,12 +2138,17 @@ void MAPPER_CheckEvent(SDL_Event* event)
     }
 
     // Scancode 107 is power
-    // Scancode 4 is brightness / menu
+    // Scancode 4 / Keycode 51 is brightness / menu
 
     if(event->type == SDL_KEYDOWN && event->key.keysym.scancode == 107)
     {
         printf("Received shutdown command: %i, %i\n", event->key.keysym.scancode, event->key.keysym.sym);
-        SDL_Quit();
+        throw(0);
+    }
+    
+    if(event->type == SDL_KEYDOWN)
+    {
+        printf("Unknown key: %i, %i\n" , event->key.keysym.scancode, event->key.keysym.sym);
     }
 }
 
@@ -2390,134 +2374,89 @@ void MAPPER_Init(void) {
         }
     }
 }
+
 //Somehow including them at the top conflicts with something in setup.h
-#ifdef C_X11_XKB
-#include "SDL_syswm.h"
-#include <X11/XKBlib.h>
-#endif
-void MAPPER_StartUp(Section * sec) {
+void MAPPER_StartUp(Section * sec) 
+{
     Section_prop * section=static_cast<Section_prop *>(sec);
     mapper.sticks.num=0;
     mapper.sticks.num_groups=0;
     Bitu i;
-    for (i=0; i<16; i++) {
-        virtual_joysticks[0].button_pressed[i]=false;
-        virtual_joysticks[1].button_pressed[i]=false;
-        virtual_joysticks[0].hat_pressed[i]=false;
-        virtual_joysticks[1].hat_pressed[i]=false;
+    
+    for (i=0; i<16; i++) 
+    {
+        virtual_joysticks[0].button_pressed[i] = false;
+        virtual_joysticks[1].button_pressed[i] = false;
+        virtual_joysticks[0].hat_pressed[i] = false;
+        virtual_joysticks[1].hat_pressed[i] = false;
     }
-    for (i=0; i<8; i++) {
-        virtual_joysticks[0].axis_pos[i]=0;
-        virtual_joysticks[0].axis_pos[i]=0;
+    
+    for (i=0; i<8; i++) 
+    {
+        virtual_joysticks[0].axis_pos[i] = 0;
+        virtual_joysticks[0].axis_pos[i] = 0;
     }
 
     usescancodes = false;
 
-    if (section->Get_bool("usescancodes")) {
-        usescancodes=true;
+    if(section->Get_bool("usescancodes")) 
+    {
+        usescancodes = true;
 
         /* Note: table has to be tested/updated for various OSs */
-#if defined (MACOSX)
-        /* nothing */
-#elif defined(OS2)
-        sdlkey_map[0x61]=SDLK_UP;
-        sdlkey_map[0x66]=SDLK_DOWN;
-        sdlkey_map[0x63]=SDLK_LEFT;
-        sdlkey_map[0x64]=SDLK_RIGHT;
-        sdlkey_map[0x60]=SDLK_HOME;
-        sdlkey_map[0x65]=SDLK_END;
-        sdlkey_map[0x62]=SDLK_PAGEUP;
-        sdlkey_map[0x67]=SDLK_PAGEDOWN;
-        sdlkey_map[0x68]=SDLK_INSERT;
-        sdlkey_map[0x69]=SDLK_DELETE;
-        sdlkey_map[0x5C]=SDLK_KP_DIVIDE;
-        sdlkey_map[0x5A]=SDLK_KP_ENTER;
-        sdlkey_map[0x5B]=SDLK_RCTRL;
-        sdlkey_map[0x5F]=SDLK_PAUSE;
-//        sdlkey_map[0x00]=SDLK_PRINT;
-        sdlkey_map[0x5E]=SDLK_RALT;
-        sdlkey_map[0x40]=SDLK_KP5;
-        sdlkey_map[0x41]=SDLK_KP6;
-#elif !defined (WIN32) /* => Linux & BSDs */
         bool evdev_input = false;
-#if defined(C_X11_XKB) && defined(SDL_VIDEO_DRIVER_X11)
-        SDL_SysWMinfo info;
-        SDL_VERSION(&info.version);
-        if (SDL_GetWMInfo(&info)) {
-            XkbDescPtr desc = NULL;
-            if((desc = XkbGetMap(info.info.x11.display,XkbAllComponentsMask,XkbUseCoreKbd))) {
-                if(XkbGetNames(info.info.x11.display,XkbAllNamesMask,desc) == 0) {
-                    const char* keycodes = XGetAtomName(info.info.x11.display, desc->names->keycodes);
-//                    const char* geom = XGetAtomName(info.info.x11.display, desc->names->geometry);
-                    if(keycodes) {
-                        LOG(LOG_MISC,LOG_NORMAL)("keyboard type %s",keycodes);
-                        if (strncmp(keycodes,"evdev",5) == 0) evdev_input = true;
-                    }
-                    XkbFreeNames(desc,XkbAllNamesMask,True);
-                }
-            XkbFreeClientMap(desc,0,True);
-            }
+        
+        if (evdev_input) 
+        {
+            sdlkey_map[0x67] = SDLK_UP;
+            sdlkey_map[0x6c] = SDLK_DOWN;
+            sdlkey_map[0x69] = SDLK_LEFT;
+            sdlkey_map[0x6a] = SDLK_RIGHT;
+            sdlkey_map[0x66] = SDLK_HOME;
+            sdlkey_map[0x6b] = SDLK_END;
+            sdlkey_map[0x68] = SDLK_PAGEUP;
+            sdlkey_map[0x6d] = SDLK_PAGEDOWN;
+            sdlkey_map[0x6e] = SDLK_INSERT;
+            sdlkey_map[0x6f] = SDLK_DELETE;
+            sdlkey_map[0x62] = SDLK_KP_DIVIDE;
+            sdlkey_map[0x60] = SDLK_KP_ENTER;
+            sdlkey_map[0x61] = SDLK_RCTRL;
+            sdlkey_map[0x77] = SDLK_PAUSE;
+            sdlkey_map[0x63] = SDLK_PRINT;
+            sdlkey_map[0x64] = SDLK_RALT;
+        } 
+        else 
+        {
+            sdlkey_map[0x5a] = SDLK_UP;
+            sdlkey_map[0x60] = SDLK_DOWN;
+            sdlkey_map[0x5c] = SDLK_LEFT;
+            sdlkey_map[0x5e] = SDLK_RIGHT;
+            sdlkey_map[0x59] = SDLK_HOME;
+            sdlkey_map[0x5f] = SDLK_END;
+            sdlkey_map[0x5b] = SDLK_PAGEUP;
+            sdlkey_map[0x61] = SDLK_PAGEDOWN;
+            sdlkey_map[0x62] = SDLK_INSERT;
+            sdlkey_map[0x63] = SDLK_DELETE;
+            sdlkey_map[0x68] = SDLK_KP_DIVIDE;
+            sdlkey_map[0x64] = SDLK_KP_ENTER;
+            sdlkey_map[0x65] = SDLK_RCTRL;
+            sdlkey_map[0x66] = SDLK_PAUSE;
+            sdlkey_map[0x67] = SDLK_PRINT;
+            sdlkey_map[0x69] = SDLK_RALT;
         }
-#endif
-        if (evdev_input) {
-            sdlkey_map[0x67]=SDLK_UP;
-            sdlkey_map[0x6c]=SDLK_DOWN;
-            sdlkey_map[0x69]=SDLK_LEFT;
-            sdlkey_map[0x6a]=SDLK_RIGHT;
-            sdlkey_map[0x66]=SDLK_HOME;
-            sdlkey_map[0x6b]=SDLK_END;
-            sdlkey_map[0x68]=SDLK_PAGEUP;
-            sdlkey_map[0x6d]=SDLK_PAGEDOWN;
-            sdlkey_map[0x6e]=SDLK_INSERT;
-            sdlkey_map[0x6f]=SDLK_DELETE;
-            sdlkey_map[0x62]=SDLK_KP_DIVIDE;
-            sdlkey_map[0x60]=SDLK_KP_ENTER;
-            sdlkey_map[0x61]=SDLK_RCTRL;
-            sdlkey_map[0x77]=SDLK_PAUSE;
-            sdlkey_map[0x63]=SDLK_PRINT;
-            sdlkey_map[0x64]=SDLK_RALT;
-        } else {
-            sdlkey_map[0x5a]=SDLK_UP;
-            sdlkey_map[0x60]=SDLK_DOWN;
-            sdlkey_map[0x5c]=SDLK_LEFT;
-            sdlkey_map[0x5e]=SDLK_RIGHT;
-            sdlkey_map[0x59]=SDLK_HOME;
-            sdlkey_map[0x5f]=SDLK_END;
-            sdlkey_map[0x5b]=SDLK_PAGEUP;
-            sdlkey_map[0x61]=SDLK_PAGEDOWN;
-            sdlkey_map[0x62]=SDLK_INSERT;
-            sdlkey_map[0x63]=SDLK_DELETE;
-            sdlkey_map[0x68]=SDLK_KP_DIVIDE;
-            sdlkey_map[0x64]=SDLK_KP_ENTER;
-            sdlkey_map[0x65]=SDLK_RCTRL;
-            sdlkey_map[0x66]=SDLK_PAUSE;
-            sdlkey_map[0x67]=SDLK_PRINT;
-            sdlkey_map[0x69]=SDLK_RALT;
-        }
-#else
-        sdlkey_map[0xc8]=SDLK_UP;
-        sdlkey_map[0xd0]=SDLK_DOWN;
-        sdlkey_map[0xcb]=SDLK_LEFT;
-        sdlkey_map[0xcd]=SDLK_RIGHT;
-        sdlkey_map[0xc7]=SDLK_HOME;
-        sdlkey_map[0xcf]=SDLK_END;
-        sdlkey_map[0xc9]=SDLK_PAGEUP;
-        sdlkey_map[0xd1]=SDLK_PAGEDOWN;
-        sdlkey_map[0xd2]=SDLK_INSERT;
-        sdlkey_map[0xd3]=SDLK_DELETE;
-        sdlkey_map[0xb5]=SDLK_KP_DIVIDE;
-        sdlkey_map[0x9c]=SDLK_KP_ENTER;
-        sdlkey_map[0x9d]=SDLK_RCTRL;
-        sdlkey_map[0xc5]=SDLK_PAUSE;
-        sdlkey_map[0xb7]=SDLK_PRINT;
-        sdlkey_map[0xb8]=SDLK_RALT;
-#endif
 
         Bitu i;
-        for (i=0; i<MAX_SDLKEYS; i++) scancode_map[i]=0;
-        for (i=0; i<MAX_SCANCODES; i++) {
-            SDLKey key=sdlkey_map[i];
-            if (key<MAX_SDLKEYS) scancode_map[key]=(Bit8u)i;
+        
+        for (i=0; i<MAX_SDLKEYS; i++) 
+        {
+            scancode_map[i] = 0;
+        }
+        
+        for (i=0; i<MAX_SCANCODES; i++) 
+        {
+            SDLKey key = sdlkey_map[i];
+            
+            if(key < MAX_SDLKEYS) scancode_map[key] = (Bit8u)i;
         }
     }
 

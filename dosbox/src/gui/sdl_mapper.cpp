@@ -2145,11 +2145,6 @@ void MAPPER_CheckEvent(SDL_Event* event)
         printf("Received shutdown command: %i, %i\n", event->key.keysym.scancode, event->key.keysym.sym);
         throw(0);
     }
-    
-    if(event->type == SDL_KEYDOWN)
-    {
-        printf("Unknown key: %i, %i\n" , event->key.keysym.scancode, event->key.keysym.sym);
-    }
 }
 
 void BIND_MappingEvents(void) {

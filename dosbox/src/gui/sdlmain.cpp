@@ -613,11 +613,6 @@ dosurface:
                 printf("==Selected 640x480 scaler==\n");
                 GFX_PDownscale = (bpp == 16 ? &GFX_Downscale_640x480_to_320x240_16 : &GFX_Downscale_640x480_to_320x240_32);
             }
-            else if(width == 320 && height == 200)
-            {
-                printf("==Selected 320x200 scaler==\n");
-                GFX_PDownscale = (bpp == 16 ? &GFX_Downscale_320x200_to_320x240_16 : &GFX_Downscale_320x200_to_320x240_32);
-            }
         }
 
         printf("Mode: %ix%ix%i, Surface %ix%ix%i\n",

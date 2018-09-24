@@ -193,6 +193,8 @@
           <in>sdl_downscaler.h</in>
           <in>sdl_gui.cpp</in>
           <in>sdl_mapper.cpp</in>
+          <in>sdl_menu.cpp</in>
+          <in>sdl_menu.h</in>
           <in>sdl_vkeyboard.cpp</in>
           <in>sdl_vkeyboard.h</in>
           <in>sdl_vkeyboard_font.h</in>

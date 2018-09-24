@@ -51,6 +51,7 @@
 #include "control.h"
 #include "sdl_downscaler.h"
 #include "sdl_vkeyboard.h"
+#include "sdl_menu.h"
 
 #define MAPPERFILE "mapper-" VERSION ".map"
 //#define DISABLE_JOYSTICK
@@ -268,6 +269,124 @@ static void GFX_SetIcon() {
 #endif
 }
 
+void GFX_BlitUnscaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
+{
+    int x, y;
+    int w = source->pitch/8; // Divide by 8 for 64 bit copy
+    int h = source->h;
+    int trailing = (destination->pitch - source->pitch)/8;
+
+    uint64_t *s = (uint64_t*)source->pixels;
+    uint64_t *d = (uint64_t*)destination->pixels;
+
+    // Center the screen
+    d += (destination->h/2 - source->h) * destination->pitch/8;
+
+    for(y=0; y<h; y++)
+    {
+        for(x=0; x<w; x+=8)
+        {
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+        }
+        
+        d += trailing;
+        s -= w;
+        
+        for(x=0; x<w; x+=8)
+        {
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+        }
+        
+        d += trailing;
+    }
+}
+
+void GFX_BlitScaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
+{
+    int x, y;
+    int w = source->pitch/8; // Divide by 8 for 64 bit copy
+    int h = source->h;
+    int trailing = (destination->pitch - source->pitch)/8;
+    
+    int scaleFactor = (source->h*2) / (destination->h - source->h*2);
+    int counter = 0;
+
+    uint64_t *s = (uint64_t*)source->pixels;
+    uint64_t *d = (uint64_t*)destination->pixels;
+
+    for(y=0; y<h; y++)
+    {
+        for(x=0; x<w; x+=8)
+        {
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+        }
+        
+        d += trailing;
+        s -= w;
+        
+        for(x=0; x<w; x+=8)
+        {
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+            *d++ = *s++;
+        }
+        
+        d += trailing;
+        counter += 2;
+        
+        if(counter > scaleFactor)
+        {
+            s -= w;
+
+            for(x=0; x<w; x+=8)
+            {
+                *d++ = *s++;
+                *d++ = *s++;
+                *d++ = *s++;
+                *d++ = *s++;
+                *d++ = *s++;
+                *d++ = *s++;
+                *d++ = *s++;
+                *d++ = *s++;
+            }
+
+            d += trailing;
+            counter -= scaleFactor;
+        }
+    }
+}
+
+void GFX_BlitDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
+{
+    if(sdl.desktop.fullscreen && source->h < 240) GFX_BlitScaledDinguxSurface(source, destination);
+    else GFX_BlitUnscaledDinguxSurface(source, destination);
+}
 
 static void KillSwitch(bool pressed) {
     if (!pressed)
@@ -285,29 +404,35 @@ static void PauseDOSBox(bool pressed)
     GFX_SetTitle(-1, -1, true);
     KEYBOARD_ClrBuffer();
     
-    SDL_Delay(500);
-    
-    while (SDL_PollEvent(&event)) 
-    {
-        // flush event queue.
-    }
-
     while(paused) 
     {
-        SDL_WaitEvent(&event);    // since we're not polling, cpu usage drops to 0.
+        SDL_PollEvent(&event);    // since we're not polling, cpu usage drops to 0.
+        MENU_CheckEvent(&event);
         
-        switch(event.type) 
+        if(!menu_active) 
         {
-            case SDL_QUIT: KillSwitch(true); break;
-            case SDL_KEYDOWN:   // Must use Pause/Break Key to resume.
-            case SDL_KEYUP:
-            if(event.key.keysym.sym == SDLK_PAUSE || event.key.keysym.scancode == 4) {
-
-                paused = false;
-                GFX_SetTitle(-1,-1,false);
-                break;
-            }
+            paused = false;
+            GFX_SetTitle(-1, -1, false);
+            KEYBOARD_ClrBuffer();
+            
+            return;
         }
+        
+        // assume that sdl.blit.surface is set
+        if(GFX_PDownscale) 
+        {
+            GFX_PDOWNSCALE(sdl.blit.surface, sdl.blit.buffer);
+        } 
+        else 
+        {
+            GFX_BlitDinguxSurface(sdl.blit.surface, sdl.blit.buffer);
+        }
+
+        MENU_Draw(sdl.blit.buffer);
+        SDL_BlitSurface(sdl.blit.buffer, 0, sdl.surface, 0);
+        MENU_CleanScreen(sdl.blit.buffer);
+        SDL_Flip(sdl.surface);
+        KEYBOARD_ClrBuffer();
     }
 }
 
@@ -845,125 +970,6 @@ void GFX_RestoreMode(void)
     GFX_UpdateSDLCaptureState();
 }
 
-void GFX_BlitUnscaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
-{
-    int x, y;
-    int w = source->pitch/8; // Divide by 8 for 64 bit copy
-    int h = source->h;
-    int trailing = (destination->pitch - source->pitch)/8;
-
-    uint64_t *s = (uint64_t*)source->pixels;
-    uint64_t *d = (uint64_t*)destination->pixels;
-
-    // Center the screen
-    d += (destination->h/2 - source->h) * destination->pitch/8;
-
-    for(y=0; y<h; y++)
-    {
-        for(x=0; x<w; x+=8)
-        {
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-        }
-        
-        d += trailing;
-        s -= w;
-        
-        for(x=0; x<w; x+=8)
-        {
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-        }
-        
-        d += trailing;
-    }
-}
-
-void GFX_BlitScaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
-{
-    int x, y;
-    int w = source->pitch/8; // Divide by 8 for 64 bit copy
-    int h = source->h;
-    int trailing = (destination->pitch - source->pitch)/8;
-    
-    int scaleFactor = (source->h*2) / (destination->h - source->h*2);
-    int counter = 0;
-
-    uint64_t *s = (uint64_t*)source->pixels;
-    uint64_t *d = (uint64_t*)destination->pixels;
-
-    for(y=0; y<h; y++)
-    {
-        for(x=0; x<w; x+=8)
-        {
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-        }
-        
-        d += trailing;
-        s -= w;
-        
-        for(x=0; x<w; x+=8)
-        {
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-        }
-        
-        d += trailing;
-        counter += 2;
-        
-        if(counter > scaleFactor)
-        {
-            s -= w;
-
-            for(x=0; x<w; x+=8)
-            {
-                *d++ = *s++;
-                *d++ = *s++;
-                *d++ = *s++;
-                *d++ = *s++;
-                *d++ = *s++;
-                *d++ = *s++;
-                *d++ = *s++;
-                *d++ = *s++;
-            }
-
-            d += trailing;
-            counter -= scaleFactor;
-        }
-    }
-}
-
-void GFX_BlitDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
-{
-    if(sdl.desktop.fullscreen && source->h < 240) GFX_BlitScaledDinguxSurface(source, destination);
-    else GFX_BlitUnscaledDinguxSurface(source, destination);
-}
-
 bool GFX_StartUpdate(Bit8u * & pixels,Bitu & pitch) 
 {
     if (!sdl.active || sdl.updating) return false;
@@ -1009,7 +1015,7 @@ bool GFX_StartUpdate(Bit8u * & pixels,Bitu & pitch)
                 pitch = sdl.surface->pitch;
             }
             
-            sdl.updating=true;
+            sdl.updating = true;
             
             return true;
 
@@ -1098,7 +1104,7 @@ void GFX_EndUpdate( const Bit16u *changedLines ) {
         }
         break;
     case SCREEN_SURFACE_DINGUX:
-        if(!vkeyb_active && !vkeyb_last) 
+        if(!vkeyb_active && !vkeyb_last && !menu_active && !menu_last) 
         {
             if (sdl.blit.surface) 
             {
@@ -1115,7 +1121,23 @@ void GFX_EndUpdate( const Bit16u *changedLines ) {
             {
                 if(SDL_MUSTLOCK(sdl.surface)) SDL_UnlockSurface(sdl.surface);
             }
-        } 
+        }
+        else if(menu_active || menu_last)
+        {
+            // assume that sdl.blit.surface is set
+            if(GFX_PDownscale) 
+            {
+                GFX_PDOWNSCALE(sdl.blit.surface, sdl.blit.buffer);
+            } 
+            else 
+            {
+                GFX_BlitDinguxSurface(sdl.blit.surface, sdl.blit.buffer);
+            }
+            
+            MENU_Draw(sdl.blit.buffer);
+            SDL_BlitSurface(sdl.blit.buffer, 0, sdl.surface, 0);
+            MENU_CleanScreen(sdl.blit.buffer);
+        }
         else 
         {
             // assume that sdl.blit.surface is set
@@ -1591,6 +1613,7 @@ static void GUI_StartUp(Section * sec) {
         sdl.mouse.autolock = true;
         GFX_CaptureMouse();
         #endif
+        MENU_Init(sdl.desktop.bpp);
         VKEYB_Init(sdl.desktop.bpp);
     }
 
@@ -1745,6 +1768,7 @@ void GFX_Events()
                         {
                             // WaitEvent waits for an event rather than polling, so CPU usage drops to zero
                             SDL_WaitEvent(&ev);
+                            MENU_CheckEvent(&ev);
 
                             switch(ev.type) 
                             {
@@ -1795,15 +1819,20 @@ void GFX_Events()
                 break;
                 
             default:
-                // a hack to implement virtual keyboard
-                if(sdl.desktop.type == SCREEN_SURFACE_DINGUX) 
-                {
-                    if(!VKEYB_CheckEvent(&event)) break; // else event is modified
-                }
                 
                 if(event.type == SDL_KEYDOWN && event.key.keysym.scancode == 4)
                 {
-                    PauseDOSBox(true);
+                    MENU_Toggle();
+                    PauseDOSBox(menu_active);
+                    
+                    return;
+                }
+                
+                // a hack to implement virtual keyboard
+                if(sdl.desktop.type == SCREEN_SURFACE_DINGUX) 
+                {
+                    if(MENU_CheckEvent(&event)) break;
+                    if(!VKEYB_CheckEvent(&event)) break; // else event is modified
                 }
 
                 void MAPPER_CheckEvent(SDL_Event * event);

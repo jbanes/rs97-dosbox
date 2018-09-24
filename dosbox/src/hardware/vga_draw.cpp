@@ -1570,9 +1570,10 @@ void VGA_SetupDrawing(Bitu /*val*/) {
 		LOG(LOG_VGA,LOG_NORMAL)("%s width, %s height aspect %f",
 			doublewidth ? "double":"normal",doubleheight ? "double":"normal",aspect_ratio);
 #endif
-		if (!vga.draw.vga_override) 
-			RENDER_SetSize(width, height, bpp, (float)fps, aspect_ratio,
-			doublewidth, doubleheight);
+		if (!vga.draw.vga_override)
+                {
+			RENDER_SetSize(width, height, bpp, (float)fps, aspect_ratio, doublewidth, doubleheight);
+                }
 	}
 }
 

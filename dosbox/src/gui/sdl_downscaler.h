@@ -3,26 +3,6 @@
 #define COLORMIX32(A,B,C,D) ((((A) >> 2) & 0x3F3F3F3F) + (((B) >> 2) & 0x3F3F3F3F) + (((C) >> 2) & 0x3F3F3F3F) + (((D) >> 2) & 0x3F3F3F3F))
 #define COLORMIX16(A,B,C,D) ((((A) >> 2) & 0x39E7) + (((B) >> 2) & 0x39E7) + (((C) >> 2) & 0x39E7) + (((D) >> 2) & 0x39E7))
 
-//#define DEFINE_GFX_DOWNSCALE(SX,SY,DX,DY,BPP) \
-//void GFX_Downscale_##SX##x##SY##_to_##DX##x##DY##_##BPP(SDL_Surface *src, SDL_Surface *dst)    \
-//{                                                                                \
-//    Bit##BPP##u *Dest = (Bit##BPP##u *)dst->pixels;                                \
-//    Bit##BPP##u *Src  = (Bit##BPP##u *)src->pixels;                                \
-//    \
-//    int x,y;                                                                    \
-//    Dest += (DY-SY/2)/2*DX;                                                        \
-//    for(y = SY/2; y--;) {                                                        \
-//        for(x = SX/2; x--;) {                                                    \
-//            __builtin_prefetch(Dest + 4, 1);                                    \
-//            __builtin_prefetch(Src + 4, 0);                                        \
-//            *Dest++ = COLORMIX##BPP(Src[0], Src[1], Src[SX], Src[SX+1]);        \
-//            Src += 2;                                                            \
-//        }                                                                        \
-//        Src += SX;                                                                \
-//        Dest+= (dst->pitch - SX/2); \
-//    }                                                                            \
-//}
-
 #define DEFINE_GFX_DOWNSCALE(SX,SY,DX,DY,BPP) \
 void GFX_Downscale_##SX##x##SY##_to_##DX##x##DY##_##BPP(SDL_Surface *src, SDL_Surface *dst)    \
 {                                                                                   \
@@ -31,7 +11,7 @@ void GFX_Downscale_##SX##x##SY##_to_##DX##x##DY##_##BPP(SDL_Surface *src, SDL_Su
                                                                                     \
     int x,y;                                                                        \
     int diff = (DY - SY/2);                                                         \
-    int scaleFactor = (diff == 0 ? DY : DY / diff);                             \  
+    int scaleFactor = (diff == 0 ? DY : DY / diff);                                 \  
     int counter = 0;                                                                \
     for(y = SY/2; y--;) {                                                           \
         for(x = SX/2; x--;) {                                                       \
@@ -45,7 +25,7 @@ void GFX_Downscale_##SX##x##SY##_to_##DX##x##DY##_##BPP(SDL_Surface *src, SDL_Su
         counter++;                                                                  \
         if(counter > scaleFactor)                                                   \
         {                                                                           \
-            Src -= SX;                                                          \
+            Src -= SX;                                                              \
                                                                                     \
             for(x = SX/2; x--;) {                                                   \
                 __builtin_prefetch(Dest + 4, 1);                                    \

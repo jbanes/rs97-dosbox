@@ -110,7 +110,7 @@ libgui_a_AR = $(AR) $(ARFLAGS)
 libgui_a_LIBADD =
 am_libgui_a_OBJECTS = sdlmain.$(OBJEXT) sdl_mapper.$(OBJEXT) \
 	render.$(OBJEXT) render_scalers.$(OBJEXT) midi.$(OBJEXT) \
-	sdl_gui.$(OBJEXT) sdl_vkeyboard.$(OBJEXT)
+	sdl_gui.$(OBJEXT) sdl_vkeyboard.$(OBJEXT) sdl_menu.$(OBJEXT)
 libgui_a_OBJECTS = $(am_libgui_a_OBJECTS)
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
@@ -297,7 +297,7 @@ libgui_a_SOURCES = sdlmain.cpp sdl_mapper.cpp dosbox_logo.h \
 	midi.cpp midi_win32.h midi_oss.h midi_coreaudio.h midi_alsa.h \
 	midi_coremidi.h sdl_gui.cpp dosbox_splash.h sdl_downscaler.h \
 	sdl_vkeyboard.cpp sdl_vkeyboard.h sdl_vkeyboard_font.h \
-	sdl_vkeyboard_image.h
+	sdl_vkeyboard_image.h sdl_menu.cpp sdl_menu.h
 
 all: all-am
 
@@ -352,6 +352,7 @@ include ./$(DEPDIR)/render.Po
 include ./$(DEPDIR)/render_scalers.Po
 include ./$(DEPDIR)/sdl_gui.Po
 include ./$(DEPDIR)/sdl_mapper.Po
+include ./$(DEPDIR)/sdl_menu.Po
 include ./$(DEPDIR)/sdl_vkeyboard.Po
 include ./$(DEPDIR)/sdlmain.Po
 

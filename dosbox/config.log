@@ -36,7 +36,6 @@ PATH: /bin
 PATH: /usr/games
 PATH: /usr/local/games
 PATH: /opt/buildroot/usr/bin
-PATH: /opt/buildroot/usr/bin
 PATH: /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/bin
 
 

@@ -151,7 +151,7 @@ sdlmain.o: sdlmain.cpp \
  ../../include/vga.h ../../include/keyboard.h ../../include/cpu.h \
  ../../include/regs.h ../../include/mem.h ../../include/control.h \
  ../../include/programs.h ../../include/dos_inc.h \
- ../../include/dos_system.h sdl_downscaler.h sdl_vkeyboard.h \
+ ../../include/dos_system.h sdl_downscaler.h sdl_vkeyboard.h sdl_menu.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/resource.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/resource.h \
  dosbox_logo.h dosbox_splash.h
@@ -491,6 +491,8 @@ sdlmain.o: sdlmain.cpp \
 sdl_downscaler.h:
 
 sdl_vkeyboard.h:
+
+sdl_menu.h:
 
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/resource.h:
 

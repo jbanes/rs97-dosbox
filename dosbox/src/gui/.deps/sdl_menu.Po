@@ -1,42 +1,46 @@
 sdl_menu.o: sdl_menu.cpp \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_main.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_stdinc.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_config.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_platform.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/types.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdio.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h \
+ /opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stddef.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/types.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wordsize.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/typesizes.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/time.h \
- /opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stddef.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_stdio.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/wchar.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wchar.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/pthreadtypes.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/endian.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/endian.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/byteswap.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-common.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-16.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sgidefs.h \
+ /opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stdarg.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/stdio_lim.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/cstring \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits/c++config.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits/os_defines.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits/cpu_defines.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_main.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_stdinc.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_config.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_platform.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/types.h \
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/time.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/select.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/select.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/sigset.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/time.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/sysmacros.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/pthreadtypes.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sgidefs.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdio.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_stdio.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/wchar.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wchar.h \
- /opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stdarg.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/stdio_lim.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdlib.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/waitflags.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/waitstatus.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/alloca.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/strings.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/inttypes.h \
  /opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stdint.h \
@@ -75,19 +79,13 @@ sdl_menu.o: sdl_menu.cpp \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/nan.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/mathdef.h \
  /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/mathcalls.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_gfxPrimitives_font.h
+ /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_gfxPrimitives_font.h \
+ ../../include/dosbox.h ../../config.h ../../include/logging.h \
+ ../../include/video.h ../../include/render.h \
+ ../../include/../src/gui/render_scalers.h ../../include/cpu.h \
+ ../../include/regs.h ../../include/mem.h
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_main.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_stdinc.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_config.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_platform.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/types.h:
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdio.h:
 
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h:
 
@@ -95,15 +93,21 @@ sdl_menu.o: sdl_menu.cpp \
 
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h:
 
+/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stddef.h:
+
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/types.h:
 
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wordsize.h:
 
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/typesizes.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/time.h:
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_stdio.h:
 
-/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stddef.h:
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/wchar.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wchar.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/pthreadtypes.h:
 
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/endian.h:
 
@@ -117,6 +121,36 @@ sdl_menu.o: sdl_menu.cpp \
 
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-16.h:
 
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sgidefs.h:
+
+/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stdarg.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/stdio_lim.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/cstring:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits/c++config.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits/os_defines.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/include/c++/5.4.0/mipsel-buildroot-linux-uclibc/bits/cpu_defines.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_main.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_stdinc.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_config.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_platform.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/types.h:
+
+/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/time.h:
+
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/select.h:
 
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/select.h:
@@ -127,22 +161,6 @@ sdl_menu.o: sdl_menu.cpp \
 
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/sysmacros.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/pthreadtypes.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sgidefs.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdio.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_stdio.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/wchar.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wchar.h:
-
-/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stdarg.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/stdio_lim.h:
-
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdlib.h:
 
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/waitflags.h:
@@ -150,8 +168,6 @@ sdl_menu.o: sdl_menu.cpp \
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/waitstatus.h:
 
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/alloca.h:
-
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h:
 
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/strings.h:
 
@@ -230,3 +246,21 @@ sdl_menu.o: sdl_menu.cpp \
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/mathcalls.h:
 
 /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_gfxPrimitives_font.h:
+
+../../include/dosbox.h:
+
+../../config.h:
+
+../../include/logging.h:
+
+../../include/video.h:
+
+../../include/render.h:
+
+../../include/../src/gui/render_scalers.h:
+
+../../include/cpu.h:
+
+../../include/regs.h:
+
+../../include/mem.h:

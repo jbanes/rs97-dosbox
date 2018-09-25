@@ -15,11 +15,19 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
+
+#include <stdio.h>
+#include <cstring>
  
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_gfxPrimitives.h>
 #include <SDL/SDL_gfxPrimitives_font.h>
+
+#include "dosbox.h"
+#include "video.h"
+#include "render.h"
+#include "cpu.h"
 
 
 bool menu_active = false;
@@ -30,12 +38,16 @@ struct MENU_Block
 {
     SDL_Surface *surface;
     int selected;
+    char *frameskip;
+    char *cycles;
 };
 
 static MENU_Block menu;
 
-const char *menuoptions[2] = {
+const char *menuoptions[4] = {
     "Resume",
+    "Frameskip: ",
+    "Cycles: ",
     "Exit"
 };
 
@@ -48,6 +60,8 @@ void MENU_Init(int bpp)
     }
     
     menu.selected = 0;
+    menu.frameskip = (char*)malloc(16);
+    menu.cycles = (char*)malloc(16);
 }
 
 void MENU_Deinit()
@@ -62,14 +76,19 @@ void MENU_Toggle()
     if(!menu_active) menu_last = true;
     
     for(int i=0; i<1024; i++) keystates[i] = false;
+    
+    sprintf(menu.frameskip, "%i", render.frameskip.max);
+    
+    if(CPU_CycleAutoAdjust) strcpy(menu.cycles, "auto");
+    else sprintf(menu.cycles, "%i", CPU_CycleMax);
 }
 
 void MENU_MoveCursor(int direction)
 {
     menu.selected += direction;
     
-    if(menu.selected < 0) menu.selected = 1;
-    if(menu.selected > 1) menu.selected = 0;
+    if(menu.selected < 0) menu.selected = 3;
+    if(menu.selected > 3) menu.selected = 0;
 }
 
 void MENU_Activate()
@@ -80,8 +99,56 @@ void MENU_Activate()
             MENU_Toggle();
             break;
             
-        case 1: // Exit
+        case 2: // Resume
+            CPU_CycleAutoAdjust ^= 1;
+            
+            if(CPU_CycleAutoAdjust) strcpy(menu.cycles, "auto");
+            else sprintf(menu.cycles, "%i", CPU_CycleMax);
+            
+            break;
+            
+        case 3: // Exit
             throw(0);
+            break;
+    }
+}
+
+void MENU_Increase()
+{
+    switch(menu.selected)
+    {
+        case 1: // Frameskip
+            if(render.frameskip.max < 10) render.frameskip.max++;
+            
+            sprintf(menu.frameskip, "%i", render.frameskip.max);
+            break;
+            
+        case 2: // CPU cycles
+            CPU_CycleIncrease(true);
+            
+            if(CPU_CycleAutoAdjust) strcpy(menu.cycles, "auto");
+            else sprintf(menu.cycles, "%i", CPU_CycleMax);
+            
+            break;
+    }
+}
+
+void MENU_Decrease()
+{
+    switch(menu.selected)
+    {
+        case 1: // Frameskip
+            if(render.frameskip.max > 0) render.frameskip.max--;
+            
+            sprintf(menu.frameskip, "%i", render.frameskip.max);
+            break;
+            
+        case 2: // CPU cycles
+            CPU_CycleDecrease(true);
+            
+            if(CPU_CycleAutoAdjust) strcpy(menu.cycles, "auto");
+            else sprintf(menu.cycles, "%i", CPU_CycleMax);
+            
             break;
     }
 }
@@ -106,6 +173,8 @@ int MENU_CheckEvent(SDL_Event *event)
     {
         if(sym == SDLK_UP) MENU_MoveCursor(-1);
         if(sym == SDLK_DOWN) MENU_MoveCursor(1);
+        if(sym == SDLK_LEFT) MENU_Decrease();
+        if(sym == SDLK_RIGHT) MENU_Increase();
         if(sym == SDLK_LCTRL) MENU_Activate(); // A - normal keypress
     }
     
@@ -208,28 +277,33 @@ void MENU_BlitDoubledSurface(SDL_Surface *source, int left, int top, SDL_Surface
 void MENU_Draw(SDL_Surface *surface)
 {
     int y = 40;
+    int color = 0xFF;
     SDL_Rect dest;
     
     if(!menu_active) return;
     
     SDL_FillRect(menu.surface, NULL, SDL_MapRGBA(surface->format, 0x00, 0x00, 0xFF, 0xFF));
     
-    for(int i=0; i<2; i++)
+    for(int i=0; i<4; i++)
     {
+        color = 0xFF;
+        
         if(menu.selected == i)
         {
             dest.x = 20;
             dest.y = y-10;
             dest.w = 280;
             dest.h = 30;
+            
+            color = 0x00;
 
             SDL_FillRect(menu.surface, &dest, SDL_MapRGBA(menu.surface->format, 0xFF, 0xFF, 0xFF, 0xFF));
-            stringRGBA(menu.surface, 40, y, menuoptions[i], 0x00, 0x00, 0x00, 0xFF);
         }
-        else
-        {
-            stringRGBA(menu.surface, 40, y, menuoptions[i], 0xFF, 0xFF, 0xFF, 0xFF);
-        }
+        
+        stringRGBA(menu.surface, 40, y, menuoptions[i], color, color, color, 0xFF);
+        
+        if(i == 1) stringRGBA(menu.surface, 125, y, menu.frameskip, color, color, color, 0xFF);
+        if(i == 2) stringRGBA(menu.surface, 125, y, menu.cycles, color, color, color, 0xFF);
         
         y += 40;
     }

@@ -69,6 +69,15 @@ void MENU_Deinit()
     
 }
 
+void MENU_UpdateMenu()
+{
+    sprintf(menu.frameskip, "%i", render.frameskip.max);
+    
+    if(CPU_AutoDetermineMode & CPU_AUTODETERMINE_CYCLES) strcpy(menu.cycles, "auto");
+    else if(CPU_CycleAutoAdjust) strcpy(menu.cycles, "max");
+    else sprintf(menu.cycles, "%i", CPU_CycleMax);
+}
+
 void MENU_Toggle()
 {
     menu_active ^= 1;
@@ -77,10 +86,7 @@ void MENU_Toggle()
     
     for(int i=0; i<1024; i++) keystates[i] = false;
     
-    sprintf(menu.frameskip, "%i", render.frameskip.max);
-    
-    if(CPU_CycleAutoAdjust) strcpy(menu.cycles, "auto");
-    else sprintf(menu.cycles, "%i", CPU_CycleMax);
+    MENU_UpdateMenu();
 }
 
 void MENU_MoveCursor(int direction)
@@ -100,10 +106,20 @@ void MENU_Activate()
             break;
             
         case 2: // Resume
-            CPU_CycleAutoAdjust ^= 1;
             
-            if(CPU_CycleAutoAdjust) strcpy(menu.cycles, "auto");
-            else sprintf(menu.cycles, "%i", CPU_CycleMax);
+            if(CPU_AutoDetermineMode & CPU_AUTODETERMINE_CYCLES)
+            { // Max
+                CPU_CycleAutoAdjust = 1;
+                CPU_AutoDetermineMode ^= CPU_AUTODETERMINE_CYCLES;
+            }
+            else if(CPU_CycleAutoAdjust)
+            { // Fixed
+                CPU_CycleAutoAdjust = 0;
+            }
+            else
+            { // Auto
+                CPU_AutoDetermineMode |= CPU_AUTODETERMINE_CYCLES;
+            }
             
             break;
             
@@ -111,6 +127,8 @@ void MENU_Activate()
             throw(0);
             break;
     }
+    
+    MENU_UpdateMenu();
 }
 
 void MENU_Increase()
@@ -119,18 +137,14 @@ void MENU_Increase()
     {
         case 1: // Frameskip
             IncreaseFrameSkip(true);
-            
-            sprintf(menu.frameskip, "%i", render.frameskip.max);
             break;
             
         case 2: // CPU cycles
             CPU_CycleIncrease(true);
-            
-            if(CPU_CycleAutoAdjust) strcpy(menu.cycles, "auto");
-            else sprintf(menu.cycles, "%i", CPU_CycleMax);
-            
             break;
     }
+    
+    MENU_UpdateMenu();
 }
 
 void MENU_Decrease()
@@ -139,18 +153,14 @@ void MENU_Decrease()
     {
         case 1: // Frameskip
             DecreaseFrameSkip(true);
-            
-            sprintf(menu.frameskip, "%i", render.frameskip.max);
             break;
             
         case 2: // CPU cycles
             CPU_CycleDecrease(true);
-            
-            if(CPU_CycleAutoAdjust) strcpy(menu.cycles, "auto");
-            else sprintf(menu.cycles, "%i", CPU_CycleMax);
-            
             break;
     }
+    
+    MENU_UpdateMenu();
 }
 
 void GFX_ForceUpdate(); // in sdlmain.cpp

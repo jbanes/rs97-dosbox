@@ -367,7 +367,7 @@ void MENU_Draw(SDL_Surface *surface)
         if(i == 2) stringRGBA(menu.surface, 125, y, menu.cycles, color, color, color, 0xFF);
         if(i == 3) stringRGBA(menu.surface, 125, y, menu.core, color, color, color, 0xFF);
         
-        y += 40;
+        y += 30;
     }
     
     MENU_BlitDoubledSurface(menu.surface, 0, 0, surface);

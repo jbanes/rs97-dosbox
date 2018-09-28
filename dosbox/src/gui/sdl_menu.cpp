@@ -118,7 +118,7 @@ void MENU_Increase()
     switch(menu.selected)
     {
         case 1: // Frameskip
-            if(render.frameskip.max < 10) render.frameskip.max++;
+            IncreaseFrameSkip(true);
             
             sprintf(menu.frameskip, "%i", render.frameskip.max);
             break;
@@ -138,7 +138,7 @@ void MENU_Decrease()
     switch(menu.selected)
     {
         case 1: // Frameskip
-            if(render.frameskip.max > 0) render.frameskip.max--;
+            DecreaseFrameSkip(true);
             
             sprintf(menu.frameskip, "%i", render.frameskip.max);
             break;

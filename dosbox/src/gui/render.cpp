@@ -564,24 +564,24 @@ void RENDER_SetSize(Bitu width, Bitu height, Bitu bpp, float fps, double ratio, 
 
 extern void GFX_SetTitle(Bit32s cycles, Bits frameskip, bool paused);
 
-static void IncreaseFrameSkip(bool pressed) 
+void IncreaseFrameSkip(bool pressed) 
 {
     if(!pressed)  return;
     if(render.frameskip.max<10) render.frameskip.max++;
     
     LOG_MSG("Frame Skip at %d", render.frameskip.max);
     
-    GFX_SetTitle(-1, render. frameskip.max,false);
+    GFX_SetTitle(-1, render.frameskip.max, false);
 }
 
-static void DecreaseFrameSkip(bool pressed) 
+void DecreaseFrameSkip(bool pressed) 
 {
     if (!pressed) return;
     if (render.frameskip.max>0) render.frameskip.max--;
     
     LOG_MSG("Frame Skip at %d", render.frameskip.max);
     
-    GFX_SetTitle(-1, render. frameskip.max,false);
+    GFX_SetTitle(-1, render.frameskip.max, false);
 }
 
 /* Disabled as I don't want to waste a keybind for that. Might be used in the future (Qbix)

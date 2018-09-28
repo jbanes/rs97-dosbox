@@ -89,6 +89,10 @@ typedef struct {
 
 extern Render_t render;
 extern ScalerLineHandler_t RENDER_DrawLine;
+
+void IncreaseFrameSkip(bool pressed);
+void DecreaseFrameSkip(bool pressed);
+
 void RENDER_SetSize(Bitu width,Bitu height,Bitu bpp,float fps,double ratio,bool dblw,bool dblh);
 bool RENDER_StartUpdate(void);
 void RENDER_EndUpdate(bool abort);

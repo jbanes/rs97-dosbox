@@ -33,6 +33,7 @@
 
 extern Bitu CPU_extflags_toggle;
 
+bool dynamic_available = false;
 bool menu_active = false;
 bool menu_last = false;
 bool keystates[1024];
@@ -71,6 +72,10 @@ void MENU_Init(int bpp)
     menu.cycles = (char*)malloc(16);
     menu.core = (char*)malloc(16);
     menu.cpuType = (char*)malloc(16);
+    
+#if (C_DYNREC)
+    if(cpudecoder == &CPU_Core_Dynrec_Run) dynamic_available = true;
+#endif 
 }
 
 void MENU_Deinit()
@@ -172,11 +177,11 @@ void MENU_Activate()
                 cpudecoder = &CPU_Core_Full_Run;
             }
 #if (C_DYNREC)
-            else if(cpudecoder == &CPU_Core_Full_Run) 
+            else if(cpudecoder == &CPU_Core_Full_Run && dynamic_available) 
             {
                 cpudecoder = &CPU_Core_Dynrec_Run;
             }
-            else if(cpudecoder == &CPU_Core_Dynrec_Run) 
+            else if(cpudecoder == &CPU_Core_Dynrec_Run || (cpudecoder == &CPU_Core_Full_Run && !dynamic_available)) 
             {
                 cpudecoder = &CPU_Core_Normal_Run;
             }

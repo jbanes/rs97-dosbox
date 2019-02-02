@@ -1,179 +1,200 @@
 libserial.o: libserial.cpp libserial.h ../../../config.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h \
- /opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stddef.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdlib.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/waitflags.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/waitstatus.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/endian.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/endian.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/byteswap.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-common.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/types.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wordsize.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/typesizes.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-16.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/types.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/time.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/select.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/select.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/sigset.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/time.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/sysmacros.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/pthreadtypes.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sgidefs.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/alloca.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/termios.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/termios.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/ttydefaults.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/unistd.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/posix_opt.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_posix_opt.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/environments.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/confname.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/getopt.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/stat.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/stat.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/ioctl.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/ioctls.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm/ioctls.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm/ioctl.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm-generic/ioctl.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/ioctl-types.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/errno.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/errno.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/linux/errno.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm/errno.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm-generic/errno-base.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/fcntl.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/fcntl.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uio.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdio.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_stdio.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/wchar.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wchar.h \
- /opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stdarg.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/stdio_lim.h
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h \
+ /opt/rs97tools/lib/gcc/mipsel-buildroot-linux-uclibc/6.4.0/include/stddef.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/xlocale.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_locale.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/stdlib.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/cstdlib \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/mipsel-buildroot-linux-uclibc/bits/c++config.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/mipsel-buildroot-linux-uclibc/bits/os_defines.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/mipsel-buildroot-linux-uclibc/bits/cpu_defines.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdlib.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/waitflags.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/waitstatus.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/endian.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/endian.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/byteswap.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-common.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/types.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wordsize.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/typesizes.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-16.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/types.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/time.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/select.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/select.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/sigset.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/time.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/sysmacros.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/pthreadtypes.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sgidefs.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/alloca.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/termios.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/termios.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/ttydefaults.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/unistd.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/posix_opt.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_posix_opt.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/environments.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/confname.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/getopt.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/stat.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/stat.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/ioctl.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/ioctls.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm/ioctls.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm/ioctl.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm-generic/ioctl.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/ioctl-types.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/errno.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/errno.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/linux/errno.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm/errno.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm-generic/errno-base.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/fcntl.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/fcntl.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uio.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdio.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_stdio.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/wchar.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wchar.h \
+ /opt/rs97tools/lib/gcc/mipsel-buildroot-linux-uclibc/6.4.0/include/stdarg.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/stdio_lim.h
 
 libserial.h:
 
 ../../../config.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h:
 
-/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stddef.h:
+/opt/rs97tools/lib/gcc/mipsel-buildroot-linux-uclibc/6.4.0/include/stddef.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdlib.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/xlocale.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/waitflags.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_locale.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/waitstatus.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/stdlib.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/endian.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/cstdlib:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/endian.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/mipsel-buildroot-linux-uclibc/bits/c++config.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/byteswap.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/mipsel-buildroot-linux-uclibc/bits/os_defines.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/mipsel-buildroot-linux-uclibc/bits/cpu_defines.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-common.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdlib.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/types.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/waitflags.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wordsize.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/waitstatus.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/typesizes.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/endian.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-16.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/endian.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/types.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/byteswap.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/time.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/select.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-common.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/select.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/types.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/sigset.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wordsize.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/time.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/typesizes.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/sysmacros.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-16.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/pthreadtypes.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/types.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sgidefs.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/time.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/alloca.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/select.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/termios.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/select.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/termios.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/sigset.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/ttydefaults.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/time.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/unistd.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/sysmacros.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/posix_opt.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/pthreadtypes.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_posix_opt.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sgidefs.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/environments.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/alloca.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/confname.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/termios.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/getopt.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/termios.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/stat.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/ttydefaults.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/stat.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/unistd.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/ioctl.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/posix_opt.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/ioctls.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_posix_opt.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm/ioctls.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/environments.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm/ioctl.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/confname.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm-generic/ioctl.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/getopt.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/ioctl-types.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/stat.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/errno.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/stat.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/errno.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/ioctl.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/linux/errno.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/ioctls.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm/errno.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm/ioctls.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm-generic/errno-base.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm/ioctl.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/fcntl.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm-generic/ioctl.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/fcntl.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/ioctl-types.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uio.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/errno.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdio.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/errno.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_stdio.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/linux/errno.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/wchar.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm/errno.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wchar.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/asm-generic/errno-base.h:
 
-/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stdarg.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/fcntl.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/stdio_lim.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/fcntl.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uio.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdio.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_stdio.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/wchar.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wchar.h:
+
+/opt/rs97tools/lib/gcc/mipsel-buildroot-linux-uclibc/6.4.0/include/stdarg.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/stdio_lim.h:

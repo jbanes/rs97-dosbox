@@ -8,7 +8,7 @@ In case you want to compile this yourself, note that you'll need a MIPS toolchai
 
 If you wish to recreate the project clean, execute the following configure command:
 ```
-./configure --host=mipsel-linux --disable-opengl --disable-alsa-midi --disable-dynamic-x86 --disable-fpu-x86 --enable-core-inline CXXFLAGS="-g -O2 -G0 -march=mips32 -mtune=mips32 -pipe -fno-builtin -fno-common -fno-shared -ffast-math -fomit-frame-pointer -fexpensive-optimizations -frename-registers" LIBS="-lSDL_gfx -lSDL_image" 
+./configure --host=mipsel-linux --disable-opengl --disable-alsa-midi --disable-dynamic-x86 --disable-fpu-x86 --enable-core-inline CXXFLAGS="-g -O2 -G0 -march=mips32 -mtune=mips32 -pipe -fno-builtin -fno-common -ffast-math -fomit-frame-pointer -fexpensive-optimizations -frename-registers" LIBS="-lSDL_gfx -lSDL_image" 
 ```
 Follow the instructions in dosbox/README-GCW0.txt that explain how to change the config.h. This will enable the high performance dynamic core. Complete the build by running the following commands:
 

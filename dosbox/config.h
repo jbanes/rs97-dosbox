@@ -63,7 +63,7 @@
 
 /* Determines if the compilers supports __builtin_expect for branch
    prediction. */
-/* #undef C_HAS_BUILTIN_EXPECT */
+#define C_HAS_BUILTIN_EXPECT 1
 
 /* Define to 1 if you have the mprotect function */
 #define C_HAVE_MPROTECT 1
@@ -72,10 +72,10 @@
 /* #undef C_HEAVY_DEBUG */
 
 /* Define to 1 to enable IPX over Internet networking, requires SDL_net */
-//#define C_IPX 1
+/* #undef C_IPX */
 
 /* Define to 1 to enable internal modem support, requires SDL_net */
-//#define C_MODEM 1
+/* #undef C_MODEM */
 
 /* Define to 1 to use opengl display output support */
 /* #undef C_OPENGL */
@@ -87,10 +87,9 @@
 #define C_SET_PRIORITY 1
 
 /* Define to 1 to enable screenshots, requires libpng */
-#define C_SSHOT 1
+/* #undef C_SSHOT */
 
 /* The type of cpu this target has */
-//#define C_TARGETCPU UNKNOWN
 #define C_TARGETCPU MIPSEL
 
 /* Define to 1 to use a unaligned memory access */
@@ -98,7 +97,7 @@
 #define C_UNALIGNED_MEMORY 1
 
 /* define to 1 if you have XKBlib.h and X11 lib */
-#define C_X11_XKB 1
+/* #undef C_X11_XKB */
 
 /* libm doesn't include powf */
 /* #undef DB_HAVE_NO_POWF */

@@ -1,22 +1,28 @@
 int10_modes.o: int10_modes.cpp \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h \
- /opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h \
- /opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stddef.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h \
+ /opt/rs97tools/lib/gcc/mipsel-buildroot-linux-uclibc/6.4.0/include/stddef.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/xlocale.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_locale.h \
  ../../include/dosbox.h ../../config.h ../../include/logging.h \
  ../../include/mem.h ../../include/inout.h int10.h ../../include/vga.h \
  ../../include/mouse.h
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h:
 
-/opt/buildroot/usr/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h:
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h:
 
-/opt/buildroot/usr/lib/gcc/mipsel-buildroot-linux-uclibc/5.4.0/include/stddef.h:
+/opt/rs97tools/lib/gcc/mipsel-buildroot-linux-uclibc/6.4.0/include/stddef.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/xlocale.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_locale.h:
 
 ../../include/dosbox.h:
 

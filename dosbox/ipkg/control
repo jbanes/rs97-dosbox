@@ -1,0 +1,10 @@
+Package: dosbox
+Version: 20190204
+Description: Classic DOS emulation
+Section: emus
+Priority: optional
+Maintainer: jbanes
+Architecture: mipsel
+Homepage: https://www.dosbox.com
+Depends:
+Source: https://github.com/jbanes/rs97-dosbox

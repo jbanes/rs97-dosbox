@@ -29,9 +29,10 @@
 #include "render.h"
 #include "cpu.h"
 
-#define MENU_ITEMS 6 
+#define MENU_ITEMS 7 
 
 extern Bitu CPU_extflags_toggle;
+extern bool GFX_IsFullscreen(void);
 
 bool dynamic_available = false;
 bool menu_active = false;
@@ -56,6 +57,7 @@ const char *menuoptions[MENU_ITEMS] = {
     "Cycles: ",
     "CPU Core: ",
     "CPU Type: ",
+    "Fullscreen: ",
     "Exit"
 };
 
@@ -240,7 +242,11 @@ void MENU_Activate()
             
             break;
             
-        case 5: // Exit
+        case 5: // Fullscreen
+            GFX_SwitchFullScreen();
+            break;
+            
+        case 6: // Exit
             throw(0);
             break;
     }
@@ -287,7 +293,8 @@ int MENU_CheckEvent(SDL_Event *event)
     bool keystate = (event->type == SDL_KEYDOWN) ? true : false;
     int sym = event->key.keysym.sym;
     
-    if(keystate && event->key.keysym.scancode == 4) 
+    // This is to dismiss the menu
+    if(keystate && event->key.keysym.scancode == 107) 
     {
         MENU_Toggle();
     
@@ -303,12 +310,6 @@ int MENU_CheckEvent(SDL_Event *event)
         if(sym == SDLK_LEFT) MENU_Decrease();
         if(sym == SDLK_RIGHT) MENU_Increase();
         if(sym == SDLK_LCTRL) MENU_Activate(); // A - normal keypress
-    }
-    
-    if(keystate && event->key.keysym.scancode == 107)
-    {
-        printf("Received shutdown command: %i, %i\n", event->key.keysym.scancode, event->key.keysym.sym);
-        throw(0);
     }
     
     if(sym >= 0 && sym < 1024) keystates[sym] = keystate;
@@ -429,15 +430,17 @@ void MENU_Draw(SDL_Surface *surface)
         
         stringRGBA(menu.surface, 40, y, menuoptions[i], color, color, color, 0xFF);
         
-        if(i == 1) stringRGBA(menu.surface, 125, y, menu.frameskip, color, color, color, 0xFF);
-        if(i == 2) stringRGBA(menu.surface, 125, y, menu.cycles, color, color, color, 0xFF);
-        if(i == 3) stringRGBA(menu.surface, 125, y, menu.core, color, color, color, 0xFF);
-        if(i == 4) stringRGBA(menu.surface, 125, y, menu.cpuType, color, color, color, 0xFF);
+        if(i == 1) stringRGBA(menu.surface, 135, y, menu.frameskip, color, color, color, 0xFF);
+        if(i == 2) stringRGBA(menu.surface, 135, y, menu.cycles, color, color, color, 0xFF);
+        if(i == 3) stringRGBA(menu.surface, 135, y, menu.core, color, color, color, 0xFF);
+        if(i == 4) stringRGBA(menu.surface, 135, y, menu.cpuType, color, color, color, 0xFF);
+        if(i == 5) stringRGBA(menu.surface, 135, y, GFX_IsFullscreen() ? "On" : "Off", color, color, color, 0xFF);
         
-        y += 30;
+        y += 25;
     }
     
-    MENU_BlitDoubledSurface(menu.surface, 0, 0, surface);
+    if(surface->h <= 240) SDL_BlitSurface(menu.surface, NULL, surface, NULL);
+    else MENU_BlitDoubledSurface(menu.surface, 0, 0, surface);
 }
 
 void MENU_CleanScreen(SDL_Surface *surface)

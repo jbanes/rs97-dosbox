@@ -434,6 +434,8 @@ void VKEYB_BlitDoubledSurface(SDL_Surface *source, int left, int top, SDL_Surfac
 
 void VKEYB_BlitVkeyboard(SDL_Surface *surface)
 {
+    SDL_Rect position;
+    
     if(!vkeyb_active) return;
     
     if(vkeyb_rerender)
@@ -483,8 +485,14 @@ void VKEYB_BlitVkeyboard(SDL_Surface *surface)
         
         vkeyb_rerender = false;
     }
-        
-    VKEYB_BlitDoubledSurface(vkeyb.surface, vkeyb.x, vkeyb.y, surface);
+    
+    position.x = vkeyb.x;
+    position.y = vkeyb.y;
+    position.w = vkeyb.surface->w;
+    position.h = vkeyb.surface->h;
+
+    if(surface->h <= 240) SDL_BlitSurface(vkeyb.surface, NULL, surface, &position);
+    else VKEYB_BlitDoubledSurface(vkeyb.surface, vkeyb.x, vkeyb.y, surface);
 }
 
 void VKEYB_CleanVkeyboard(SDL_Surface *surface)
@@ -493,7 +501,7 @@ void VKEYB_CleanVkeyboard(SDL_Surface *surface)
     dest.x = vkeyb.x;
     dest.y = vkeyb.y;
     dest.w = 287;
-    dest.h = 80 * 2;
+    dest.h = surface->h <= 240 ? 80 : 80 * 2;
 
     SDL_FillRect(surface, &dest, 0);
     vkeyb_last = false;

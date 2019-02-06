@@ -1,0 +1,6 @@
+title=DOS
+description=DOSBox Emulator
+exec=/home/retrofw/emus/dosbox/dosbox.dge
+selectordir=/home/retrofw/roms/dosbox
+selectorfilter=.exe,.bat,.com
+clock=624

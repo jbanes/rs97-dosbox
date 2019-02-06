@@ -47,6 +47,26 @@
         <in>vga.h</in>
         <in>video.h</in>
       </df>
+      <df name="ipkg">
+        <df name="home">
+          <df name="retrofw">
+            <df name="apps">
+              <df name="gmenu2x">
+                <df name="sections">
+                  <df name="emulators">
+                  </df>
+                  <df name="systems">
+                  </df>
+                </df>
+              </df>
+            </df>
+            <df name="emus">
+              <df name="dosbox">
+              </df>
+            </df>
+          </df>
+        </df>
+      </df>
       <df name="scripts">
       </df>
       <df name="src">

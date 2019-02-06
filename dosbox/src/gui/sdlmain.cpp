@@ -297,21 +297,6 @@ void GFX_BlitUnscaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination
         }
         
         d += trailing;
-        s -= w;
-        
-        for(x=0; x<w; x+=8)
-        {
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-        }
-        
-        d += trailing;
     }
 }
 
@@ -322,7 +307,7 @@ void GFX_BlitScaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
     int h = source->h;
     int trailing = (destination->pitch - source->pitch)/8;
     
-    int scaleFactor = (source->h*2) / (destination->h - source->h*2);
+    int scaleFactor = (source->h) / (destination->h - source->h);
     int counter = 0;
 
     uint64_t *s = (uint64_t*)source->pixels;
@@ -343,22 +328,7 @@ void GFX_BlitScaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
         }
         
         d += trailing;
-        s -= w;
-        
-        for(x=0; x<w; x+=8)
-        {
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-        }
-        
-        d += trailing;
-        counter += 2;
+        counter++;
         
         if(counter > scaleFactor)
         {
@@ -384,13 +354,21 @@ void GFX_BlitScaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
 
 void GFX_BlitDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
 {
-    if(sdl.desktop.fullscreen && source->h < 240) GFX_BlitScaledDinguxSurface(source, destination);
-    else GFX_BlitUnscaledDinguxSurface(source, destination);
+    if(GFX_PDownscale)
+    {
+        GFX_PDOWNSCALE(source, destination);
+        return;
+    }
+    
+    if(source->w == destination->w && source->h == destination->h) SDL_BlitSurface(source, NULL, destination, NULL);
+    else if(sdl.desktop.fullscreen && source->h < 240) GFX_BlitScaledDinguxSurface(source, destination);
+    else SDL_BlitSurface(source, NULL, destination, NULL);
 }
 
-static void KillSwitch(bool pressed) {
-    if (!pressed)
-        return;
+static void KillSwitch(bool pressed) 
+{
+    if(!pressed) return;
+    
     throw 1;
 }
 
@@ -404,6 +382,9 @@ static void PauseDOSBox(bool pressed)
     GFX_SetTitle(-1, -1, true);
     KEYBOARD_ClrBuffer();
     
+    // assume that sdl.blit.surface is set
+    GFX_BlitDinguxSurface(sdl.blit.surface, sdl.blit.buffer);
+    
     while(paused) 
     {
         SDL_PollEvent(&event);    // since we're not polling, cpu usage drops to 0.
@@ -413,24 +394,18 @@ static void PauseDOSBox(bool pressed)
         {
             paused = false;
             GFX_SetTitle(-1, -1, false);
+            
+            // assume that sdl.blit.surface is set
+            GFX_ResetScreen();
+            SDL_Flip(sdl.surface);
             KEYBOARD_ClrBuffer();
             
             return;
         }
-        
+            
         // assume that sdl.blit.surface is set
-        if(GFX_PDownscale) 
-        {
-            GFX_PDOWNSCALE(sdl.blit.surface, sdl.blit.buffer);
-        } 
-        else 
-        {
-            GFX_BlitDinguxSurface(sdl.blit.surface, sdl.blit.buffer);
-        }
-
-        MENU_Draw(sdl.blit.buffer);
-        SDL_BlitSurface(sdl.blit.buffer, 0, sdl.surface, 0);
-        MENU_CleanScreen(sdl.blit.buffer);
+        MENU_Draw(sdl.surface);
+    
         SDL_Flip(sdl.surface);
         KEYBOARD_ClrBuffer();
     }
@@ -598,28 +573,34 @@ void GFX_TearDown(void) {
     }
 }
 
-Bitu GFX_SetSize(Bitu width,Bitu height,Bitu flags,double scalex,double scaley,GFX_CallBack_t callback) {
-    if (sdl.updating)
-        GFX_EndUpdate( 0 );
+Bitu GFX_SetSize(Bitu width, Bitu height, Bitu flags, double scalex, double scaley, GFX_CallBack_t callback) 
+{   
+    if (sdl.updating) GFX_EndUpdate( 0 );
 
-    sdl.draw.width=width;
-    sdl.draw.height=height;
-    sdl.draw.callback=callback;
-    sdl.draw.scalex=scalex;
-    sdl.draw.scaley=scaley;
+    sdl.draw.width = width;
+    sdl.draw.height = height;
+    sdl.draw.flags = flags;
+    sdl.draw.scalex = scalex;
+    sdl.draw.scaley = scaley;
+    sdl.draw.callback = callback;
 
-    Bitu bpp=0;
+    Bitu bpp = 0;
     Bitu retFlags = 0;
 
-    if (sdl.blit.surface) {
+    if (sdl.blit.surface) 
+    {
         SDL_FreeSurface(sdl.blit.surface);
-        sdl.blit.surface=0;
+        sdl.blit.surface = 0;
     }
-    if (sdl.blit.buffer) {
+    
+    if (sdl.blit.buffer) 
+    {
         SDL_FreeSurface(sdl.blit.buffer);
-        sdl.blit.buffer=0;
+        sdl.blit.buffer = 0;
     }
-    switch (sdl.desktop.want_type) {
+    
+    switch (sdl.desktop.want_type) 
+    {
     case SCREEN_SURFACE:
 dosurface:
         if (flags & GFX_CAN_8) bpp=8;
@@ -701,15 +682,31 @@ dosurface:
     case SCREEN_SURFACE_DINGUX:
         if (flags & GFX_CAN_16) bpp = 16;
         if (flags & GFX_CAN_32) bpp = 32;
+        
         sdl.desktop.type = SCREEN_SURFACE_DINGUX;
+        
+        if(width <= sdl.desktop.full.width && height <= sdl.desktop.full.height) printf("Hardware scaling (%i, %i)\n", width, height);
+        else  printf("Software scaling (%i, %i)\n", width, height);
 
-        sdl.surface = SDL_SetVideoMode(320, 480, 16, SDL_HWSURFACE);
-        sdl.blit.buffer = SDL_CreateRGBSurface(SDL_SWSURFACE, // for mixing menu and game screen
+        if(width <= sdl.desktop.full.width && height <= sdl.desktop.full.height) 
+        {
+            sdl.surface = SDL_SetVideoMode(width, (height < 240 && sdl.desktop.fullscreen ? 240 : height), 16, SDL_HWSURFACE);
+            sdl.blit.buffer = SDL_CreateRGBSurface(SDL_SWSURFACE, // for mixing menu and game screen
+                                    width,
+                                    height,
+                                    16,
+                                    0, 0, 0, 0);
+        }
+        else 
+        {
+            sdl.surface = SDL_SetVideoMode(sdl.desktop.full.width, sdl.desktop.full.height, 16, SDL_HWSURFACE);
+            sdl.blit.buffer = SDL_CreateRGBSurface(SDL_SWSURFACE, // for mixing menu and game screen
                                     sdl.desktop.full.width,
                                     sdl.desktop.full.height,
-                                    sdl.desktop.bpp,
+                                    16,
                                     0, 0, 0, 0);
-
+        }
+        
         GFX_PDownscale = NULL;
         
         if(width <= sdl.desktop.full.width && height <= sdl.desktop.full.height) 
@@ -726,7 +723,7 @@ dosurface:
             sdl.clip.h = 0;
             sdl.clip.x = 0;
             sdl.clip.y = 0;
-            sdl.blit.surface=SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, bpp, 0, 0, 0, 0);
+            sdl.blit.surface = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, bpp, 0, 0, 0, 0);
 
             if(width == 640 && height == 400)
             {
@@ -746,7 +743,7 @@ dosurface:
                     sdl.desktop.bpp,
                     width, height, bpp);
         
-        if(sdl.surface == NULL) E_Exit("Could not set windowed video mode %ix%i-%i: %s",width,height,bpp,SDL_GetError());
+        if(sdl.surface == NULL) E_Exit("Could not set windowed video mode %ix%i-%i: %s", width, height, bpp, SDL_GetError());
         
         printf("Blit Surface: %i x %i / ", sdl.blit.surface->w, sdl.blit.surface->h);
         printf("Surface: %i x %i\n", sdl.surface->w, sdl.surface->h);
@@ -913,15 +910,22 @@ void GFX_UpdateSDLCaptureState(void) {
 }
 
 bool mouselocked; //Global variable for mapper
-static void CaptureMouse(bool pressed) {
-    if (!pressed)
-        return;
+static void CaptureMouse(bool pressed) 
+{
+    if (!pressed) return;
+    
     GFX_CaptureMouse();
+}
+
+void GFX_RestoreMode(void) 
+{
+    GFX_SetSize(sdl.draw.width, sdl.draw.height, sdl.draw.flags, sdl.draw.scalex, sdl.draw.scaley, sdl.draw.callback);
+    GFX_UpdateSDLCaptureState();
 }
 
 void GFX_SwitchFullScreen(void) 
 {
-    sdl.desktop.fullscreen=!sdl.desktop.fullscreen;
+    sdl.desktop.fullscreen = !sdl.desktop.fullscreen;
     
     if(sdl.desktop.fullscreen) 
     {
@@ -932,6 +936,7 @@ void GFX_SwitchFullScreen(void)
         if(sdl.mouse.locked) GFX_CaptureMouse();
     }
     
+    GFX_RestoreMode();
     GFX_ResetScreen();
 }
 
@@ -962,12 +967,6 @@ bool GFX_LazyFullscreenRequested(void)
     }
     
     return false;
-}
-
-void GFX_RestoreMode(void) 
-{
-    GFX_SetSize(sdl.draw.width, sdl.draw.height, sdl.draw.flags, sdl.draw.scalex, sdl.draw.scaley, sdl.draw.callback);
-    GFX_UpdateSDLCaptureState();
 }
 
 bool GFX_StartUpdate(Bit8u * & pixels,Bitu & pitch) 
@@ -1106,16 +1105,9 @@ void GFX_EndUpdate( const Bit16u *changedLines ) {
     case SCREEN_SURFACE_DINGUX:
         if(!vkeyb_active && !vkeyb_last && !menu_active && !menu_last) 
         {
-            if (sdl.blit.surface) 
+            if(sdl.blit.surface) 
             {
-                if(GFX_PDownscale) 
-                {
-                    GFX_PDOWNSCALE(sdl.blit.surface, sdl.surface);
-                } 
-                else 
-                {
-                    GFX_BlitDinguxSurface(sdl.blit.surface, sdl.surface);
-                }
+                GFX_BlitDinguxSurface(sdl.blit.surface, sdl.surface);
             } 
             else 
             {
@@ -1125,37 +1117,20 @@ void GFX_EndUpdate( const Bit16u *changedLines ) {
         else if(menu_active || menu_last)
         {
             // assume that sdl.blit.surface is set
-            if(GFX_PDownscale) 
-            {
-                GFX_PDOWNSCALE(sdl.blit.surface, sdl.blit.buffer);
-            } 
-            else 
-            {
-                GFX_BlitDinguxSurface(sdl.blit.surface, sdl.blit.buffer);
-            }
+            GFX_BlitDinguxSurface(sdl.blit.surface, sdl.blit.buffer);
             
             MENU_Draw(sdl.blit.buffer);
             SDL_BlitSurface(sdl.blit.buffer, 0, sdl.surface, 0);
             MENU_CleanScreen(sdl.blit.buffer);
         }
-        else 
+        else // keyboard
         {
-            // assume that sdl.blit.surface is set
-            if(GFX_PDownscale) 
-            {
-                GFX_PDOWNSCALE(sdl.blit.surface, sdl.blit.buffer);
-            } 
-            else 
-            {
-                GFX_BlitDinguxSurface(sdl.blit.surface, sdl.blit.buffer);
-            }
-            
-            VKEYB_BlitVkeyboard(sdl.blit.buffer);
-            SDL_BlitSurface(sdl.blit.buffer, 0, sdl.surface, 0);
-            VKEYB_CleanVkeyboard(sdl.blit.buffer);
+            GFX_BlitDinguxSurface(sdl.blit.surface, sdl.surface);
+            VKEYB_BlitVkeyboard(sdl.surface);
         }
         
         SDL_Flip(sdl.surface);
+        
         break;
 #if (HAVE_DDRAW_H) && defined(WIN32)
     case SCREEN_SURFACE_DDRAW:
@@ -1820,11 +1795,18 @@ void GFX_Events()
                 
             default:
                 
-                if(event.type == SDL_KEYDOWN && event.key.keysym.scancode == 4)
+                // This is to activate the menu. See MENU_CheckEvent for the dismissal handling
+                if(event.type == SDL_KEYDOWN && event.key.keysym.scancode == 107)
                 {
                     MENU_Toggle();
                     PauseDOSBox(menu_active);
                     
+                    return;
+                }
+                
+                // Prevent brightness from triggering a keypress
+                if(event.key.keysym.scancode == 4)
+                {
                     return;
                 }
                 

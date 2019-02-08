@@ -310,6 +310,9 @@ void GFX_BlitScaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
     int scaleFactor = (source->h) / (destination->h - source->h);
     int counter = 0;
 
+    if(SDL_MUSTLOCK(source)) SDL_LockSurface(source);
+    if(SDL_MUSTLOCK(destination)) SDL_LockSurface(destination);
+    
     uint64_t *s = (uint64_t*)source->pixels;
     uint64_t *d = (uint64_t*)destination->pixels;
 
@@ -350,16 +353,20 @@ void GFX_BlitScaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
             counter -= scaleFactor;
         }
     }
+    
+    if(SDL_MUSTLOCK(source)) SDL_UnlockSurface(source);
+    if(SDL_MUSTLOCK(destination)) SDL_UnlockSurface(destination);
 }
 
 void GFX_BlitDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
 {
     if(GFX_PDownscale)
     {
+printf("Downscaling (%ix%i, %ix%i)\n", source->w, source->h, destination->w, destination->h);
         GFX_PDOWNSCALE(source, destination);
         return;
     }
-    
+printf("No downscaling (%ix%i, %ix%i)\n", source->w, source->h, destination->w, destination->h);
     if(source->w == destination->w && source->h == destination->h) SDL_BlitSurface(source, NULL, destination, NULL);
     else if(sdl.desktop.fullscreen && source->h < 240) GFX_BlitScaledDinguxSurface(source, destination);
     else SDL_BlitSurface(source, NULL, destination, NULL);
@@ -382,8 +389,7 @@ static void PauseDOSBox(bool pressed)
     GFX_SetTitle(-1, -1, true);
     KEYBOARD_ClrBuffer();
     
-    // assume that sdl.blit.surface is set
-    GFX_BlitDinguxSurface(sdl.blit.surface, sdl.blit.buffer);
+    sdl.surface = SDL_SetVideoMode(sdl.desktop.full.width, 240, 16, SDL_HWSURFACE);
     
     while(paused) 
     {
@@ -395,17 +401,16 @@ static void PauseDOSBox(bool pressed)
             paused = false;
             GFX_SetTitle(-1, -1, false);
             
-            // assume that sdl.blit.surface is set
+            // Reset screen surface
+            GFX_RestoreMode();
             GFX_ResetScreen();
-            SDL_Flip(sdl.surface);
+            
             KEYBOARD_ClrBuffer();
             
             return;
         }
-            
-        // assume that sdl.blit.surface is set
+        
         MENU_Draw(sdl.surface);
-    
         SDL_Flip(sdl.surface);
         KEYBOARD_ClrBuffer();
     }
@@ -690,7 +695,7 @@ dosurface:
 
         if(width <= sdl.desktop.full.width && height <= sdl.desktop.full.height) 
         {
-            sdl.surface = SDL_SetVideoMode(width, (height < 240 && sdl.desktop.fullscreen ? 240 : height), 16, SDL_HWSURFACE);
+            sdl.surface = SDL_SetVideoMode(width, (height < 240 && sdl.desktop.fullscreen ? 240 : height), 16, (sdl.desktop.doublebuf ? SDL_DOUBLEBUF : 0) | SDL_HWSURFACE);
             sdl.blit.buffer = SDL_CreateRGBSurface(SDL_SWSURFACE, // for mixing menu and game screen
                                     width,
                                     height,
@@ -699,7 +704,7 @@ dosurface:
         }
         else 
         {
-            sdl.surface = SDL_SetVideoMode(sdl.desktop.full.width, sdl.desktop.full.height, 16, SDL_HWSURFACE);
+            sdl.surface = SDL_SetVideoMode(sdl.desktop.full.width, sdl.desktop.full.height, 16, (sdl.desktop.doublebuf ? SDL_DOUBLEBUF : 0) | SDL_HWSURFACE);
             sdl.blit.buffer = SDL_CreateRGBSurface(SDL_SWSURFACE, // for mixing menu and game screen
                                     sdl.desktop.full.width,
                                     sdl.desktop.full.height,
@@ -727,12 +732,12 @@ dosurface:
 
             if(width == 640 && height == 400)
             {
-                printf("==Selected 640x400 scaler==\n");
+                printf("==Selected 640x400 downscaler==\n");
                 GFX_PDownscale = (bpp == 16 ? &GFX_Downscale_640x400_to_320x240_16 : &GFX_Downscale_640x400_to_320x240_32);
             }
             else if(width == 640 && height == 480)
             {
-                printf("==Selected 640x480 scaler==\n");
+                printf("==Selected 640x480 downscaler==\n");
                 GFX_PDownscale = (bpp == 16 ? &GFX_Downscale_640x480_to_320x240_16 : &GFX_Downscale_640x480_to_320x240_32);
             }
         }
@@ -935,9 +940,6 @@ void GFX_SwitchFullScreen(void)
     {
         if(sdl.mouse.locked) GFX_CaptureMouse();
     }
-    
-    GFX_RestoreMode();
-    GFX_ResetScreen();
 }
 
 static void SwitchFullScreen(bool pressed) 
@@ -967,6 +969,11 @@ bool GFX_LazyFullscreenRequested(void)
     }
     
     return false;
+}
+
+void GFX_SwitchDoubleBuffering(void) 
+{
+    sdl.desktop.doublebuf = !sdl.desktop.doublebuf;
 }
 
 bool GFX_StartUpdate(Bit8u * & pixels,Bitu & pitch) 
@@ -1672,8 +1679,14 @@ void GFX_LosingFocus(void) {
     MAPPER_LosingFocus();
 }
 
-bool GFX_IsFullscreen(void) {
+bool GFX_IsFullscreen(void) 
+{
     return sdl.desktop.fullscreen;
+}
+
+bool GFX_IsDoubleBuffering(void) 
+{
+    return sdl.desktop.doublebuf;
 }
 
 void GFX_Events() 

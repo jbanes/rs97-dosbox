@@ -1,4 +1,4 @@
 title=DOSBox
 description=Classic PC DOS Emulator
 exec=/home/retrofw/emus/dosbox/dosbox.dge
-clock=624
+clock=600

@@ -29,10 +29,9 @@
 #include "render.h"
 #include "cpu.h"
 
-#define MENU_ITEMS 7 
+#define MENU_ITEMS 8
 
 extern Bitu CPU_extflags_toggle;
-extern bool GFX_IsFullscreen(void);
 
 bool dynamic_available = false;
 bool menu_active = false;
@@ -47,6 +46,8 @@ struct MENU_Block
     char *cycles;
     char *core;
     char *cpuType;
+    bool fullscreen;
+    bool doublebuf;
 };
 
 static MENU_Block menu;
@@ -58,6 +59,7 @@ const char *menuoptions[MENU_ITEMS] = {
     "CPU Core: ",
     "CPU Type: ",
     "Fullscreen: ",
+    "Triple Buffer: ",
     "Exit"
 };
 
@@ -74,6 +76,8 @@ void MENU_Init(int bpp)
     menu.cycles = (char*)malloc(16);
     menu.core = (char*)malloc(16);
     menu.cpuType = (char*)malloc(16);
+    menu.fullscreen = GFX_IsFullscreen();
+    menu.doublebuf = GFX_IsDoubleBuffering();
     
 #if (C_DYNREC)
     if(cpudecoder == &CPU_Core_Dynrec_Run) dynamic_available = true;
@@ -82,7 +86,7 @@ void MENU_Init(int bpp)
 
 void MENU_Deinit()
 {
-    
+    SDL_FreeSurface(menu.surface);
 }
 
 void MENU_UpdateMenu()
@@ -121,9 +125,13 @@ void MENU_UpdateMenu()
 
 void MENU_Toggle()
 {
-    menu_active ^= 1;
+    menu_active = !menu_active;
     
-    if(!menu_active) menu_last = true;
+    if(!menu_active)
+    {
+        if(GFX_IsFullscreen() != menu.fullscreen) GFX_SwitchFullScreen();
+        if(GFX_IsDoubleBuffering() != menu.doublebuf) GFX_SwitchDoubleBuffering();
+    }
     
     for(int i=0; i<1024; i++) keystates[i] = false;
     
@@ -243,10 +251,14 @@ void MENU_Activate()
             break;
             
         case 5: // Fullscreen
-            GFX_SwitchFullScreen();
+            menu.fullscreen = !menu.fullscreen;
             break;
             
-        case 6: // Exit
+        case 6: // Double Buffering
+            menu.doublebuf = !menu.doublebuf;
+            break;
+            
+        case 7: // Exit
             throw(0);
             break;
     }
@@ -310,6 +322,7 @@ int MENU_CheckEvent(SDL_Event *event)
         if(sym == SDLK_LEFT) MENU_Decrease();
         if(sym == SDLK_RIGHT) MENU_Increase();
         if(sym == SDLK_LCTRL) MENU_Activate(); // A - normal keypress
+        if(sym == SDLK_LALT) MENU_Toggle();    // B - exit
     }
     
     if(sym >= 0 && sym < 1024) keystates[sym] = keystate;
@@ -404,7 +417,7 @@ void MENU_BlitDoubledSurface(SDL_Surface *source, int left, int top, SDL_Surface
 
 void MENU_Draw(SDL_Surface *surface)
 {
-    int y = 20;
+    int y = (surface->h - (MENU_ITEMS * 25)) / 2 + 12;
     int color = 0xFF;
     SDL_Rect dest;
     
@@ -421,7 +434,7 @@ void MENU_Draw(SDL_Surface *surface)
             dest.x = 20;
             dest.y = y-10;
             dest.w = 280;
-            dest.h = 30;
+            dest.h = 25;
             
             color = 0x00;
 
@@ -430,13 +443,14 @@ void MENU_Draw(SDL_Surface *surface)
         
         stringRGBA(menu.surface, 40, y, menuoptions[i], color, color, color, 0xFF);
         
-        if(i == 1) stringRGBA(menu.surface, 135, y, menu.frameskip, color, color, color, 0xFF);
-        if(i == 2) stringRGBA(menu.surface, 135, y, menu.cycles, color, color, color, 0xFF);
-        if(i == 3) stringRGBA(menu.surface, 135, y, menu.core, color, color, color, 0xFF);
-        if(i == 4) stringRGBA(menu.surface, 135, y, menu.cpuType, color, color, color, 0xFF);
-        if(i == 5) stringRGBA(menu.surface, 135, y, GFX_IsFullscreen() ? "On" : "Off", color, color, color, 0xFF);
+        if(i == 1) stringRGBA(menu.surface, 165, y, menu.frameskip, color, color, color, 0xFF);
+        if(i == 2) stringRGBA(menu.surface, 165, y, menu.cycles, color, color, color, 0xFF);
+        if(i == 3) stringRGBA(menu.surface, 165, y, menu.core, color, color, color, 0xFF);
+        if(i == 4) stringRGBA(menu.surface, 165, y, menu.cpuType, color, color, color, 0xFF);
+        if(i == 5) stringRGBA(menu.surface, 165, y, menu.fullscreen ? "On" : "Off", color, color, color, 0xFF);
+        if(i == 6) stringRGBA(menu.surface, 165, y, menu.doublebuf ? "On" : "Off", color, color, color, 0xFF);
         
-        y += 25;
+        y += 24;
     }
     
     if(surface->h <= 240) SDL_BlitSurface(menu.surface, NULL, surface, NULL);

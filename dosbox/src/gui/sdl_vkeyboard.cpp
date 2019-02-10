@@ -18,9 +18,14 @@
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_gfxPrimitives.h>
 #include <SDL/SDL_gfxPrimitives_font.h>
+#include <valarray>
 
 #include "sdl_vkeyboard_font.h"
 #include "sdl_vkeyboard_image.h"
+#include "sdl_vkeyboard.h"
+
+#include "dosbox.h"
+#include "video.h"
 
 typedef struct {
     int x, y;
@@ -106,6 +111,7 @@ const char *keynames[4][5][21] = {
 struct VKEYB_Block 
 {
     SDL_Surface *surface;
+    SDL_Surface *doubled;
     SDL_Surface *image; // keyboard image
     
     struct CURSOR 
@@ -114,6 +120,7 @@ struct VKEYB_Block
     } cursor;
     
     int x, y;
+    int lastx, lasty;
     bool capslock;
     bool shift;
     bool lctrl;
@@ -126,18 +133,22 @@ static bool vkeyb_bg = true; // background on/off
 bool vkeyb_active = false; // vkeyb show flag
 bool vkeyb_last = false; // vkeyb delete flag
 bool vkeyb_rerender = true; // vkeyb re-render flag
+bool already_doublebuf = false;
 
 void VKEYB_Init(int bpp)
 {
     if(!vkeyb.surface) 
     {
         vkeyb.surface = SDL_CreateRGBSurface(SDL_SWSURFACE, 287, 80, bpp, 0, 0, 0, 0);
+        vkeyb.doubled = SDL_CreateRGBSurface(SDL_SWSURFACE, 287, 160, bpp, 0, 0, 0, 0);
     }
     
     SDL_SetColorKey(vkeyb.surface, SDL_SRCCOLORKEY, SDL_MapRGBA(vkeyb.surface->format, 0, 0, 0, 0xFF));
+    SDL_SetColorKey(vkeyb.doubled, SDL_SRCCOLORKEY, SDL_MapRGBA(vkeyb.doubled->format, 0, 0, 0, 0xFF));
 
     //IMG_Init(0);
     vkeyb.image = IMG_LoadBMP_RW(SDL_RWFromMem(vkeyboard_image, sizeof(vkeyboard_image))/*SDL_RWFromFile("keyboard.bmp", "rb")*/);
+    
     if(!vkeyb.image) printf("err %s\n", IMG_GetError());
 
     gfxPrimitivesSetFont(keyfont, 8, 8);
@@ -146,14 +157,15 @@ void VKEYB_Init(int bpp)
     vkeyb.cursor.y = 1;
     vkeyb.cursor.w = 8;
     vkeyb.cursor.h = 8;
-    vkeyb.x = 16;
-    vkeyb.y = 120;
+    vkeyb.x = vkeyb.lastx = 16;
+    vkeyb.y = vkeyb.lasty = 100;
     vkeyb.lctrl = false;
 }
 
 void VKEYB_Deinit()
 {
     if(vkeyb.surface) SDL_FreeSurface(vkeyb.surface);
+    if(vkeyb.doubled) SDL_FreeSurface(vkeyb.doubled);
     //IMG_Quit();
 }
 
@@ -206,9 +218,10 @@ int VKEYB_CheckEvent(SDL_Event *event)
 
     if(keystate && event->key.keysym.sym == SDLK_TAB) 
     {
-        vkeyb_active ^= 1;
+        vkeyb_active = !vkeyb_active;
         
         if(!vkeyb_active) vkeyb_last = true;
+        else already_doublebuf = GFX_IsDoubleBuffering();
         
         ret = 0;
         update_screen = true;
@@ -436,10 +449,35 @@ void VKEYB_BlitVkeyboard(SDL_Surface *surface)
 {
     SDL_Rect position;
     
-    if(!vkeyb_active) return;
+    if(!vkeyb_active) 
+    {
+        if(surface->h == 480 && GFX_IsDoubleBuffering() && !already_doublebuf) 
+        {
+            GFX_SwitchDoubleBuffering();
+            
+            // Reset screen surface
+            GFX_RestoreMode();
+            GFX_ResetScreen();
+        }
+        
+        vkeyb_last = false;
+        
+        return;
+    }
     
     if(vkeyb_rerender)
     {
+        if(surface->h == 480 && !GFX_IsDoubleBuffering()) 
+        {
+            GFX_SwitchDoubleBuffering();
+            
+            // Reset screen surface
+            GFX_RestoreMode();
+            GFX_ResetScreen();
+            
+            return;
+        }
+        
         if(vkeyb_bg) SDL_BlitSurface(vkeyb.image, NULL, vkeyb.surface, NULL);
         else SDL_FillRect(vkeyb.surface, NULL, 0);
 
@@ -483,26 +521,22 @@ void VKEYB_BlitVkeyboard(SDL_Surface *surface)
             }
         }
         
+        if(surface->h > 240) 
+        {
+            SDL_FillRect(vkeyb.doubled, NULL, 0);
+            VKEYB_BlitDoubledSurface(vkeyb.surface, 0, 0, vkeyb.doubled);
+        }
+        
         vkeyb_rerender = false;
     }
     
     position.x = vkeyb.x;
     position.y = vkeyb.y;
-    position.w = vkeyb.surface->w;
-    position.h = vkeyb.surface->h;
-
-    if(surface->h <= 240) SDL_BlitSurface(vkeyb.surface, NULL, surface, &position);
-    else VKEYB_BlitDoubledSurface(vkeyb.surface, vkeyb.x, vkeyb.y, surface);
-}
-
-void VKEYB_CleanVkeyboard(SDL_Surface *surface)
-{
-    SDL_Rect dest;
-    dest.x = vkeyb.x;
-    dest.y = vkeyb.y;
-    dest.w = 287;
-    dest.h = surface->h <= 240 ? 80 : 80 * 2;
-
-    SDL_FillRect(surface, &dest, 0);
-    vkeyb_last = false;
+    position.w = (surface->h > 240) ? vkeyb.doubled->w : vkeyb.surface->w;
+    position.h = (surface->h > 240) ? vkeyb.doubled->h : vkeyb.surface->h;
+    
+    SDL_BlitSurface((surface->h > 240) ? vkeyb.doubled : vkeyb.surface, NULL, surface, &position);
+    
+    vkeyb.lastx = vkeyb.x;
+    vkeyb.lasty = vkeyb.y;
 }

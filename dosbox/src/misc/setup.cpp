@@ -868,13 +868,16 @@ void Config::ParseEnv(char ** envp) {
 	}
 }
 
-void Config::SetStartUp(void (*_function)(void)) { 
-	_start_function=_function;
+void Config::SetStartUp(void (*_function)(void)) 
+{ 
+	_start_function = _function;
 }
 
 
-void Config::StartUp(void) {
+void Config::StartUp(void) 
+{
 	initialised=true;
+        
 	(*_start_function)();
 }
 

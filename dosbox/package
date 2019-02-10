@@ -11,7 +11,7 @@ cp README ipkg/home/retrofw/emus/dosbox/dosbox.man.txt
 cd ipkg
 
 # Create the two tar files and then create an IPK archive
-tar -czvf control.tar.gz control postinst
+tar -czvf control.tar.gz control postinst conffiles
 tar -czvf data.tar.gz home
 ar rv dosbox.ipk control.tar.gz data.tar.gz debian-binary
 

@@ -11,7 +11,7 @@ void GFX_Downscale_##SX##x##SY##_to_##DX##x##DY##_##BPP(SDL_Surface *src, SDL_Su
                                                                                     \
     int x,y;                                                                        \
     int diff = (DY - SY/2);                                                         \
-    int scaleFactor = (diff == 0 ? DY : DY / diff);                                 \  
+    int scaleFactor = (diff == 0 ? DY : DY / diff);                                 \
     int counter = 0;                                                                \
     for(y = SY/2; y--;) {                                                           \
         for(x = SX/2; x--;) {                                                       \

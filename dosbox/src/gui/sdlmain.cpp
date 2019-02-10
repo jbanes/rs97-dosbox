@@ -358,17 +358,70 @@ void GFX_BlitScaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
     if(SDL_MUSTLOCK(destination)) SDL_UnlockSurface(destination);
 }
 
+// This is 565 form of 16 bit color
+#define BLEND16(A,B) ((((A) >> 1) & 0x7BEF) + (((B) >> 1) & 0x7BEF))
+void GFX_BlitDownscaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
+{
+    int x, y;
+    int w = destination->pitch/2; // Divide by 2 for 16 bit copy
+    int h = source->h;
+    int trailing = (destination->pitch - source->pitch/2)/2;
+    
+    int scaleFactor = (source->h) / (destination->h - source->h);
+    int counter = 0;
+
+    if(SDL_MUSTLOCK(source)) SDL_LockSurface(source);
+    if(SDL_MUSTLOCK(destination)) SDL_LockSurface(destination);
+    
+    uint16_t *s = (uint16_t*)source->pixels;
+    uint16_t *d = (uint16_t*)destination->pixels;
+    
+    for(y=0; y<h; y++)
+    {
+        for(x=0; x<w; x+=8)
+        {
+            *d++ = BLEND16(*s++, *s++);
+            *d++ = BLEND16(*s++, *s++);
+            *d++ = BLEND16(*s++, *s++);
+            *d++ = BLEND16(*s++, *s++);
+            *d++ = BLEND16(*s++, *s++);
+            *d++ = BLEND16(*s++, *s++);
+            *d++ = BLEND16(*s++, *s++);
+            *d++ = BLEND16(*s++, *s++);
+        }
+        
+        d += trailing;
+        counter++;
+        
+        if(counter > scaleFactor)
+        {
+            s -= source->pitch/2;
+
+            for(x=0; x<w; x+=8)
+            {
+                *d++ = BLEND16(*s++, *s++);
+                *d++ = BLEND16(*s++, *s++);
+                *d++ = BLEND16(*s++, *s++);
+                *d++ = BLEND16(*s++, *s++);
+                *d++ = BLEND16(*s++, *s++);
+                *d++ = BLEND16(*s++, *s++);
+                *d++ = BLEND16(*s++, *s++);
+                *d++ = BLEND16(*s++, *s++);
+            }
+
+            d += trailing;
+            counter -= scaleFactor;
+        }
+    }
+    
+    if(SDL_MUSTLOCK(source)) SDL_UnlockSurface(source);
+    if(SDL_MUSTLOCK(destination)) SDL_UnlockSurface(destination);
+}
+
 void GFX_BlitDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
 {
-    if(GFX_PDownscale)
-    {
-printf("Downscaling (%ix%i, %ix%i)\n", source->w, source->h, destination->w, destination->h);
-        GFX_PDOWNSCALE(source, destination);
-        return;
-    }
-printf("No downscaling (%ix%i, %ix%i)\n", source->w, source->h, destination->w, destination->h);
-    if(source->w == destination->w && source->h == destination->h) SDL_BlitSurface(source, NULL, destination, NULL);
-    else if(sdl.desktop.fullscreen && source->h < 240) GFX_BlitScaledDinguxSurface(source, destination);
+    if(GFX_PDownscale) GFX_BlitDownscaledDinguxSurface(source, destination);
+    else if(sdl.desktop.fullscreen && source->h < destination->h) GFX_BlitScaledDinguxSurface(source, destination);
     else SDL_BlitSurface(source, NULL, destination, NULL);
 }
 
@@ -691,7 +744,7 @@ dosurface:
         sdl.desktop.type = SCREEN_SURFACE_DINGUX;
         
         if(width <= sdl.desktop.full.width && height <= sdl.desktop.full.height) printf("Hardware scaling (%i, %i)\n", width, height);
-        else  printf("Software scaling (%i, %i)\n", width, height);
+        else printf("Software scaling (%i, %i)\n", width, height);
 
         if(width <= sdl.desktop.full.width && height <= sdl.desktop.full.height) 
         {
@@ -976,7 +1029,7 @@ void GFX_SwitchDoubleBuffering(void)
     sdl.desktop.doublebuf = !sdl.desktop.doublebuf;
 }
 
-bool GFX_StartUpdate(Bit8u * & pixels,Bitu & pitch) 
+bool GFX_StartUpdate(Bit8u * & pixels, Bitu & pitch) 
 {
     if (!sdl.active || sdl.updating) return false;
     
@@ -1006,7 +1059,7 @@ bool GFX_StartUpdate(Bit8u * & pixels,Bitu & pitch)
 
         case SCREEN_SURFACE_DINGUX:
             
-            if (sdl.blit.surface) 
+            if(sdl.blit.surface) 
             {
                 pixels = (Bit8u *)sdl.blit.surface->pixels;
                 pitch = sdl.blit.surface->pitch;
@@ -1049,15 +1102,17 @@ bool GFX_StartUpdate(Bit8u * & pixels,Bitu & pitch)
 }
 
 
-void GFX_EndUpdate( const Bit16u *changedLines ) {
+void GFX_EndUpdate( const Bit16u *changedLines ) 
+{
 #if (HAVE_DDRAW_H) && defined(WIN32)
     int ret;
 #endif
-    if (!sdl.updating)
-        return;
+    if (!sdl.updating) return;
+    
     sdl.updating=false;
 
-    switch (sdl.desktop.type) {
+    switch (sdl.desktop.type) 
+    {
     case SCREEN_SURFACE:
         if (SDL_MUSTLOCK(sdl.surface)) {
             if (sdl.blit.surface) {
@@ -1110,7 +1165,7 @@ void GFX_EndUpdate( const Bit16u *changedLines ) {
         }
         break;
     case SCREEN_SURFACE_DINGUX:
-        if(!vkeyb_active && !vkeyb_last && !menu_active && !menu_last) 
+        if(!vkeyb_active && !vkeyb_last) 
         {
             if(sdl.blit.surface) 
             {
@@ -1120,15 +1175,6 @@ void GFX_EndUpdate( const Bit16u *changedLines ) {
             {
                 if(SDL_MUSTLOCK(sdl.surface)) SDL_UnlockSurface(sdl.surface);
             }
-        }
-        else if(menu_active || menu_last)
-        {
-            // assume that sdl.blit.surface is set
-            GFX_BlitDinguxSurface(sdl.blit.surface, sdl.blit.buffer);
-            
-            MENU_Draw(sdl.blit.buffer);
-            SDL_BlitSurface(sdl.blit.buffer, 0, sdl.surface, 0);
-            MENU_CleanScreen(sdl.blit.buffer);
         }
         else // keyboard
         {
@@ -1203,31 +1249,41 @@ void GFX_EndUpdate( const Bit16u *changedLines ) {
 
 void GFX_ForceUpdate()
 {
-    if(sdl.updating == false) {
-        sdl.updating=true;
+    if(sdl.updating == false) 
+    {
+        sdl.updating = true;
+        
         GFX_EndUpdate(NULL);
     }
 }
 
-void GFX_SetPalette(Bitu start,Bitu count,GFX_PalEntry * entries) {
+void GFX_SetPalette(Bitu start,Bitu count,GFX_PalEntry * entries) 
+{
     /* I should probably not change the GFX_PalEntry :) */
-    if (sdl.surface->flags & SDL_HWPALETTE) {
-        if (!SDL_SetPalette(sdl.surface,SDL_PHYSPAL,(SDL_Color *)entries,start,count)) {
+    if (sdl.surface->flags & SDL_HWPALETTE) 
+    {
+        if(!SDL_SetPalette(sdl.surface, SDL_PHYSPAL, (SDL_Color *)entries, start, count)) 
+        {
             E_Exit("SDL:Can't set palette");
         }
-    } else {
-        if (!SDL_SetPalette(sdl.surface,SDL_LOGPAL,(SDL_Color *)entries,start,count)) {
+    } 
+    else 
+    {
+        if(!SDL_SetPalette(sdl.surface, SDL_LOGPAL, (SDL_Color *)entries, start, count)) 
+        {
             E_Exit("SDL:Can't set palette");
         }
     }
 }
 
-Bitu GFX_GetRGB(Bit8u red,Bit8u green,Bit8u blue) {
-    switch (sdl.desktop.type) {
+Bitu GFX_GetRGB(Bit8u red, Bit8u green, Bit8u blue) 
+{
+    switch (sdl.desktop.type) 
+    {
     case SCREEN_SURFACE:
     case SCREEN_SURFACE_DINGUX:
     case SCREEN_SURFACE_DDRAW:
-        return SDL_MapRGB(sdl.surface->format,red,green,blue);
+        return SDL_MapRGB(sdl.surface->format, red, green, blue);
     case SCREEN_OVERLAY:
         {
             Bit8u y =  ( 9797*(red) + 19237*(green) +  3734*(blue) ) >> 15;
@@ -1244,35 +1300,40 @@ Bitu GFX_GetRGB(Bit8u red,Bit8u green,Bit8u blue) {
         //USE BGRA
         return ((blue << 0) | (green << 8) | (red << 16)) | (255 << 24);
     }
+    
     return 0;
 }
 
-void GFX_Stop() {
-    if (sdl.updating)
-        GFX_EndUpdate( 0 );
-    sdl.active=false;
+void GFX_Stop() 
+{
+    if (sdl.updating) GFX_EndUpdate( 0 );
+    
+    sdl.active = false;
 }
 
-void GFX_Start() {
-    sdl.active=true;
+void GFX_Start() 
+{
+    sdl.active = true;
 }
 
-static void GUI_ShutDown(Section * /*sec*/) {
+static void GUI_ShutDown(Section * /*sec*/) 
+{
     GFX_Stop();
-    if (sdl.draw.callback) (sdl.draw.callback)( GFX_CallBackStop );
-    if (sdl.mouse.locked) GFX_CaptureMouse();
-    if (sdl.desktop.fullscreen) GFX_SwitchFullScreen();
+    
+    if(sdl.draw.callback) (sdl.draw.callback)(GFX_CallBackStop);
+    if(sdl.mouse.locked) GFX_CaptureMouse();
+    if(sdl.desktop.fullscreen) GFX_SwitchFullScreen();
 }
 
 
-static void SetPriority(PRIORITY_LEVELS level) {
+static void SetPriority(PRIORITY_LEVELS level) 
+{
 
 #if C_SET_PRIORITY
 // Do nothing if priorties are not the same and not root, else the highest
 // priority can not be set as users can only lower priority (not restore it)
 
-    if((sdl.priority.focus != sdl.priority.nofocus ) &&
-        (getuid()!=0) ) return;
+    if((sdl.priority.focus != sdl.priority.nofocus ) && (getuid()!=0)) return;
 
 #endif
     switch (level) {
@@ -1318,20 +1379,31 @@ static void SetPriority(PRIORITY_LEVELS level) {
 }
 
 extern Bit8u int10_font_14[256 * 14];
-static void OutputString(Bitu x,Bitu y,const char * text,Bit32u color,Bit32u color2,SDL_Surface * output_surface) {
-    Bit32u * draw=(Bit32u*)(((Bit8u *)output_surface->pixels)+((y)*output_surface->pitch))+x;
-    while (*text) {
-        Bit8u * font=&int10_font_14[(*text)*14];
+static void OutputString(Bitu x, Bitu y, const char * text, Bit32u color, Bit32u color2, SDL_Surface * output_surface) 
+{
+    Bit32u * draw = (Bit32u*)(((Bit8u *)output_surface->pixels)+((y)*output_surface->pitch))+x;
+    
+    while (*text) 
+    {
+        Bit8u * font = &int10_font_14[(*text)*14];
         Bitu i,j;
-        Bit32u * draw_line=draw;
-        for (i=0;i<14;i++) {
-            Bit8u map=*font++;
-            for (j=0;j<8;j++) {
-                if (map & 0x80) *((Bit32u*)(draw_line+j))=color; else *((Bit32u*)(draw_line+j))=color2;
-                map<<=1;
+        Bit32u * draw_line = draw;
+        
+        for (i=0;i<14;i++) 
+        {
+            Bit8u map = *font++;
+            
+            for (j=0;j<8;j++) 
+            {
+                if (map & 0x80) *((Bit32u*)(draw_line+j)) = color; 
+                else *((Bit32u*)(draw_line+j)) = color2;
+                
+                map <<= 1;
             }
-            draw_line+=output_surface->pitch/4;
+            
+            draw_line += output_surface->pitch/4;
         }
+        
         text++;
         draw+=8;
     }
@@ -1916,7 +1988,8 @@ void Config_Add_SDL() {
     Pbool->Set_help("Avoid usage of symkeys, might not work on all operating systems.");
 }
 
-static void show_warning(char const * const message) {
+static void show_warning(char const * const message) 
+{
     bool textonly = true;
 #ifdef WIN32
     textonly = false;
@@ -1924,8 +1997,9 @@ static void show_warning(char const * const message) {
     sdl.inited = true;
 #endif
     printf(message);
+    
     if(textonly) return;
-    if(!sdl.surface) sdl.surface = SDL_SetVideoMode(640,400,0,0);
+    if(!sdl.surface) sdl.surface = SDL_SetVideoMode(640, 400, 0, 0);
     if(!sdl.surface) return;
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     Bit32u rmask = 0xff000000;
@@ -1940,16 +2014,23 @@ static void show_warning(char const * const message) {
     if (!splash_surf) return;
 
     int x = 120,y = 20;
-    std::string m(message),m2;
-    std::string::size_type a,b,c,d;
+    std::string m(message), m2;
+    std::string::size_type a, b, c, d;
    
-    while(m.size()) { //Max 50 characters. break on space before or on a newline
+    while(m.size()) //Max 50 characters. break on space before or on a newline
+    { 
         c = m.find('\n');
-        d = m.rfind(' ',50);
-        if(c>d) a=b=d; else a=b=c;
-        if( a != std::string::npos) b++; 
+        d = m.rfind(' ', 50);
+        
+        if(c > d) a = b = d; 
+        else a = b = c;
+        
+        if( a != std::string::npos) b++;
+        
         m2 = m.substr(0,a); m.erase(0,b);
-        OutputString(x,y,m2.c_str(),0xffffffff,0,splash_surf);
+        
+        OutputString(x, y, m2.c_str(), 0xffffffff, 0, splash_surf);
+        
         y += 20;
     }
    
@@ -1958,39 +2039,56 @@ static void show_warning(char const * const message) {
     SDL_Delay(12000);
 }
    
-static void launcheditor() {
-    std::string path,file;
+static void launcheditor() 
+{
+    std::string path, file;
     Cross::CreatePlatformConfigDir(path);
     Cross::GetPlatformConfigName(file);
+    
     path += file;
-    FILE* f = fopen(path.c_str(),"r");
-    if(!f && !control->PrintConfig(path.c_str())) {
+    
+    FILE* f = fopen(path.c_str(), "r");
+    
+    if(!f && !control->PrintConfig(path.c_str())) 
+    {
         printf("tried creating %s. but failed.\n",path.c_str());
         exit(1);
     }
+    
     if(f) fclose(f);
+    
 /*    if(edit.empty()) {
         printf("no editor specified.\n");
         exit(1);
     }*/
+    
     std::string edit;
+    
     while(control->cmdline->FindString("-editconf",edit,true)) //Loop until one succeeds
-        execlp(edit.c_str(),edit.c_str(),path.c_str(),(char*) 0);
+    {
+        execlp(edit.c_str(), edit.c_str(), path.c_str(), (char*) 0);
+    }
+    
     //if you get here the launching failed!
     printf("can't find editor(s) specified at the command line.\n");
     exit(1);
 }
+
 #if C_DEBUG
 extern void DEBUG_ShutDown(Section * /*sec*/);
 #endif
 
-void restart_program(std::vector<std::string> & parameters) {
+void restart_program(std::vector<std::string> & parameters) 
+{
     char** newargs = new char* [parameters.size()+1];
+    
     // parameter 0 is the executable path
     // contents of the vector follow
     // last one is NULL
-    for(Bitu i = 0; i < parameters.size(); i++) newargs[i]=(char*)parameters[i].c_str();
+    for(Bitu i = 0; i < parameters.size(); i++) newargs[i] = (char*)parameters[i].c_str();
+    
     newargs[parameters.size()] = NULL;
+    
     SDL_CloseAudio();
     SDL_Delay(50);
     SDL_Quit();
@@ -2002,32 +2100,46 @@ void restart_program(std::vector<std::string> & parameters) {
     execvp(newargs[0], newargs);
     free(newargs);
 }
-void Restart(bool pressed) { // mapper handler
+
+void Restart(bool pressed) // mapper handler
+{
     restart_program(control->startup_params);
 }
 
-static void launchcaptures(std::string const& edit) {
+static void launchcaptures(std::string const& edit) 
+{
     std::string path,file;
     Section* t = control->GetSection("dosbox");
+    
     if(t) file = t->GetPropValue("captures");
-    if(!t || file == NO_SUCH_PROPERTY) {
+    
+    if(!t || file == NO_SUCH_PROPERTY) 
+    {
         printf("Config system messed up.\n");
         exit(1);
     }
+    
     Cross::CreatePlatformConfigDir(path);
+    
     path += file;
+    
     Cross::CreateDir(path);
+    
     struct stat cstat;
-    if(stat(path.c_str(),&cstat) || (cstat.st_mode & S_IFDIR) == 0) {
+    
+    if(stat(path.c_str(),&cstat) || (cstat.st_mode & S_IFDIR) == 0) 
+    {
         printf("%s doesn't exists or isn't a directory.\n",path.c_str());
         exit(1);
     }
+    
 /*    if(edit.empty()) {
         printf("no editor specified.\n");
         exit(1);
     }*/
 
-    execlp(edit.c_str(),edit.c_str(),path.c_str(),(char*) 0);
+    execlp(edit.c_str(), edit.c_str(), path.c_str(), (char*) 0);
+    
     //if you get here the launching failed!
     printf("can't find filemanager %s\n",edit.c_str());
     exit(1);
@@ -2086,18 +2198,23 @@ static void erasemapperfile() {
 
 
 //extern void UI_Init(void);
-int main(int argc, char* argv[]) {
-    try {
+int main(int argc, char* argv[]) 
+{
+    try 
+    {
         CommandLine com_line(argc,argv);
         Config myconf(&com_line);
-        control=&myconf;
+        
+        control = &myconf;
+        
         /* Init the configuration system and add default values */
         Config_Add_SDL();
         DOSBOX_Init();
 
         std::string editor;
-        if(control->cmdline->FindString("-editconf",editor,false)) launcheditor();
-        if(control->cmdline->FindString("-opencaptures",editor,true)) launchcaptures(editor);
+        
+        if(control->cmdline->FindString("-editconf", editor, false)) launcheditor();
+        if(control->cmdline->FindString("-opencaptures", editor, true)) launchcaptures(editor);
         if(control->cmdline->FindExist("-eraseconf")) eraseconfigfile();
         if(control->cmdline->FindExist("-resetconf")) eraseconfigfile();
         if(control->cmdline->FindExist("-erasemapper")) erasemapperfile();
@@ -2125,8 +2242,9 @@ int main(int argc, char* argv[]) {
             SetConsoleTitle("DOSBox Status Window");
         }
 #endif  //defined(WIN32) && !(C_DEBUG)
-        if (control->cmdline->FindExist("-version") ||
-            control->cmdline->FindExist("--version") ) {
+        
+        if (control->cmdline->FindExist("-version") || control->cmdline->FindExist("--version") ) 
+        {
             printf("\nDOSBox version %s, copyright 2002-2013 DOSBox Team.\n\n",VERSION);
             printf("DOSBox is written by the DOSBox Team (See AUTHORS file))\n");
             printf("DOSBox comes with ABSOLUTELY NO WARRANTY.  This is free software,\n");
@@ -2134,6 +2252,7 @@ int main(int argc, char* argv[]) {
             printf("please read the COPYING file thoroughly before doing so.\n\n");
             return 0;
         }
+        
         if(control->cmdline->FindExist("-printconf")) printconfiglocation();
 
 #if C_DEBUG
@@ -2166,15 +2285,18 @@ int main(int argc, char* argv[]) {
      */
     putenv(const_cast<char*>("SDL_DISABLE_LOCK_KEYS=1"));
 #endif
-    if ( SDL_Init( SDL_INIT_AUDIO|SDL_INIT_VIDEO|SDL_INIT_TIMER|SDL_INIT_CDROM
-        |SDL_INIT_NOPARACHUTE
-        ) < 0 ) E_Exit("Can't init SDL %s",SDL_GetError());
+    
+    if(SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_CDROM | SDL_INIT_NOPARACHUTE) < 0) 
+    {
+        E_Exit("Can't init SDL %s", SDL_GetError());
+    }
+    
     sdl.inited = true;
 
 #ifndef DISABLE_JOYSTICK
     //Initialise Joystick seperately. This way we can warn when it fails instead
     //of exiting the application
-    if( SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0 ) LOG_MSG("Failed to init joystick support");
+    if(SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0) LOG_MSG("Failed to init joystick support");
 #endif
 
     sdl.laltstate = SDL_KEYUP;
@@ -2212,24 +2334,35 @@ int main(int argc, char* argv[]) {
     sdl.num_joysticks=SDL_NumJoysticks();
 
     /* Parse configuration files */
-    std::string config_file,config_path;
+    std::string config_file, config_path;
+    
     Cross::GetPlatformConfigDir(config_path);
     
     //First parse -userconf
-    if(control->cmdline->FindExist("-userconf",true)){
+    if(control->cmdline->FindExist("-userconf",true))
+    {
         config_file.clear();
+        
         Cross::GetPlatformConfigDir(config_path);
         Cross::GetPlatformConfigName(config_file);
+        
         config_path += config_file;
+        
         control->ParseConfigFile(config_path.c_str());
-        if(!control->configfiles.size()) {
+        
+        if(!control->configfiles.size()) 
+        {
             //Try to create the userlevel configfile.
             config_file.clear();
+            
             Cross::CreatePlatformConfigDir(config_path);
             Cross::GetPlatformConfigName(config_file);
+            
             config_path += config_file;
-            if(control->PrintConfig(config_path.c_str())) {
-                LOG_MSG("CONFIG: Generating default configuration.\nWriting it to %s",config_path.c_str());
+            
+            if(control->PrintConfig(config_path.c_str())) 
+            {
+                LOG_MSG("CONFIG: Generating default configuration.\nWriting it to %s", config_path.c_str());
                 //Load them as well. Makes relative paths much easier
                 control->ParseConfigFile(config_path.c_str());
             }
@@ -2237,33 +2370,44 @@ int main(int argc, char* argv[]) {
     }
 
     //Second parse -conf switches
-    while(control->cmdline->FindString("-conf",config_file,true)) {
-        if(!control->ParseConfigFile(config_file.c_str())) {
+    while(control->cmdline->FindString("-conf",config_file,true)) 
+    {
+        if(!control->ParseConfigFile(config_file.c_str())) 
+        {
             // try to load it from the user directory
             control->ParseConfigFile((config_path + config_file).c_str());
         }
     }
+    
     // if none found => parse localdir conf
     if(!control->configfiles.size()) control->ParseConfigFile("dosbox.conf");
 
     // if none found => parse userlevel conf
-    if(!control->configfiles.size()) {
+    if(!control->configfiles.size()) 
+    {
         config_file.clear();
         Cross::GetPlatformConfigName(config_file);
         control->ParseConfigFile((config_path + config_file).c_str());
     }
 
-    if(!control->configfiles.size()) {
+    if(!control->configfiles.size()) 
+    {
         //Try to create the userlevel configfile.
         config_file.clear();
         Cross::CreatePlatformConfigDir(config_path);
         Cross::GetPlatformConfigName(config_file);
+        
         config_path += config_file;
-        if(control->PrintConfig(config_path.c_str())) {
+        
+        if(control->PrintConfig(config_path.c_str())) 
+        {
             LOG_MSG("CONFIG: Generating default configuration.\nWriting it to %s",config_path.c_str());
+            
             //Load them as well. Makes relative paths much easier
             control->ParseConfigFile(config_path.c_str());
-        } else {
+        } 
+        else 
+        {
             LOG_MSG("CONFIG: Using default settings. Create a configfile to change them");
         }
     }
@@ -2274,30 +2418,42 @@ int main(int argc, char* argv[]) {
 #endif
 //        UI_Init();
 //        if (control->cmdline->FindExist("-startui")) UI_Run(false);
+        
         /* Init all the sections */
         control->Init();
+        
         /* Some extra SDL Functions */
-        Section_prop * sdl_sec=static_cast<Section_prop *>(control->GetSection("sdl"));
+        Section_prop * sdl_sec = static_cast<Section_prop *>(control->GetSection("sdl"));
 
-        if (control->cmdline->FindExist("-fullscreen") || sdl_sec->Get_bool("fullscreen")) {
-            if(!sdl.desktop.fullscreen) { //only switch if not already in fullscreen
+        if (control->cmdline->FindExist("-fullscreen") || sdl_sec->Get_bool("fullscreen")) 
+        {
+            if(!sdl.desktop.fullscreen) //only switch if not already in fullscreen
+            { 
                 GFX_SwitchFullScreen();
             }
         }
 
         /* Init the keyMapper */
         MAPPER_Init();
+        
         if (control->cmdline->FindExist("-startmapper")) MAPPER_RunInternal();
+        
         /* Start up main machine */
         control->StartUp();
+        
         /* Shutdown everything */
-    } catch (char * error) {
+    } 
+    catch (char * error) 
+    {
 #if defined (WIN32)
         sticky_keys(true);
 #endif
         GFX_ShowMsg("Exit to error: %s",error);
+        
         fflush(NULL);
-        if(sdl.wait_on_error) {
+        
+        if(sdl.wait_on_error) 
+        {
             //TODO Maybe look for some way to show message in linux?
 #if (C_DEBUG)
             GFX_ShowMsg("Press enter to continue");
@@ -2309,10 +2465,12 @@ int main(int argc, char* argv[]) {
         }
 
     }
-    catch (int){
+    catch (int)
+    {
         ;//nothing pressed killswitch
     }
-    catch(...){
+    catch(...)
+    {
 #if defined (WIN32)
         sticky_keys(true);
 #endif
@@ -2324,6 +2482,7 @@ int main(int argc, char* argv[]) {
 #if defined (WIN32)
     sticky_keys(true); //Might not be needed if the shutdown function switches to windowed mode, but it doesn't hurt
 #endif 
+    
     //Force visible mouse to end user. Somehow this sometimes doesn't happen
     SDL_WM_GrabInput(SDL_GRAB_OFF);
     SDL_ShowCursor(SDL_ENABLE);
@@ -2332,7 +2491,8 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-void GFX_GetSize(int &width, int &height, bool &fullscreen) {
+void GFX_GetSize(int &width, int &height, bool &fullscreen) 
+{
     width = sdl.draw.width;
     height = sdl.draw.height;
     fullscreen = sdl.desktop.fullscreen;

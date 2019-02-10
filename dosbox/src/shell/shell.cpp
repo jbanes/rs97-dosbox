@@ -33,11 +33,13 @@ Bitu call_shellstop;
  * remove things from the environment */
 Program * first_shell = 0; 
 
-static Bitu shellstop_handler(void) {
+static Bitu shellstop_handler(void) 
+{
 	return CBRET_STOP;
 }
 
-static void SHELL_ProgramStart(Program * * make) {
+static void SHELL_ProgramStart(Program * * make) 
+{
 	*make = new DOS_Shell;
 }
 
@@ -195,75 +197,103 @@ Bitu DOS_Shell::GetRedirection(char *s, char **ifn, char **ofn,bool * append) {
 	return num;
 }	
 
-void DOS_Shell::ParseLine(char * line) {
-	LOG(LOG_EXEC,LOG_ERROR)("Parsing command line: %s",line);
-	/* Check for a leading @ */
- 	if (line[0] == '@') line[0] = ' ';
-	line = trim(line);
+void DOS_Shell::ParseLine(char * line) 
+{
+    LOG(LOG_EXEC,LOG_ERROR)("Parsing command line: %s",line);
+    
+    /* Check for a leading @ */
+    if (line[0] == '@') line[0] = ' ';
+    
+    line = trim(line);
 
-	/* Do redirection and pipe checks */
-	
-	char * in  = 0;
-	char * out = 0;
+    /* Do redirection and pipe checks */
 
-	Bit16u dummy,dummy2;
-	Bit32u bigdummy = 0;
-	Bitu num = 0;		/* Number of commands in this line */
-	bool append;
-	bool normalstdin  = false;	/* wether stdin/out are open on start. */
-	bool normalstdout = false;	/* Bug: Assumed is they are "con"      */
-	
-	num = GetRedirection(line,&in, &out,&append);
-	if (num>1) LOG_MSG("SHELL:Multiple command on 1 line not supported");
-	if (in || out) {
-		normalstdin  = (psp->GetFileHandle(0) != 0xff); 
-		normalstdout = (psp->GetFileHandle(1) != 0xff); 
-	}
-	if (in) {
-		if(DOS_OpenFile(in,OPEN_READ,&dummy)) {	//Test if file exists
-			DOS_CloseFile(dummy);
-			LOG_MSG("SHELL:Redirect input from %s",in);
-			if(normalstdin) DOS_CloseFile(0);	//Close stdin
-			DOS_OpenFile(in,OPEN_READ,&dummy);	//Open new stdin
-		}
-	}
-	if (out){
-		LOG_MSG("SHELL:Redirect output to %s",out);
-		if(normalstdout) DOS_CloseFile(1);
-		if(!normalstdin && !in) DOS_OpenFile("con",OPEN_READWRITE,&dummy);
-		bool status = true;
-		/* Create if not exist. Open if exist. Both in read/write mode */
-		if(append) {
-			if( (status = DOS_OpenFile(out,OPEN_READWRITE,&dummy)) ) {
-				 DOS_SeekFile(1,&bigdummy,DOS_SEEK_END);
-			} else {
-				status = DOS_CreateFile(out,DOS_ATTR_ARCHIVE,&dummy);	//Create if not exists.
-			}
-		} else {
-			status = DOS_OpenFileExtended(out,OPEN_READWRITE,DOS_ATTR_ARCHIVE,0x12,&dummy,&dummy2);
-		}
-		
-		if(!status && normalstdout) DOS_OpenFile("con",OPEN_READWRITE,&dummy); //Read only file, open con again
-		if(!normalstdin && !in) DOS_CloseFile(0);
-	}
-	/* Run the actual command */
-	DoCommand(line);
-	/* Restore handles */
-	if(in) {
-		DOS_CloseFile(0);
-		if(normalstdin) DOS_OpenFile("con",OPEN_READWRITE,&dummy);
-		free(in);
-	}
-	if(out) {
-		DOS_CloseFile(1);
-		if(!normalstdin) DOS_OpenFile("con",OPEN_READWRITE,&dummy);
-		if(normalstdout) DOS_OpenFile("con",OPEN_READWRITE,&dummy);
-		if(!normalstdin) DOS_CloseFile(0);
-		free(out);
-	}
+    char * in  = 0;
+    char * out = 0;
+
+    Bit16u dummy, dummy2;
+    Bit32u bigdummy = 0;
+    Bitu commands = 0;	/* Number of commands in this line */
+    
+    bool append;
+    bool normalstdin  = false;	/* whether stdin/out are open on start. */
+    bool normalstdout = false;	/* Bug: Assumed is they are "con"      */
+
+    commands = GetRedirection(line, &in, &out, &append);
+    
+    if(commands > 1) LOG_MSG("SHELL: Multiple commands on 1 line not supported");
+    
+    if(in || out) 
+    {
+        normalstdin  = (psp->GetFileHandle(0) != 0xff); 
+        normalstdout = (psp->GetFileHandle(1) != 0xff); 
+    }
+    
+    if(in) 
+    {
+        if(DOS_OpenFile(in, OPEN_READ, &dummy)) //Test if file exists
+        {
+            DOS_CloseFile(dummy);
+            LOG_MSG("SHELL: Redirect input from %s", in);
+            
+            if(normalstdin) DOS_CloseFile(0);    //Close stdin
+            
+            DOS_OpenFile(in, OPEN_READ, &dummy); //Open new stdin
+        }
+    }
+    
+    if(out)
+    {
+        LOG_MSG("SHELL: Redirect output to %s", out);
+
+        if(normalstdout) DOS_CloseFile(1);
+        if(!normalstdin && !in) DOS_OpenFile("con", OPEN_READWRITE, &dummy);
+
+        bool status = true;
+        
+        /* Create if not exist. Open if exist. Both in read/write mode */
+        if(append) 
+        {
+            if((status = DOS_OpenFile(out, OPEN_READWRITE, &dummy))) 
+            {
+                DOS_SeekFile(1, &bigdummy, DOS_SEEK_END);
+            } 
+            else 
+            {
+                status = DOS_CreateFile(out, DOS_ATTR_ARCHIVE, &dummy);	//Create if not exists.
+            }
+        } 
+        else 
+        {
+            status = DOS_OpenFileExtended(out, OPEN_READWRITE, DOS_ATTR_ARCHIVE, 0x12, &dummy, &dummy2);
+        }
+
+        if(!status && normalstdout) DOS_OpenFile("con", OPEN_READWRITE, &dummy); //Read only file, open con again
+        if(!normalstdin && !in) DOS_CloseFile(0);
+    }
+    
+    /* Run the actual command */
+    DoCommand(line);
+    
+    /* Restore handles */
+    if(in) 
+    {
+        DOS_CloseFile(0);
+        if(normalstdin) DOS_OpenFile("con",OPEN_READWRITE,&dummy);
+        free(in);
+    }
+    
+    if(out) 
+    {
+        DOS_CloseFile(1);
+        
+        if(!normalstdin) DOS_OpenFile("con",OPEN_READWRITE,&dummy);
+        if(normalstdout) DOS_OpenFile("con",OPEN_READWRITE,&dummy);
+        if(!normalstdin) DOS_CloseFile(0);
+        
+        free(out);
+    }
 }
-
-
 
 void DOS_Shell::RunInternal(void)
 {
@@ -282,53 +312,76 @@ void DOS_Shell::RunInternal(void)
 	return;
 }
 
-void DOS_Shell::Run(void) {
-	char input_line[CMD_MAXLINE] = {0};
-	std::string line;
-	if (cmd->FindStringRemainBegin("/C",line)) {
-		strcpy(input_line,line.c_str());
-		char* sep = strpbrk(input_line,"\r\n"); //GTA installer
-		if (sep) *sep = 0;
-		DOS_Shell temp;
-		temp.echo = echo;
-		temp.ParseLine(input_line);		//for *.exe *.com  |*.bat creates the bf needed by runinternal;
-		temp.RunInternal();				// exits when no bf is found.
-		return;
-	}
-	/* Start a normal shell and check for a first command init */
-	WriteOut(MSG_Get("SHELL_STARTUP_BEGIN"),VERSION);
-#if C_DEBUG
-	WriteOut(MSG_Get("SHELL_STARTUP_DEBUG"));
-#endif
-	if (machine == MCH_CGA) WriteOut(MSG_Get("SHELL_STARTUP_CGA"));
-	if (machine == MCH_HERC) WriteOut(MSG_Get("SHELL_STARTUP_HERC"));
-	WriteOut(MSG_Get("SHELL_STARTUP_END"));
+void DOS_Shell::Run(void) 
+{
+    char input_line[CMD_MAXLINE] = {0};
+    std::string line;
 
-	if (cmd->FindString("/INIT",line,true)) {
-		strcpy(input_line,line.c_str());
-		line.erase();
-		ParseLine(input_line);
-	}
-	do {
-		if (bf){
-			if(bf->ReadLine(input_line)) {
-				if (echo) {
-					if (input_line[0]!='@') {
-						ShowPrompt();
-						WriteOut_NoParsing(input_line);
-						WriteOut_NoParsing("\n");
-					};
-				};
-				ParseLine(input_line);
-				if (echo) WriteOut("\n");
-			}
-		} else {
-			if (echo) ShowPrompt();
-			InputCommand(input_line);
-			ParseLine(input_line);
-			if (echo && !bf) WriteOut_NoParsing("\n");
-		}
-	} while (!exit);
+    if (cmd->FindStringRemainBegin("/C", line)) 
+    {
+        strcpy(input_line, line.c_str());
+        
+        char* sep = strpbrk(input_line, "\r\n"); //GTA installer
+        
+        if(sep) *sep = 0;
+        
+        DOS_Shell temp;
+        
+        temp.echo = echo;
+        temp.ParseLine(input_line);		//for *.exe *.com  |*.bat creates the bf needed by runinternal;
+        temp.RunInternal();				// exits when no bf is found.
+        
+        return;
+    }
+
+    /* Start a normal shell and check for a first command init */
+    WriteOut(MSG_Get("SHELL_STARTUP_BEGIN"),VERSION);
+#if C_DEBUG
+    WriteOut(MSG_Get("SHELL_STARTUP_DEBUG"));
+#endif
+    if (machine == MCH_CGA) WriteOut(MSG_Get("SHELL_STARTUP_CGA"));
+    if (machine == MCH_HERC) WriteOut(MSG_Get("SHELL_STARTUP_HERC"));
+    
+    WriteOut(MSG_Get("SHELL_STARTUP_END"));
+
+    if (cmd->FindString("/INIT",line,true)) 
+    {
+        strcpy(input_line, line.c_str());
+        line.erase();
+        ParseLine(input_line);
+    }
+    
+    do 
+    {
+        if (bf)
+        {
+            if(bf->ReadLine(input_line))
+            {
+                if (echo) 
+                {
+                    if (input_line[0] != '@') 
+                    {
+                        ShowPrompt();
+                        WriteOut_NoParsing(input_line);
+                        WriteOut_NoParsing("\n");
+                    }
+                }
+                
+                ParseLine(input_line);
+                
+                if (echo) WriteOut("\n");
+            }
+        } 
+        else 
+        {
+            if(echo) ShowPrompt();
+            
+            InputCommand(input_line);
+            ParseLine(input_line);
+            
+            if(echo && !bf) WriteOut_NoParsing("\n");
+        }
+    } while (!exit);
 }
 
 void DOS_Shell::SyntaxError(void) {
@@ -453,7 +506,8 @@ static char const * const comspec_string="COMSPEC=Z:\\COMMAND.COM";
 static char const * const full_name="Z:\\COMMAND.COM";
 static char const * const init_line="/INIT AUTOEXEC.BAT";
 
-void SHELL_Init() {
+void SHELL_Init() 
+{
 	/* Add messages */
 	MSG_Add("SHELL_ILLEGAL_PATH","Illegal Path.\n");
 	MSG_Add("SHELL_CMD_HELP","If you want a list of all supported commands type \033[33;1mhelp /all\033[0m .\nA short list of the most often used commands:\n");
@@ -591,14 +645,17 @@ void SHELL_Init() {
 	MSG_Add("SHELL_CMD_VER_VER","DOSBox version %s. Reported DOS version %d.%02d.\n");
 
 	/* Regular startup */
-	call_shellstop=CALLBACK_Allocate();
+	call_shellstop = CALLBACK_Allocate();
+        
 	/* Setup the startup CS:IP to kill the last running machine when exitted */
-	RealPt newcsip=CALLBACK_RealPointer(call_shellstop);
+	RealPt newcsip = CALLBACK_RealPointer(call_shellstop);
+        
 	SegSet16(cs,RealSeg(newcsip));
-	reg_ip=RealOff(newcsip);
+        
+	reg_ip = RealOff(newcsip);
 
-	CALLBACK_Setup(call_shellstop,shellstop_handler,CB_IRET,"shell stop");
-	PROGRAMS_MakeFile("COMMAND.COM",SHELL_ProgramStart);
+	CALLBACK_Setup(call_shellstop,shellstop_handler, CB_IRET, "shell stop");
+	PROGRAMS_MakeFile("COMMAND.COM", SHELL_ProgramStart);
 
 	/* Now call up the shell for the first time */
 	Bit16u psp_seg=DOS_FIRST_SHELL;

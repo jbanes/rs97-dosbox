@@ -314,7 +314,8 @@ static void DOSBOX_RealInit(Section * sec) {
 }
 
 
-void DOSBOX_Init(void) {
+void DOSBOX_Init(void) 
+{
 	Section_prop * secprop;
 	Section_line * secline;
 	Prop_int* Pint;

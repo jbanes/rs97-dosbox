@@ -93,110 +93,150 @@ void RENDER_SetPal(Bit8u entry,Bit8u red,Bit8u green,Bit8u blue) {
     if (render.pal.last<entry) render.pal.last=entry;
 }
 
-static void RENDER_EmptyLineHandler(const void * src) {
+static void RENDER_EmptyLineHandler(const void * src) 
+{
 }
 
-static void RENDER_StartLineHandler(const void * s) {
-    if (s) {
-        const Bitu *src = (Bitu*)s;
+static void RENDER_StartLineHandler(const void * source) 
+{
+    if(source) 
+    {
+        const Bitu *src = (Bitu*)source;
         Bitu *cache = (Bitu*)(render.scale.cacheRead);
-        for (Bits x=render.src.start;x>0;) {
-            if (GCC_UNLIKELY(src[0] != cache[0])) {
-                if (!GFX_StartUpdate( render.scale.outWrite, render.scale.outPitch )) {
+        
+        for(Bits line = render.src.start; line>0; ) 
+        {
+            if (GCC_UNLIKELY(src[0] != cache[0])) 
+            {
+                if (!GFX_StartUpdate(render.scale.outWrite, render.scale.outPitch)) 
+                {
                     RENDER_DrawLine = RENDER_EmptyLineHandler;
                     return;
                 }
+                
                 render.scale.outWrite += render.scale.outPitch * Scaler_ChangedLines[0];
+                
                 RENDER_DrawLine = render.scale.lineHandler;
-                RENDER_DrawLine( s );
+                RENDER_DrawLine(source);
+                
                 return;
             }
-            x--; src++; cache++;
+            
+            line--; 
+            src++; 
+            cache++;
         }
     }
+    
     render.scale.cacheRead += render.scale.cachePitch;
-    Scaler_ChangedLines[0] += Scaler_Aspect[ render.scale.inLine ];
+    Scaler_ChangedLines[0] += Scaler_Aspect[render.scale.inLine];
+    
     render.scale.inLine++;
     render.scale.outLine++;
 }
 
-static void RENDER_FinishLineHandler(const void * s) {
-    if (s) {
-        const Bitu *src = (Bitu*)s;
+static void RENDER_FinishLineHandler(const void * source) 
+{
+    if(source) 
+    {
+        const Bitu *src = (Bitu*)source;
         Bitu *cache = (Bitu*)(render.scale.cacheRead);
-        for (Bits x=render.src.start;x>0;) {
+        
+        for(Bits line = render.src.start; line>0; ) 
+        {
             cache[0] = src[0];
-            x--; src++; cache++;
+            
+            line--; 
+            src++; 
+            cache++;
         }
     }
+    
     render.scale.cacheRead += render.scale.cachePitch;
 }
 
 
-static void RENDER_ClearCacheHandler(const void * src) {
-    Bitu x, width;
+static void RENDER_ClearCacheHandler(const void * src) 
+{
+    Bitu width;
     Bit32u *srcLine, *cacheLine;
+    
     srcLine = (Bit32u *)src;
     cacheLine = (Bit32u *)render.scale.cacheRead;
     width = render.scale.cachePitch / 4;
-    for (x=0;x<width;x++)
-        cacheLine[x] = ~srcLine[x];
-    render.scale.lineHandler( src );
+    
+    for (Bitu x=0; x<width; x++) cacheLine[x] = ~srcLine[x];
+    
+    render.scale.lineHandler(src);
 }
 
-bool RENDER_StartUpdate(void) {
-    if (GCC_UNLIKELY(render.updating))
-        return false;
-    if (GCC_UNLIKELY(!render.active))
-        return false;
-    if (GCC_UNLIKELY(render.frameskip.count<render.frameskip.max)) {
+bool RENDER_StartUpdate(void) 
+{
+    if (GCC_UNLIKELY(render.updating)) return false;
+    if (GCC_UNLIKELY(!render.active)) return false;
+    
+    if (GCC_UNLIKELY(render.frameskip.count<render.frameskip.max)) 
+    {
         render.frameskip.count++;
         return false;
     }
+    
     render.frameskip.count=0;
-    if (render.scale.inMode == scalerMode8) {
-        Check_Palette();
-    }
+    
+    if (render.scale.inMode == scalerMode8) Check_Palette();
+    
     render.scale.inLine = 0;
     render.scale.outLine = 0;
     render.scale.cacheRead = (Bit8u*)&scalerSourceCache;
     render.scale.outWrite = 0;
     render.scale.outPitch = 0;
+    
     Scaler_ChangedLines[0] = 0;
     Scaler_ChangedLineIndex = 0;
+    
     /* Clearing the cache will first process the line to make sure it's never the same */
-    if (GCC_UNLIKELY( render.scale.clearCache) ) {
+    if(GCC_UNLIKELY(render.scale.clearCache)) 
+    {
 //        LOG_MSG("Clearing cache");
         //Will always have to update the screen with this one anyway, so let's update already
-        if (GCC_UNLIKELY(!GFX_StartUpdate( render.scale.outWrite, render.scale.outPitch )))
-            return false;
+        if(GCC_UNLIKELY(!GFX_StartUpdate(render.scale.outWrite, render.scale.outPitch))) return false;
+        
         render.fullFrame = true;
         render.scale.clearCache = false;
         RENDER_DrawLine = RENDER_ClearCacheHandler;
-    } else {
-        if (render.pal.changed) {
+    } 
+    else 
+    {
+        if(render.pal.changed) 
+        {
             /* Assume pal changes always do a full screen update anyway */
-            if (GCC_UNLIKELY(!GFX_StartUpdate( render.scale.outWrite, render.scale.outPitch )))
-                return false;
+            if(GCC_UNLIKELY(!GFX_StartUpdate(render.scale.outWrite, render.scale.outPitch))) return false;
+            
             RENDER_DrawLine = render.scale.linePalHandler;
             render.fullFrame = true;
-        } else {
+        } 
+        else 
+        {
             RENDER_DrawLine = RENDER_StartLineHandler;
-            if (GCC_UNLIKELY(CaptureState & (CAPTURE_IMAGE|CAPTURE_VIDEO))) 
-                render.fullFrame = true;
-            else
-                render.fullFrame = false;
+            
+            if(GCC_UNLIKELY(CaptureState & (CAPTURE_IMAGE|CAPTURE_VIDEO))) render.fullFrame = true;
+            else render.fullFrame = false;
         }
     }
+    
     render.updating = true;
+    
     return true;
 }
 
-static void RENDER_Halt( void ) {
+static void RENDER_Halt( void ) 
+{
     RENDER_DrawLine = RENDER_EmptyLineHandler;
+    
     GFX_EndUpdate( 0 );
-    render.updating=false;
-    render.active=false;
+    
+    render.updating = false;
+    render.active = false;
 }
 
 extern Bitu PIC_Ticks;

@@ -372,149 +372,204 @@ void DOS_Shell::InputCommand(char * line) {
 }
 
 std::string full_arguments = "";
-bool DOS_Shell::Execute(char * name,char * args) {
-/* return true  => don't check for hardware changes in do_command 
- * return false =>       check for hardware changes in do_command */
-	char fullname[DOS_PATHLENGTH+4]; //stores results from Which
-	char* p_fullname;
-	char line[CMD_MAXLINE];
-	if(strlen(args)!= 0){
-		if(*args != ' '){ //put a space in front
-			line[0]=' ';line[1]=0;
-			strncat(line,args,CMD_MAXLINE-2);
-			line[CMD_MAXLINE-1]=0;
-		}
-		else
-		{
-			safe_strncpy(line,args,CMD_MAXLINE);
-		}
-	}else{
-		line[0]=0;
-	};
+bool DOS_Shell::Execute(char * name,char * args) 
+{
+    /* return true  => don't check for hardware changes in do_command 
+     * return false =>       check for hardware changes in do_command */
+    char fullname[DOS_PATHLENGTH+4]; //stores results from Which
+    char* p_fullname;
+    char line[CMD_MAXLINE];
+    
+    if(strlen(args)!= 0)
+    {
+        if(*args != ' ') //put a space in front
+        {
+            line[0] = ' ';
+            line[1] = 0;
+            strncat(line, args, CMD_MAXLINE-2);
+            line[CMD_MAXLINE-1] = 0;
+        }
+        else
+        {
+            safe_strncpy(line, args, CMD_MAXLINE);
+        }
+    }
+    else
+    {
+        line[0] = 0;
+    }
 
-	/* check for a drive change */
-	if (((strcmp(name + 1, ":") == 0) || (strcmp(name + 1, ":\\") == 0)) && isalpha(*name))
-	{
-		if (!DOS_SetDrive(toupper(name[0])-'A')) {
-			WriteOut(MSG_Get("SHELL_EXECUTE_DRIVE_NOT_FOUND"),toupper(name[0]));
-		}
-		return true;
-	}
-	/* Check for a full name */
-	p_fullname = Which(name);
-	if (!p_fullname) return false;
-	strcpy(fullname,p_fullname);
-	const char* extension = strrchr(fullname,'.');
-	
-	/*always disallow files without extension from being executed. */
-	/*only internal commands can be run this way and they never get in this handler */
-	if(extension == 0)
-	{
-		//Check if the result will fit in the parameters. Else abort
-		if(strlen(fullname) >( DOS_PATHLENGTH - 1) ) return false;
-		char temp_name[DOS_PATHLENGTH+4],* temp_fullname;
-		//try to add .com, .exe and .bat extensions to filename
-		
-		strcpy(temp_name,fullname);
-		strcat(temp_name,".COM");
-		temp_fullname=Which(temp_name);
-		if (temp_fullname) { extension=".com";strcpy(fullname,temp_fullname); }
+    /* check for a drive change */
+    if(((strcmp(name + 1, ":") == 0) || (strcmp(name + 1, ":\\") == 0)) && isalpha(*name))
+    {
+        if(!DOS_SetDrive(toupper(name[0]) - 'A')) 
+        {
+            WriteOut(MSG_Get("SHELL_EXECUTE_DRIVE_NOT_FOUND"),toupper(name[0]));
+        }
 
-		else 
-		{
-			strcpy(temp_name,fullname);
-			strcat(temp_name,".EXE");
-			temp_fullname=Which(temp_name);
-		 	if (temp_fullname) { extension=".exe";strcpy(fullname,temp_fullname);}
+        return true;
+    }
+    
+    /* Check for a full name */
+    p_fullname = Which(name);
+    
+    if(!p_fullname) return false;
+    
+    strcpy(fullname,p_fullname);
+    
+    const char* extension = strrchr(fullname, '.');
 
-			else 
-			{
-				strcpy(temp_name,fullname);
-				strcat(temp_name,".BAT");
-				temp_fullname=Which(temp_name);
-		 		if (temp_fullname) { extension=".bat";strcpy(fullname,temp_fullname);}
+    /*always disallow files without extension from being executed. */
+    /*only internal commands can be run this way and they never get in this handler */
+    if(extension == 0)
+    {
+        //Check if the result will fit in the parameters. Else abort
+        if(strlen(fullname) > ( DOS_PATHLENGTH - 1)) return false;
+        
+        char temp_name[DOS_PATHLENGTH + 4], * temp_fullname;
+        //try to add .com, .exe and .bat extensions to filename
 
-				else  
-				{
-		 			return false;
-				}
-			
-			}	
-		}
-	}
-	
-	if (strcasecmp(extension, ".bat") == 0) 
-	{	/* Run the .bat file */
-		/* delete old batch file if call is not active*/
-		bool temp_echo=echo; /*keep the current echostate (as delete bf might change it )*/
-		if(bf && !call) delete bf;
-		bf=new BatchFile(this,fullname,name,line);
-		echo=temp_echo; //restore it.
-	} 
-	else 
-	{	/* only .bat .exe .com extensions maybe be executed by the shell */
-		if(strcasecmp(extension, ".com") !=0) 
-		{
-			if(strcasecmp(extension, ".exe") !=0) return false;
-		}
-		/* Run the .exe or .com file from the shell */
-		/* Allocate some stack space for tables in physical memory */
-		reg_sp-=0x200;
-		//Add Parameter block
-		DOS_ParamBlock block(SegPhys(ss)+reg_sp);
-		block.Clear();
-		//Add a filename
-		RealPt file_name=RealMakeSeg(ss,reg_sp+0x20);
-		MEM_BlockWrite(Real2Phys(file_name),fullname,(Bitu)(strlen(fullname)+1));
+        strcpy(temp_name,fullname);
+        strcat(temp_name,".COM");
+        temp_fullname = Which(temp_name);
+        
+        if(temp_fullname) 
+        { 
+            extension = ".com";
+            strcpy(fullname, temp_fullname); 
+        }
+        else 
+        {
+            strcpy(temp_name, fullname);
+            strcat(temp_name, ".EXE");
+            
+            temp_fullname = Which(temp_name);
+            
+            if(temp_fullname) 
+            { 
+                extension = ".exe";
+                
+                strcpy(fullname, temp_fullname);
+            }
+            else 
+            {
+                strcpy(temp_name, fullname);
+                strcat(temp_name, ".BAT");
+                
+                temp_fullname = Which(temp_name);
+                
+                if(temp_fullname) 
+                { 
+                    extension = ".bat";
+                    
+                    strcpy(fullname, temp_fullname);
+                }
+                else
+                {
+                    return false;
+                }
+            }	
+        }
+    }
 
-		/* HACK: Store full commandline for mount and imgmount */
-		full_arguments.assign(line);
+    if (strcasecmp(extension, ".bat") == 0) 
+    {	/* Run the .bat file */
+        /* delete old batch file if call is not active*/
+        bool temp_echo = echo; /*keep the current echostate (as delete bf might change it )*/
+        
+        if(bf && !call) delete bf;
+        
+        bf = new BatchFile(this, fullname, name, line);
+        echo = temp_echo; //restore it.
+    } 
+    else 
+    {	
+        /* only .bat .exe .com extensions maybe be executed by the shell */
+        if(strcasecmp(extension, ".com") != 0) 
+        {
+            if(strcasecmp(extension, ".exe") != 0) return false;
+        }
+        
+        /* Run the .exe or .com file from the shell */
+        /* Allocate some stack space for tables in physical memory */
+        reg_sp -= 0x200;
+        
+        //Add Parameter block
+        DOS_ParamBlock block(SegPhys(ss) + reg_sp);
+        block.Clear();
+        
+        //Add a filename
+        RealPt file_name = RealMakeSeg(ss, reg_sp + 0x20);
+        
+        MEM_BlockWrite(Real2Phys(file_name), fullname, (Bitu)(strlen(fullname) + 1));
 
-		/* Fill the command line */
-		CommandTail cmdtail;
-		cmdtail.count = 0;
-		memset(&cmdtail.buffer,0,126); //Else some part of the string is unitialized (valgrind)
-		if (strlen(line)>126) line[126]=0;
-		cmdtail.count=(Bit8u)strlen(line);
-		memcpy(cmdtail.buffer,line,strlen(line));
-		cmdtail.buffer[strlen(line)]=0xd;
-		/* Copy command line in stack block too */
-		MEM_BlockWrite(SegPhys(ss)+reg_sp+0x100,&cmdtail,128);
-		/* Parse FCB (first two parameters) and put them into the current DOS_PSP */
-		Bit8u add;
-		FCB_Parsename(dos.psp(),0x5C,0x00,cmdtail.buffer,&add);
-		FCB_Parsename(dos.psp(),0x6C,0x00,&cmdtail.buffer[add],&add);
-		block.exec.fcb1=RealMake(dos.psp(),0x5C);
-		block.exec.fcb2=RealMake(dos.psp(),0x6C);
-		/* Set the command line in the block and save it */
-		block.exec.cmdtail=RealMakeSeg(ss,reg_sp+0x100);
-		block.SaveData();
+        /* HACK: Store full commandline for mount and imgmount */
+        full_arguments.assign(line);
+
+        /* Fill the command line */
+        CommandTail cmdtail;
+        
+        cmdtail.count = 0;
+        
+        memset(&cmdtail.buffer, 0, 126); //Else some part of the string is unitialized (valgrind)
+        
+        if(strlen(line) > 126) line[126] = 0;
+        
+        cmdtail.count = (Bit8u)strlen(line);
+        
+        memcpy(cmdtail.buffer, line, strlen(line));
+        
+        cmdtail.buffer[strlen(line)] = 0xd;
+        
+        /* Copy command line in stack block too */
+        MEM_BlockWrite(SegPhys(ss) + reg_sp + 0x100, &cmdtail, 128);
+        
+        /* Parse FCB (first two parameters) and put them into the current DOS_PSP */
+        Bit8u add;
+        
+        FCB_Parsename(dos.psp(), 0x5C, 0x00, cmdtail.buffer, &add);
+        FCB_Parsename(dos.psp(), 0x6C, 0x00, &cmdtail.buffer[add], &add);
+        
+        block.exec.fcb1 = RealMake(dos.psp(), 0x5C);
+        block.exec.fcb2 = RealMake(dos.psp(), 0x6C);
+        
+        /* Set the command line in the block and save it */
+        block.exec.cmdtail = RealMakeSeg(ss, reg_sp + 0x100);
+        
+        block.SaveData();
 #if 0
-		/* Save CS:IP to some point where i can return them from */
-		Bit32u oldeip=reg_eip;
-		Bit16u oldcs=SegValue(cs);
-		RealPt newcsip=CALLBACK_RealPointer(call_shellstop);
-		SegSet16(cs,RealSeg(newcsip));
-		reg_ip=RealOff(newcsip);
+        /* Save CS:IP to some point where i can return them from */
+        Bit32u oldeip=reg_eip;
+        Bit16u oldcs=SegValue(cs);
+        RealPt newcsip=CALLBACK_RealPointer(call_shellstop);
+        SegSet16(cs,RealSeg(newcsip));
+        reg_ip=RealOff(newcsip);
 #endif
-		/* Start up a dos execute interrupt */
-		reg_ax=0x4b00;
-		//Filename pointer
-		SegSet16(ds,SegValue(ss));
-		reg_dx=RealOff(file_name);
-		//Paramblock
-		SegSet16(es,SegValue(ss));
-		reg_bx=reg_sp;
-		SETFLAGBIT(IF,false);
-		CALLBACK_RunRealInt(0x21);
-		/* Restore CS:IP and the stack */
-		reg_sp+=0x200;
+        /* Start up a dos execute interrupt */
+        reg_ax=0x4b00;
+        
+        //Filename pointer
+        SegSet16(ds, SegValue(ss));
+        
+        reg_dx = RealOff(file_name);
+        
+        //Paramblock
+        SegSet16(es, SegValue(ss));
+        
+        reg_bx = reg_sp;
+        
+        SETFLAGBIT(IF,false);
+        CALLBACK_RunRealInt(0x21);
+        
+        /* Restore CS:IP and the stack */
+        reg_sp += 0x200;
 #if 0
-		reg_eip=oldeip;
-		SegSet16(cs,oldcs);
+            reg_eip=oldeip;
+            SegSet16(cs,oldcs);
 #endif
-	}
-	return true; //Executable started
+    }
+    
+    return true; //Executable started
 }
 
 

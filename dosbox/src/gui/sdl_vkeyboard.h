@@ -21,4 +21,3 @@
  void VKEYB_Deinit();
  int VKEYB_CheckEvent(SDL_Event *event);
  void VKEYB_BlitVkeyboard(SDL_Surface *surface);
- void VKEYB_CleanVkeyboard(SDL_Surface *surface);

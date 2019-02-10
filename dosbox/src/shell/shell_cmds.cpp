@@ -118,45 +118,66 @@ bool DOS_Shell::CheckConfig(char* cmd_in,char*line) {
 	return true;
 }
 
-void DOS_Shell::DoCommand(char * line) {
-/* First split the line into command and arguments */
-	line=trim(line);
-	char cmd_buffer[CMD_MAXLINE];
-	char * cmd_write=cmd_buffer;
-	while (*line) {
-		if (*line == 32) break;
-		if (*line == '/') break;
-		if (*line == '\t') break;
-		if (*line == '=') break;
-//		if (*line == ':') break; //This breaks drive switching as that is handled at a later stage. 
-		if ((*line == '.') ||(*line == '\\')) {  //allow stuff like cd.. and dir.exe cd\kees
-			*cmd_write=0;
-			Bit32u cmd_index=0;
-			while (cmd_list[cmd_index].name) {
-				if (strcasecmp(cmd_list[cmd_index].name,cmd_buffer)==0) {
-					(this->*(cmd_list[cmd_index].handler))(line);
-			 		return;
-				}
-				cmd_index++;
-			}
-		}
-		*cmd_write++=*line++;
-	}
-	*cmd_write=0;
-	if (strlen(cmd_buffer)==0) return;
-/* Check the internal list */
-	Bit32u cmd_index=0;
-	while (cmd_list[cmd_index].name) {
-		if (strcasecmp(cmd_list[cmd_index].name,cmd_buffer)==0) {
-			(this->*(cmd_list[cmd_index].handler))(line);
-			return;
-		}
-		cmd_index++;
-	}
-/* This isn't an internal command execute it */
-	if(Execute(cmd_buffer,line)) return;
-	if(CheckConfig(cmd_buffer,line)) return;
-	WriteOut(MSG_Get("SHELL_EXECUTE_ILLEGAL_COMMAND"),cmd_buffer);
+void DOS_Shell::DoCommand(char * line) 
+{
+    /* First split the line into command and arguments */
+    line = trim(line);
+    
+    char cmd_buffer[CMD_MAXLINE];
+    char * cmd_write = cmd_buffer;
+    
+    while (*line) 
+    {
+        if (*line == 32) break;
+        if (*line == '/') break;
+        if (*line == '\t') break;
+        if (*line == '=') break;
+
+        if((*line == '.') ||(*line == '\\')) //allow stuff like cd.. and dir.exe cd\kees
+        {
+            *cmd_write=0;
+            Bit32u cmd_index=0;
+            
+            while(cmd_list[cmd_index].name) 
+            {
+                if (strcasecmp(cmd_list[cmd_index].name, cmd_buffer) == 0) 
+                {
+                    (this->*(cmd_list[cmd_index].handler))(line);
+                    
+                    return;
+                }
+                
+                cmd_index++;
+            }
+        }
+        
+        *cmd_write++ = *line++;
+    }
+    
+    *cmd_write=0;
+    
+    if (strlen(cmd_buffer)==0) return;
+    
+    /* Check the internal list */
+    Bit32u cmd_index=0;
+    
+    while (cmd_list[cmd_index].name) 
+    {
+        if (strcasecmp(cmd_list[cmd_index].name,cmd_buffer)==0) 
+        {
+            (this->*(cmd_list[cmd_index].handler))(line);
+            
+            return;
+        }
+        
+        cmd_index++;
+    }
+    
+    /* This isn't an internal command execute it */
+    if(Execute(cmd_buffer,line)) return;
+    if(CheckConfig(cmd_buffer,line)) return;
+    
+    WriteOut(MSG_Get("SHELL_EXECUTE_ILLEGAL_COMMAND"), cmd_buffer);
 }
 
 #define HELP(command) \

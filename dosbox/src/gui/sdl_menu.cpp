@@ -132,6 +132,11 @@ void MENU_Toggle()
         if(GFX_IsFullscreen() != menu.fullscreen) GFX_SwitchFullScreen();
         if(GFX_IsDoubleBuffering() != menu.doublebuf) GFX_SwitchDoubleBuffering();
     }
+    else
+    {
+        menu.fullscreen = GFX_IsFullscreen();
+        menu.doublebuf = GFX_IsDoubleBuffering();
+    }
     
     for(int i=0; i<1024; i++) keystates[i] = false;
     
@@ -423,7 +428,7 @@ void MENU_Draw(SDL_Surface *surface)
     
     if(!menu_active) return;
     
-    SDL_FillRect(menu.surface, NULL, SDL_MapRGBA(surface->format, 0x00, 0x00, 0xFF, 0xFF));
+    SDL_FillRect(menu.surface, NULL, SDL_MapRGBA(surface->format, 0x00, 0x00, 0xAA, 0xFF));
     
     for(int i=0; i<MENU_ITEMS; i++)
     {

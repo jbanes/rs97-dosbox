@@ -1,18 +1,25 @@
 #!/bin/bash
 
+# Move executables to bin directory
 mv src/dosbox bin/
 cp src/dosbox.png bin/
 
+# Copy executable and manual into the correct location for packaging
 cp bin/dosbox ipkg/home/retrofw/emus/dosbox/dosbox.dge
+cp README ipkg/home/retrofw/emus/dosbox/dosbox.man.txt
+
 cd ipkg
 
-tar -czvf control.tar.gz control
+# Create the two tar files and then create an IPK archive
+tar -czvf control.tar.gz control postinst
 tar -czvf data.tar.gz home
 ar rv dosbox.ipk control.tar.gz data.tar.gz debian-binary
 
 cd ..
 
+# Clean up after ourselves
 mv ipkg/dosbox.ipk bin/
 rm ipkg/control.tar.gz
 rm ipkg/data.tar.gz
 rm ipkg/home/retrofw/emus/dosbox/dosbox.dge
+rm ipkg/home/retrofw/emus/dosbox/dosbox.man.txt

@@ -3,3 +3,4 @@ dosbox/bin/*.zip
 dosbox/bin/*.ipk
 **/.DS_Store
 **/*.a
+**/nbproject/**

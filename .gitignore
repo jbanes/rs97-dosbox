@@ -4,3 +4,4 @@ dosbox/bin/*.ipk
 **/.DS_Store
 **/*.a
 **/nbproject/**
+dosbox/images/**

@@ -1,3 +1,28 @@
 #!/bin/sh
 
 mkdir -p /home/retrofw/roms/dos
+
+echo "Checking if /media/mmcblk1p1 exists"
+
+if [ -d /media/mmcblk1p1 ]
+then
+    echo "Directory /media/mmcblk1p1 exists"
+
+    DOS_EXT_DIR=`ls /media/mmcblk1p1 | grep -i ^dos`
+    LNK_PATH="/home/retrofw/apps/gmenu2x/sections/systems/dosext.dosbox.lnk"
+
+    echo "DOS directory is [$DOS_EXT_DIR]"
+
+    if [ ! -z "$DOS_EXT_DIR" ]
+    then
+
+        echo "title=DOS (SD)" > "$LNK_PATH"
+        echo "description=DOSBox Emulator" >> "$LNK_PATH"
+        echo "icon=/home/retrofw/emus/dosbox/dos.png" >> "$LNK_PATH"
+        echo "exec=/home/retrofw/emus/dosbox/dosbox.dge" >> "$LNK_PATH"
+        echo "selectordir=/media/mmcblk1p1/$DOS_EXT_DIR" >> "$LNK_PATH"
+        echo "selectorfilter=.exe,.bat,.com" >> "$LNK_PATH"
+        echo "clock=600" >> "$LNK_PATH"
+
+    fi
+fi 

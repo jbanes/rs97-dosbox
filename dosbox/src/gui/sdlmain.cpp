@@ -51,6 +51,7 @@
 #include "control.h"
 #include "sdl_downscaler.h"
 #include "sdl_vkeyboard.h"
+#include "sdl_vmouse.h"
 #include "sdl_menu.h"
 
 #define MAPPERFILE "mapper-" VERSION ".map"
@@ -425,6 +426,11 @@ void GFX_BlitDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
     else SDL_BlitSurface(source, NULL, destination, NULL);
 }
 
+void GFX_Flip(void)
+{
+    SDL_Flip(sdl.surface);
+}
+
 static void KillSwitch(bool pressed) 
 {
     if(!pressed) return;
@@ -464,7 +470,7 @@ static void PauseDOSBox(bool pressed)
         }
         
         MENU_Draw(sdl.surface);
-        SDL_Flip(sdl.surface);
+        GFX_Flip();
         KEYBOARD_ClrBuffer();
     }
 }
@@ -657,6 +663,12 @@ Bitu GFX_SetSize(Bitu width, Bitu height, Bitu flags, double scalex, double scal
         sdl.blit.buffer = 0;
     }
     
+    if (sdl.surface)
+    {
+        SDL_FreeSurface(sdl.surface);
+        sdl.surface = 0;
+    }
+    
     switch (sdl.desktop.want_type) 
     {
     case SCREEN_SURFACE:
@@ -792,6 +804,11 @@ dosurface:
             {
                 printf("==Selected 640x480 downscaler==\n");
                 GFX_PDownscale = (bpp == 16 ? &GFX_Downscale_640x480_to_320x240_16 : &GFX_Downscale_640x480_to_320x240_32);
+            }
+            else if(width == 640 && height == 350)
+            {
+                printf("==Selected 640x350 downscaler==\n");
+                GFX_PDownscale = (bpp == 16 ? &GFX_Downscale_640x350_to_320x240_16 : &GFX_Downscale_640x350_to_320x240_32);
             }
         }
 
@@ -1170,6 +1187,7 @@ void GFX_EndUpdate( const Bit16u *changedLines )
             if(sdl.blit.surface) 
             {
                 GFX_BlitDinguxSurface(sdl.blit.surface, sdl.surface);
+                VMOUSE_BlitVMouse(sdl.surface);
             } 
             else 
             {
@@ -1182,7 +1200,7 @@ void GFX_EndUpdate( const Bit16u *changedLines )
             VKEYB_BlitVkeyboard(sdl.surface);
         }
         
-        SDL_Flip(sdl.surface);
+        GFX_Flip();
         
         break;
 #if (HAVE_DDRAW_H) && defined(WIN32)
@@ -1669,6 +1687,7 @@ static void GUI_StartUp(Section * sec) {
         #endif
         MENU_Init(sdl.desktop.bpp);
         VKEYB_Init(sdl.desktop.bpp);
+        VMOUSE_Init(sdl.desktop.bpp);
     }
 
     /* Get some Event handlers */
@@ -1900,6 +1919,7 @@ void GFX_Events()
                 {
                     if(MENU_CheckEvent(&event)) break;
                     if(!VKEYB_CheckEvent(&event)) break; // else event is modified
+                    if(VMOUSE_CheckEvent(&event)) break; 
                 }
 
                 void MAPPER_CheckEvent(SDL_Event * event);

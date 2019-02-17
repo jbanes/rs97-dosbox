@@ -25,6 +25,7 @@
 #include "sdl_vkeyboard.h"
 
 #include "dosbox.h"
+#include "keyboard.h"
 #include "video.h"
 
 typedef struct {
@@ -458,6 +459,8 @@ void VKEYB_BlitVkeyboard(SDL_Surface *surface)
             // Reset screen surface
             GFX_RestoreMode();
             GFX_ResetScreen();
+            
+            KEYBOARD_ClrBuffer();
         }
         
         vkeyb_last = false;
@@ -474,6 +477,8 @@ void VKEYB_BlitVkeyboard(SDL_Surface *surface)
             // Reset screen surface
             GFX_RestoreMode();
             GFX_ResetScreen();
+            
+            KEYBOARD_ClrBuffer();
             
             return;
         }

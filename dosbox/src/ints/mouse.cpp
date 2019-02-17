@@ -20,7 +20,6 @@
 #include <string.h>
 #include <math.h>
 
-
 #include "dosbox.h"
 #include "callback.h"
 #include "mem.h"
@@ -128,16 +127,38 @@ static struct {
 	Bit16s gran_x,gran_y;
 } mouse;
 
-bool Mouse_SetPS2State(bool use) {
-	if (use && (!ps2callbackinit)) {
-		useps2callback = false;
-		PIC_SetIRQMask(MOUSE_IRQ,true);
-		return false;
-	}
-	useps2callback = use;
-	Mouse_AutoLock(useps2callback);
-	PIC_SetIRQMask(MOUSE_IRQ,!useps2callback);
-	return true;
+
+bool Mouse_IsHidden(void)
+{
+    return mouse.hidden || mouse.inhibit_draw;
+}
+
+void Mouse_ShowCursor(void)
+{
+    mouse.hidden = 0;
+}
+
+void Mouse_HideCursor(void)
+{
+    mouse.hidden = 1;
+}
+
+bool Mouse_SetPS2State(bool use) 
+{
+    if(use && (!ps2callbackinit)) 
+    {
+        useps2callback = false;
+        
+        PIC_SetIRQMask(MOUSE_IRQ, true);
+        
+        return false;
+    }
+    
+    useps2callback = use;
+    Mouse_AutoLock(useps2callback);
+    PIC_SetIRQMask(MOUSE_IRQ, !useps2callback);
+    
+    return true;
 }
 
 void Mouse_ChangePS2Callback(Bit16u pseg, Bit16u pofs) {
@@ -362,17 +383,20 @@ void RestoreCursorBackground() {
 	RestoreVgaRegisters();
 }
 
-void DrawCursor() {
+void DrawCursor() 
+{
 	if (mouse.hidden || mouse.inhibit_draw) return;
+
 	// In Textmode ?
-	if (CurMode->type==M_TEXT) {
+	if (CurMode->type==M_TEXT) 
+        {
 		DrawCursorText();
 		return;
 	}
 
 	// Check video page. Seems to be ignored for text mode. 
 	// hence the text mode handled above this
-	if (real_readb(BIOSMEM_SEG,BIOSMEM_CURRENT_PAGE)!=mouse.page) return;
+	if(real_readb(BIOSMEM_SEG, BIOSMEM_CURRENT_PAGE) != mouse.page) return;
 // Check if cursor in update region
 /*	if ((POS_X >= mouse.updateRegion_x[0]) && (POS_X <= mouse.updateRegion_x[1]) &&
 	    (POS_Y >= mouse.updateRegion_y[0]) && (POS_Y <= mouse.updateRegion_y[1])) {
@@ -386,18 +410,16 @@ void DrawCursor() {
    */ /*Not sure yet what to do update region should be set to ??? */
 		 
 	// Get Clipping ranges
-
-
 	mouse.clipx = (Bit16s)((Bits)CurMode->swidth-1);	/* Get from bios ? */
 	mouse.clipy = (Bit16s)((Bits)CurMode->sheight-1);
 
-	/* might be vidmode == 0x13?2:1 */
+	/* might be vidmode == 0x13 ? 2 : 1 */
 	Bit16s xratio = 640;
+        
 	if (CurMode->swidth>0) xratio/=CurMode->swidth;
 	if (xratio==0) xratio = 1;
 	
 	RestoreCursorBackground();
-
 	SaveVgaRegisters();
 
 	// Save Background
@@ -409,40 +431,63 @@ void DrawCursor() {
 	Bit16s x2		= x1 + CURSORX - 1;
 	Bit16s y2		= y1 + CURSORY - 1;	
 
-	ClipCursorArea(x1,x2,y1,y2, addx1, addx2, addy);
+	ClipCursorArea(x1, x2, y1 ,y2, addx1, addx2, addy);
 
 	dataPos = addy * CURSORX;
-	for (y=y1; y<=y2; y++) {
+        
+	for(y=y1; y<=y2; y++) 
+        {
 		dataPos += addx1;
-		for (x=x1; x<=x2; x++) {
-			INT10_GetPixel(x,y,mouse.page,&mouse.backData[dataPos++]);
+                
+		for (x=x1; x<=x2; x++) 
+                {
+			INT10_GetPixel(x, y, mouse.page, &mouse.backData[dataPos++]);
 		};
+                
 		dataPos += addx2;
 	};
-	mouse.background= true;
+        
+	mouse.background = true;
 	mouse.backposx	= POS_X / xratio - mouse.hotx;
 	mouse.backposy	= POS_Y - mouse.hoty;
 
 	// Draw Mousecursor
 	dataPos = addy * CURSORX;
-	for (y=y1; y<=y2; y++) {
+        
+	for (y=y1; y<=y2; y++) 
+        {
 		Bit16u scMask = mouse.screenMask[addy+y-y1];
 		Bit16u cuMask = mouse.cursorMask[addy+y-y1];
-		if (addx1>0) { scMask<<=addx1; cuMask<<=addx1; dataPos += addx1; };
-		for (x=x1; x<=x2; x++) {
+                
+		if (addx1>0) 
+                { 
+                    scMask <<= addx1; 
+                    cuMask <<= addx1; 
+                    dataPos += addx1; 
+                };
+                
+		for (x=x1; x<=x2; x++) 
+                {
 			Bit8u pixel = 0;
+                        
 			// ScreenMask
 			if (scMask & HIGHESTBIT) pixel = mouse.backData[dataPos];
+                        
 			scMask<<=1;
+                        
 			// CursorMask
 			if (cuMask & HIGHESTBIT) pixel = pixel ^ 0x0F;
+                        
 			cuMask<<=1;
+                        
 			// Set Pixel
-			INT10_PutPixel(x,y,mouse.page,pixel);
+			INT10_PutPixel(x, y, mouse.page, pixel);
 			dataPos++;
 		};
+                
 		dataPos += addx2;
 	};
+        
 	RestoreVgaRegisters();
 }
 
@@ -494,6 +539,7 @@ void Mouse_CursorMoved(float xrel,float yrel,float x,float y,bool emulate) {
 		if (mouse.y >= 32768.0) mouse.y -= 65536.0;
 		else if (mouse.y <= -32769.0) mouse.y += 65536.0;
 	}
+        
 	Mouse_AddEvent(MOUSE_HAS_MOVED);
 	DrawCursor();
 }
@@ -592,6 +638,7 @@ static void Mouse_ResetHardware(void){
 
 //Does way to much. Many things should be moved to mouse reset one day
 void Mouse_NewVideoMode(void) {
+printf("Mouse_NewVideoMode\n");
 	mouse.inhibit_draw = false;
 	/* Get the correct resolution from the current video mode */
 	Bit8u mode = mem_readb(BIOS_VIDEO_MODE);
@@ -636,6 +683,7 @@ void Mouse_NewVideoMode(void) {
 		mouse.inhibit_draw = true;
 		return;
 	}
+        
 	mouse.mode = mode;
 	mouse.hidden = 1;
 	mouse.max_x = 639;
@@ -646,8 +694,8 @@ void Mouse_NewVideoMode(void) {
 	mouse.timer_in_progress = false;
 	PIC_RemoveEvents(MOUSE_Limit_Events);
 
-	mouse.hotx		 = 0;
-	mouse.hoty		 = 0;
+	mouse.hotx = 0;
+	mouse.hoty = 0;
 	mouse.background = false;
 	mouse.screenMask = defaultScreenMask;
 	mouse.cursorMask = defaultCursorMask;
@@ -666,8 +714,6 @@ void Mouse_NewVideoMode(void) {
 
 	oldmouseX = static_cast<Bit16s>(mouse.x);
 	oldmouseY = static_cast<Bit16s>(mouse.y);
-
-
 }
 
 //Much too empty, Mouse_NewVideoMode contains stuff that should be in here

@@ -1,0 +1,240 @@
+sdl_vmouse.o: sdl_vmouse.cpp \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_main.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_stdinc.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_config.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_platform.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/types.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/types.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wordsize.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/typesizes.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/time.h \
+ /opt/rs97tools/lib/gcc/mipsel-buildroot-linux-uclibc/6.4.0/include/stddef.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/endian.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/endian.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/byteswap.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-common.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-16.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/select.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/select.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/sigset.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/time.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/sysmacros.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/pthreadtypes.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sgidefs.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdio.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_stdio.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/wchar.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wchar.h \
+ /opt/rs97tools/lib/gcc/mipsel-buildroot-linux-uclibc/6.4.0/include/stdarg.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/stdio_lim.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/stdlib.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/cstdlib \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/mipsel-buildroot-linux-uclibc/bits/c++config.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/mipsel-buildroot-linux-uclibc/bits/os_defines.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/mipsel-buildroot-linux-uclibc/bits/cpu_defines.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdlib.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/waitflags.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/waitstatus.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/xlocale.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_locale.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/alloca.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/strings.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/inttypes.h \
+ /opt/rs97tools/lib/gcc/mipsel-buildroot-linux-uclibc/6.4.0/include/stdint.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdint.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/ctype.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_touplow.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/iconv.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/begin_code.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/close_code.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_audio.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_error.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_endian.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_mutex.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_thread.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_rwops.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_cdrom.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_cpuinfo.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_events.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_active.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_keyboard.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_keysym.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_mouse.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_video.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_joystick.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_quit.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_loadso.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_timer.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_version.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_image.h \
+ /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL.h \
+ ../../include/dosbox.h ../../config.h ../../include/logging.h \
+ ../../include/mouse.h sdl_vmouse_image.h sdl_vmouse.h
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_main.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_stdinc.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_config.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_platform.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/types.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/features.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_config.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/cdefs.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/types.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wordsize.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/typesizes.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/time.h:
+
+/opt/rs97tools/lib/gcc/mipsel-buildroot-linux-uclibc/6.4.0/include/stddef.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/endian.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/endian.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/byteswap.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-common.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/byteswap-16.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/select.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/select.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/sigset.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/time.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sys/sysmacros.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/pthreadtypes.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/sgidefs.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdio.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_stdio.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/wchar.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/wchar.h:
+
+/opt/rs97tools/lib/gcc/mipsel-buildroot-linux-uclibc/6.4.0/include/stdarg.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/stdio_lim.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/stdlib.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/cstdlib:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/mipsel-buildroot-linux-uclibc/bits/c++config.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/mipsel-buildroot-linux-uclibc/bits/os_defines.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/mipsel-buildroot-linux-uclibc/bits/cpu_defines.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdlib.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/waitflags.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/waitstatus.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/xlocale.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_locale.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/alloca.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/string.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/strings.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/inttypes.h:
+
+/opt/rs97tools/lib/gcc/mipsel-buildroot-linux-uclibc/6.4.0/include/stdint.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/stdint.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/ctype.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/bits/uClibc_touplow.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/iconv.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/begin_code.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/close_code.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_audio.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_error.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_endian.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_mutex.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_thread.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_rwops.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_cdrom.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_cpuinfo.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_events.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_active.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_keyboard.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_keysym.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_mouse.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_video.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_joystick.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_quit.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_loadso.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_timer.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_version.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL_image.h:
+
+/opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL.h:
+
+../../include/dosbox.h:
+
+../../config.h:
+
+../../include/logging.h:
+
+../../include/mouse.h:
+
+sdl_vmouse_image.h:
+
+sdl_vmouse.h:

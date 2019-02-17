@@ -40,8 +40,10 @@ void GFX_Downscale_##SX##x##SY##_to_##DX##x##DY##_##BPP(SDL_Surface *src, SDL_Su
     }                                                                               \
 }
 
+DEFINE_GFX_DOWNSCALE(640, 350, 320, 240, 16)
 DEFINE_GFX_DOWNSCALE(640, 400, 320, 240, 16)
 DEFINE_GFX_DOWNSCALE(640, 480, 320, 240, 16)
+DEFINE_GFX_DOWNSCALE(640, 350, 320, 240, 32)
 DEFINE_GFX_DOWNSCALE(640, 400, 320, 240, 32)
 DEFINE_GFX_DOWNSCALE(640, 480, 320, 240, 32)
 

@@ -73,6 +73,8 @@ void GFX_EndUpdate( const Bit16u *changedLines );
 void GFX_GetSize(int &width, int &height, bool &fullscreen);
 void GFX_LosingFocus(void);
 
+void GFX_Flip(void);
+
 #if defined (WIN32)
 bool GFX_SDLUsingWinDIB(void);
 #endif

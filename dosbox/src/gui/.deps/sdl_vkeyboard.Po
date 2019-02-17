@@ -134,7 +134,7 @@ sdl_vkeyboard.o: sdl_vkeyboard.cpp \
  /opt/rs97tools/mipsel-buildroot-linux-uclibc/include/c++/6.4.0/bits/indirect_array.h \
  sdl_vkeyboard_font.h sdl_vkeyboard_image.h sdl_vkeyboard.h \
  ../../include/dosbox.h ../../config.h ../../include/logging.h \
- ../../include/video.h
+ ../../include/keyboard.h ../../include/video.h
 
 /opt/rs97tools/mipsel-buildroot-linux-uclibc/sysroot/usr/include/SDL/SDL.h:
 
@@ -413,5 +413,7 @@ sdl_vkeyboard.h:
 ../../config.h:
 
 ../../include/logging.h:
+
+../../include/keyboard.h:
 
 ../../include/video.h:

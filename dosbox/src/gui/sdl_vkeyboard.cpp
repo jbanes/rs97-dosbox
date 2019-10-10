@@ -134,7 +134,6 @@ static bool vkeyb_bg = true; // background on/off
 bool vkeyb_active = false; // vkeyb show flag
 bool vkeyb_last = false; // vkeyb delete flag
 bool vkeyb_rerender = true; // vkeyb re-render flag
-bool already_doublebuf = false;
 
 void VKEYB_Init(int bpp)
 {
@@ -222,7 +221,6 @@ int VKEYB_CheckEvent(SDL_Event *event)
         vkeyb_active = !vkeyb_active;
         
         if(!vkeyb_active) vkeyb_last = true;
-        else already_doublebuf = GFX_IsDoubleBuffering();
         
         ret = 0;
         update_screen = true;
@@ -452,17 +450,8 @@ void VKEYB_BlitVkeyboard(SDL_Surface *surface)
     
     if(!vkeyb_active) 
     {
-        if(surface->h == 480 && GFX_IsDoubleBuffering() && !already_doublebuf) 
-        {
-            GFX_SwitchDoubleBuffering();
+        KEYBOARD_ClrBuffer();
             
-            // Reset screen surface
-            GFX_RestoreMode();
-            GFX_ResetScreen();
-            
-            KEYBOARD_ClrBuffer();
-        }
-        
         vkeyb_last = false;
         
         return;
@@ -470,7 +459,7 @@ void VKEYB_BlitVkeyboard(SDL_Surface *surface)
     
     if(vkeyb_rerender)
     {
-        if(surface->h == 480 && !GFX_IsDoubleBuffering()) 
+        if(!GFX_IsDoubleBuffering()) 
         {
             GFX_SwitchDoubleBuffering();
             

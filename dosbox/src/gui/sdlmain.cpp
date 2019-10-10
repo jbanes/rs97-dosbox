@@ -34,6 +34,7 @@
 
 #include "cross.h"
 #include "SDL.h"
+#include "SDL_video.h"
 
 #include "dosbox.h"
 #include "video.h"
@@ -448,11 +449,20 @@ static void PauseDOSBox(bool pressed)
     GFX_SetTitle(-1, -1, true);
     KEYBOARD_ClrBuffer();
     
-    sdl.surface = SDL_SetVideoMode(sdl.desktop.full.width, 240, 16, SDL_HWSURFACE);
+#ifdef SDL_TRIPLEBUF
+    sdl.surface = SDL_SetVideoMode(sdl.desktop.full.width, 240, 16, (sdl.desktop.doublebuf ? SDL_TRIPLEBUF : 0) | SDL_HWSURFACE);
+#else
+    sdl.surface = SDL_SetVideoMode(sdl.desktop.full.width, 240, 16, (sdl.desktop.doublebuf ? SDL_DOUBLEBUF : 0) | SDL_HWSURFACE);
+#endif
+    
+    // Draw menu
+    MENU_Draw(sdl.surface);
+    GFX_Flip();
+    KEYBOARD_ClrBuffer();
     
     while(paused) 
     {
-        SDL_PollEvent(&event);    // since we're not polling, cpu usage drops to 0.
+        SDL_WaitEvent(&event);    // since we're not polling, cpu usage drops to 0.
         MENU_CheckEvent(&event);
         
         if(!menu_active) 
@@ -760,7 +770,12 @@ dosurface:
 
         if(width <= sdl.desktop.full.width && height <= sdl.desktop.full.height) 
         {
+#ifdef SDL_TRIPLEBUF
+            sdl.surface = SDL_SetVideoMode(width, (height < 240 && sdl.desktop.fullscreen ? 240 : height), 16, (sdl.desktop.doublebuf ? SDL_TRIPLEBUF : 0) | SDL_HWSURFACE);
+#else
+
             sdl.surface = SDL_SetVideoMode(width, (height < 240 && sdl.desktop.fullscreen ? 240 : height), 16, (sdl.desktop.doublebuf ? SDL_DOUBLEBUF : 0) | SDL_HWSURFACE);
+#endif
             sdl.blit.buffer = SDL_CreateRGBSurface(SDL_SWSURFACE, // for mixing menu and game screen
                                     width,
                                     height,
@@ -769,7 +784,11 @@ dosurface:
         }
         else 
         {
+#ifdef SDL_TRIPLEBUF
+            sdl.surface = SDL_SetVideoMode(sdl.desktop.full.width, sdl.desktop.full.height, 16, (sdl.desktop.doublebuf ? SDL_TRIPLEBUF : 0) | SDL_HWSURFACE);
+#else
             sdl.surface = SDL_SetVideoMode(sdl.desktop.full.width, sdl.desktop.full.height, 16, (sdl.desktop.doublebuf ? SDL_DOUBLEBUF : 0) | SDL_HWSURFACE);
+#endif
             sdl.blit.buffer = SDL_CreateRGBSurface(SDL_SWSURFACE, // for mixing menu and game screen
                                     sdl.desktop.full.width,
                                     sdl.desktop.full.height,
@@ -982,6 +1001,13 @@ void GFX_UpdateSDLCaptureState(void) {
     }
     CPU_Reset_AutoAdjust();
     GFX_SetTitle(-1,-1,false);
+}
+
+bool GFX_IsRetroFW20(void)
+{
+    struct stat buffer;
+    
+    return (stat("/proc/jz/ipu_ratio", &buffer) != 0); 
 }
 
 bool mouselocked; //Global variable for mapper
@@ -1507,7 +1533,8 @@ static void GUI_StartUp(Section * sec) {
             }
         }
     }
-    sdl.desktop.doublebuf=section->Get_bool("fulldouble");
+//    sdl.desktop.doublebuf=section->Get_bool("fulldouble");
+    sdl.desktop.doublebuf = true; // TODO: Allow this to be enabled/disabled from config
     if (!sdl.desktop.full.width) {
 #ifdef WIN32
         sdl.desktop.full.width=(Bit16u)GetSystemMetrics(SM_CXSCREEN);
@@ -1675,7 +1702,8 @@ static void GUI_StartUp(Section * sec) {
         // test which modes are available and fill sdl.desktop data
         sdl.desktop.bpp = SDL_VideoModeOK(320,480,16,SDL_HWSURFACE); // let SDL choose bpp
         if(!sdl.desktop.full.fixed) { // i.e. fullresolution=original
-            sdl.desktop.fullscreen = true;
+//            sdl.desktop.fullscreen = true;
+            sdl.desktop.fullscreen = GFX_IsRetroFW20();
             sdl.desktop.full.fixed = true;
             sdl.desktop.full.width = 320;
             sdl.desktop.full.height = 480;
@@ -1900,7 +1928,7 @@ void GFX_Events()
             default:
                 
                 // This is to activate the menu. See MENU_CheckEvent for the dismissal handling
-                if(event.type == SDL_KEYDOWN && event.key.keysym.scancode == 107)
+                if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_END)
                 {
                     MENU_Toggle();
                     PauseDOSBox(menu_active);
@@ -1909,10 +1937,7 @@ void GFX_Events()
                 }
                 
                 // Prevent brightness from triggering a keypress
-                if(event.key.keysym.scancode == 4)
-                {
-                    return;
-                }
+                if(event.key.keysym.sym == SDLK_3) return;
                 
                 // a hack to implement virtual keyboard
                 if(sdl.desktop.type == SCREEN_SURFACE_DINGUX) 

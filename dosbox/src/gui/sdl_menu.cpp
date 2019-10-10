@@ -310,14 +310,6 @@ int MENU_CheckEvent(SDL_Event *event)
     bool keystate = (event->type == SDL_KEYDOWN) ? true : false;
     int sym = event->key.keysym.sym;
     
-    // This is to dismiss the menu
-    if(keystate && event->key.keysym.scancode == 107) 
-    {
-        MENU_Toggle();
-    
-        return 1;
-    }
-    
     if(!menu_active) return 0;
     
     if(keystate && !keystates[sym])

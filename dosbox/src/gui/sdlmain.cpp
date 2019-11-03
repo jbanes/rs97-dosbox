@@ -467,6 +467,13 @@ static void PauseDOSBox(bool pressed)
         
         if(!menu_active) 
         {
+            // Make sure we get all the surfaces clean
+            for(int i=0; i<4; i++)
+            {
+                MENU_CleanScreen(sdl.surface);
+                GFX_Flip();
+            }
+    
             paused = false;
             GFX_SetTitle(-1, -1, false);
             
@@ -842,6 +849,12 @@ dosurface:
         printf("Blit Surface: %i x %i / ", sdl.blit.surface->w, sdl.blit.surface->h);
         printf("Surface: %i x %i\n", sdl.surface->w, sdl.surface->h);
         
+        
+        // Clear the back-buffers
+        SDL_FillRect(sdl.surface, NULL, 0);
+        SDL_FillRect(sdl.blit.buffer, NULL, 0);
+        SDL_FillRect(sdl.blit.surface, NULL, 0);
+        
         if(sdl.surface) 
         {
             switch (sdl.surface->format->BitsPerPixel) 
@@ -1007,7 +1020,7 @@ bool GFX_IsRetroFW20(void)
 {
     struct stat buffer;
     
-    return (stat("/proc/jz/ipu_ratio", &buffer) != 0); 
+    return (stat("/proc/jz/ipu_ratio", &buffer) == 0); 
 }
 
 bool mouselocked; //Global variable for mapper
@@ -1700,10 +1713,10 @@ static void GUI_StartUp(Section * sec) {
     }
     } else { // sdl.desktop.want_type != SCREEN_SURFACE_DINGUX
         // test which modes are available and fill sdl.desktop data
-        sdl.desktop.bpp = SDL_VideoModeOK(320,480,16,SDL_HWSURFACE); // let SDL choose bpp
+        sdl.desktop.bpp = SDL_VideoModeOK(320, 480, 16, SDL_HWSURFACE); // let SDL choose bpp
         if(!sdl.desktop.full.fixed) { // i.e. fullresolution=original
 //            sdl.desktop.fullscreen = true;
-            sdl.desktop.fullscreen = GFX_IsRetroFW20();
+            sdl.desktop.fullscreen = !GFX_IsRetroFW20();
             sdl.desktop.full.fixed = true;
             sdl.desktop.full.width = 320;
             sdl.desktop.full.height = 480;

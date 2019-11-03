@@ -452,6 +452,17 @@ void MENU_Draw(SDL_Surface *surface)
     
     if(surface->h <= 240) SDL_BlitSurface(menu.surface, NULL, surface, NULL);
     else MENU_BlitDoubledSurface(menu.surface, 0, 0, surface);
+    
+    dest.x = 0;
+    dest.y = 200;
+    dest.w = 320;
+    dest.h = 40;
+    
+    // I'm not fully sure why, but this fixes a flicker from left-over blue at the 
+    // bottom of the screen. This *should* actually draw red down there. But it
+    // doesn't. Best guess, this wipes out alpha information. I'll return and 
+    // figure this out later.
+    SDL_FillRect(menu.surface, &dest, SDL_MapRGBA(surface->format, 0xAA, 0x00, 0x00, 0xFF));
 }
 
 void MENU_CleanScreen(SDL_Surface *surface)

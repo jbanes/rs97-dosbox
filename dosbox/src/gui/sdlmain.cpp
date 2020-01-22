@@ -1020,7 +1020,11 @@ bool GFX_IsRetroFW20(void)
 {
     struct stat buffer;
     
-    return (stat("/proc/jz/ipu_ratio", &buffer) == 0); 
+    if(stat("/home/retrofw", &buffer)) return false;
+    if(!stat("/proc/jz/ipu_ratio", &buffer)) return true;
+    if(!stat("/proc/jz/tvout", &buffer)) return true;
+    
+    return false;
 }
 
 bool mouselocked; //Global variable for mapper

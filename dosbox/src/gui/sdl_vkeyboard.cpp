@@ -21,7 +21,9 @@
 #include <valarray>
 
 #include "sdl_vkeyboard_font.h"
+#include "sdl_vkeyboard_double_font.h"
 #include "sdl_vkeyboard_image.h"
+#include "sdl_vkeyboard_double_image.h"
 #include "sdl_vkeyboard.h"
 
 #include "dosbox.h"
@@ -113,7 +115,8 @@ struct VKEYB_Block
 {
     SDL_Surface *surface;
     SDL_Surface *doubled;
-    SDL_Surface *image; // keyboard image
+    SDL_Surface *image; // keyboard image for 320x2xx
+    SDL_Surface *image_doubled; // keyboard image for 640x4xx
     
     struct CURSOR 
     {
@@ -140,16 +143,17 @@ void VKEYB_Init(int bpp)
     if(!vkeyb.surface) 
     {
         vkeyb.surface = SDL_CreateRGBSurface(SDL_SWSURFACE, 287, 80, bpp, 0, 0, 0, 0);
-        vkeyb.doubled = SDL_CreateRGBSurface(SDL_SWSURFACE, 287, 160, bpp, 0, 0, 0, 0);
+        vkeyb.doubled = SDL_CreateRGBSurface(SDL_SWSURFACE, 574, 160, bpp, 0, 0, 0, 0);
     }
     
     SDL_SetColorKey(vkeyb.surface, SDL_SRCCOLORKEY, SDL_MapRGBA(vkeyb.surface->format, 0, 0, 0, 0xFF));
     SDL_SetColorKey(vkeyb.doubled, SDL_SRCCOLORKEY, SDL_MapRGBA(vkeyb.doubled->format, 0, 0, 0, 0xFF));
 
-    //IMG_Init(0);
-    vkeyb.image = IMG_LoadBMP_RW(SDL_RWFromMem(vkeyboard_image, sizeof(vkeyboard_image))/*SDL_RWFromFile("keyboard.bmp", "rb")*/);
+    vkeyb.image = IMG_LoadBMP_RW(SDL_RWFromMem(vkeyboard_image, sizeof(vkeyboard_image)));
+    vkeyb.image_doubled = IMG_LoadBMP_RW(SDL_RWFromMem(vkeyboard_image_double, sizeof(vkeyboard_image_double)));
     
     if(!vkeyb.image) printf("err %s\n", IMG_GetError());
+    if(!vkeyb.image_doubled) printf("err %s\n", IMG_GetError());
 
     gfxPrimitivesSetFont(keyfont, 8, 8);
 
@@ -166,7 +170,6 @@ void VKEYB_Deinit()
 {
     if(vkeyb.surface) SDL_FreeSurface(vkeyb.surface);
     if(vkeyb.doubled) SDL_FreeSurface(vkeyb.doubled);
-    //IMG_Quit();
 }
 
 void move_cursor(int dx, int dy)
@@ -359,94 +362,13 @@ _exit:
     return ret;
 }
 
-void VKEYB_BlitDoubledSurface(SDL_Surface *source, int left, int top, SDL_Surface *destination)
-{
-    int x, y;
-    int w = source->pitch;
-    int h = source->h;
-    
-    int bytes = source->format->BytesPerPixel;
-    int offset = left * bytes;
-    int trailing = destination->pitch - source->pitch - offset;
-    
-    uint8_t* s8 = (uint8_t*)source->pixels;
-    uint64_t* s64 = (uint64_t*)source->pixels;
-    
-    uint8_t* d8 = (uint8_t*)destination->pixels;
-    uint64_t* d64 = (uint64_t*)destination->pixels;
-
-    // Move down the buffer to where we want to start rendering
-    d8 += (destination->pitch * top);
-
-    for(y=0; y<h; y++)
-    {
-        d8 += offset;
-        
-        for(x=0; x<w; )
-        {
-            if(w-x >= 64)
-            {
-                d64 = (uint64_t*)((void*)d8);
-                s64 = (uint64_t*)((void*)s8);
-                
-                *d64++ = *s64++;
-                *d64++ = *s64++;
-                *d64++ = *s64++;
-                *d64++ = *s64++;
-                *d64++ = *s64++;
-                *d64++ = *s64++;
-                *d64++ = *s64++;
-                *d64++ = *s64++;
-                
-                x += 64;
-                d8 = (uint8_t*)((void*)d64);
-                s8 = (uint8_t*)((void*)s64);
-            }
-            else
-            {
-                *d8++ = *s8++;
-                x++;
-            }
-        }
-        
-        d8 += trailing;
-        d8 += offset;
-        s8 -= w;
-        
-        for(x=0; x<w; )
-        {
-            if(w-x >= 64)
-            {
-                d64 = (uint64_t*)((void*)d8);
-                s64 = (uint64_t*)((void*)s8);
-                
-                *d64++ = *s64++;
-                *d64++ = *s64++;
-                *d64++ = *s64++;
-                *d64++ = *s64++;
-                *d64++ = *s64++;
-                *d64++ = *s64++;
-                *d64++ = *s64++;
-                *d64++ = *s64++;
-                
-                x += 64;
-                d8 = (uint8_t*)((void*)d64);
-                s8 = (uint8_t*)((void*)s64);
-            }
-            else
-            {
-                *d8++ = *s8++;
-                x++;
-            }
-        }
-
-        d8 += trailing;
-    }
-}
-
 void VKEYB_BlitVkeyboard(SDL_Surface *surface)
 {
+    int doubled = (surface->w > 320);
+    
     SDL_Rect position;
+    SDL_Surface *vkeyb_surface = (doubled ? vkeyb.doubled : vkeyb.surface);
+    SDL_Surface *vkeyb_image = (doubled ? vkeyb.image_doubled : vkeyb.image);
     
     if(!vkeyb_active) 
     {
@@ -459,6 +381,8 @@ void VKEYB_BlitVkeyboard(SDL_Surface *surface)
     
     if(vkeyb_rerender)
     {
+        if(doubled) gfxPrimitivesSetFont(keyfont_double, 16, 16);
+    
         if(!GFX_IsDoubleBuffering()) 
         {
             GFX_SwitchDoubleBuffering();
@@ -472,17 +396,19 @@ void VKEYB_BlitVkeyboard(SDL_Surface *surface)
             return;
         }
         
-        if(vkeyb_bg) SDL_BlitSurface(vkeyb.image, NULL, vkeyb.surface, NULL);
-        else SDL_FillRect(vkeyb.surface, NULL, 0);
+        if(vkeyb_bg) SDL_BlitSurface(vkeyb_image, NULL, vkeyb_surface, NULL);
+        else SDL_FillRect(vkeyb_surface, NULL, 0);
 
         KEY *cur = &keyvalues[vkeyb.cursor.y][vkeyb.cursor.x];
 
+        doubled = doubled ? 2 : 1;
+        
         // draw cursor
-        boxRGBA(vkeyb.surface, 
-                    cur->x + cur->w-1, 
-                    cur->y, 
-                    cur->x, 
-                    cur->y + cur->h-1, 
+        boxRGBA(vkeyb_surface, 
+                    (cur->x + cur->w-1) * doubled, 
+                    cur->y * doubled, 
+                    cur->x * doubled, 
+                    (cur->y + cur->h-1) * doubled, 
                     0xF0, 0x40, 0x10, 0xFF);
 
         // respect capslock and shift and their combinations
@@ -495,30 +421,24 @@ void VKEYB_BlitVkeyboard(SDL_Surface *surface)
             {
                 if(vkeyb_bg)
                 {
-                    stringRGBA(vkeyb.surface, keyvalues[y][x].x + 2, keyvalues[y][x].y + 2, keynames[mod][y][x], 0xa, 0xe, 0xa, 0xFF);
+                    stringRGBA(vkeyb_surface, (keyvalues[y][x].x + 2) * doubled, (keyvalues[y][x].y + 2) * doubled, keynames[mod][y][x], 0xa, 0xe, 0xa, 0xFF);
                 }
                 else 
                 {
                     if(vkeyb.cursor.x != x || vkeyb.cursor.y != y)
                     {
-                        stringRGBA(vkeyb.surface, keyvalues[y][x].x + 3, keyvalues[y][x].y + 3, keynames[mod][y][x], 0x50, 0x20, 0x59, 0xFF);
+                        stringRGBA(vkeyb_surface, (keyvalues[y][x].x + 3) * doubled, (keyvalues[y][x].y + 3) * doubled, keynames[mod][y][x], 0x50, 0x20, 0x59, 0xFF);
                     }
 
-                    stringRGBA(vkeyb.surface, keyvalues[y][x].x + 2, keyvalues[y][x].y + 2, keynames[mod][y][x], 0xFF, 0xEE, 0xFF, 0xFF);
+                    stringRGBA(vkeyb_surface, (keyvalues[y][x].x + 2) * doubled, (keyvalues[y][x].y + 2) * doubled, keynames[mod][y][x], 0xFF, 0xEE, 0xFF, 0xFF);
                 }
 
                 if(keyvalues[y][x].pressed) 
                 {
                     KEY *pr = &keyvalues[y][x];
-                    rectangleRGBA(vkeyb.surface, pr->x + pr->w - 2, pr->y + 1, pr->x + 1, pr->y + pr->h - 2, 0x90, 0xE0, 0x10, 0xFF);
+                    rectangleRGBA(vkeyb_surface, (pr->x + pr->w - 2) * doubled, (pr->y + 1) * doubled, (pr->x + 1) * doubled, (pr->y + pr->h - 2) * doubled, 0x90, 0xE0, 0x10, 0xFF);
                 }
             }
-        }
-        
-        if(surface->h > 240) 
-        {
-            SDL_FillRect(vkeyb.doubled, NULL, 0);
-            VKEYB_BlitDoubledSurface(vkeyb.surface, 0, 0, vkeyb.doubled);
         }
         
         vkeyb_rerender = false;
@@ -526,10 +446,12 @@ void VKEYB_BlitVkeyboard(SDL_Surface *surface)
     
     position.x = vkeyb.x;
     position.y = vkeyb.y;
-    position.w = (surface->h > 240) ? vkeyb.doubled->w : vkeyb.surface->w;
-    position.h = (surface->h > 240) ? vkeyb.doubled->h : vkeyb.surface->h;
+    position.w = vkeyb_surface->w;
+    position.h = vkeyb_surface->h;
     
-    SDL_BlitSurface((surface->h > 240) ? vkeyb.doubled : vkeyb.surface, NULL, surface, &position);
+    SDL_BlitSurface(vkeyb_surface, NULL, surface, &position);
+    
+    if(doubled > 1) gfxPrimitivesSetFont(keyfont, 8, 8); // Reset the font back to standard size
     
     vkeyb.lastx = vkeyb.x;
     vkeyb.lasty = vkeyb.y;

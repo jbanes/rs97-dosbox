@@ -29,7 +29,7 @@
 #include "render.h"
 #include "cpu.h"
 
-#define MENU_ITEMS 8
+#define MENU_ITEMS 7
 
 extern Bitu CPU_extflags_toggle;
 
@@ -46,7 +46,6 @@ struct MENU_Block
     char *cycles;
     char *core;
     char *cpuType;
-    bool fullscreen;
     bool doublebuf;
 };
 
@@ -58,7 +57,6 @@ const char *menuoptions[MENU_ITEMS] = {
     "Cycles: ",
     "CPU Core: ",
     "CPU Type: ",
-    "Fullscreen: ",
     "Triple Buffer: ",
     "Exit"
 };
@@ -76,7 +74,6 @@ void MENU_Init(int bpp)
     menu.cycles = (char*)malloc(16);
     menu.core = (char*)malloc(16);
     menu.cpuType = (char*)malloc(16);
-    menu.fullscreen = GFX_IsFullscreen();
     menu.doublebuf = GFX_IsDoubleBuffering();
     
 #if (C_DYNREC)
@@ -129,12 +126,10 @@ void MENU_Toggle()
     
     if(!menu_active)
     {
-        if(GFX_IsFullscreen() != menu.fullscreen) GFX_SwitchFullScreen();
         if(GFX_IsDoubleBuffering() != menu.doublebuf) GFX_SwitchDoubleBuffering();
     }
     else
     {
-        menu.fullscreen = GFX_IsFullscreen();
         menu.doublebuf = GFX_IsDoubleBuffering();
     }
     
@@ -255,15 +250,11 @@ void MENU_Activate()
             
             break;
             
-        case 5: // Fullscreen
-            menu.fullscreen = !menu.fullscreen;
-            break;
-            
-        case 6: // Double Buffering
+        case 5: // Double Buffering
             menu.doublebuf = !menu.doublebuf;
             break;
             
-        case 7: // Exit
+        case 6: // Exit
             throw(0);
             break;
     }
@@ -419,9 +410,9 @@ void MENU_Draw(SDL_Surface *surface)
     SDL_Rect dest;
     
     if(!menu_active) return;
-    
-    SDL_FillRect(menu.surface, NULL, SDL_MapRGBA(surface->format, 0x00, 0x00, 0xAA, 0xFF));
-    
+ 
+    SDL_FillRect(menu.surface, NULL, SDL_MapRGB(menu.surface->format, 0x00, 0x00, 0xAA));
+
     for(int i=0; i<MENU_ITEMS; i++)
     {
         color = 0xFF;
@@ -435,21 +426,20 @@ void MENU_Draw(SDL_Surface *surface)
             
             color = 0x00;
 
-            SDL_FillRect(menu.surface, &dest, SDL_MapRGBA(menu.surface->format, 0xFF, 0xFF, 0xFF, 0xFF));
+            SDL_FillRect(menu.surface, &dest, SDL_MapRGB(menu.surface->format, 0xFF, 0xFF, 0xFF));
         }
         
         stringRGBA(menu.surface, 40, y, menuoptions[i], color, color, color, 0xFF);
-        
+       
         if(i == 1) stringRGBA(menu.surface, 165, y, menu.frameskip, color, color, color, 0xFF);
         if(i == 2) stringRGBA(menu.surface, 165, y, menu.cycles, color, color, color, 0xFF);
         if(i == 3) stringRGBA(menu.surface, 165, y, menu.core, color, color, color, 0xFF);
         if(i == 4) stringRGBA(menu.surface, 165, y, menu.cpuType, color, color, color, 0xFF);
-        if(i == 5) stringRGBA(menu.surface, 165, y, menu.fullscreen ? "On" : "Off", color, color, color, 0xFF);
-        if(i == 6) stringRGBA(menu.surface, 165, y, menu.doublebuf ? "On" : "Off", color, color, color, 0xFF);
+        if(i == 5) stringRGBA(menu.surface, 165, y, menu.doublebuf ? "On" : "Off", color, color, color, 0xFF);
         
         y += 24;
     }
-    
+
     if(surface->h <= 240) SDL_BlitSurface(menu.surface, NULL, surface, NULL);
     else MENU_BlitDoubledSurface(menu.surface, 0, 0, surface);
     
@@ -462,7 +452,7 @@ void MENU_Draw(SDL_Surface *surface)
     // bottom of the screen. This *should* actually draw red down there. But it
     // doesn't. Best guess, this wipes out alpha information. I'll return and 
     // figure this out later.
-    SDL_FillRect(menu.surface, &dest, SDL_MapRGBA(surface->format, 0xAA, 0x00, 0x00, 0xFF));
+    SDL_FillRect(menu.surface, &dest, SDL_MapRGBA(surface->format, 0x00, 0x00, 0xAA, 0xFF));
 }
 
 void MENU_CleanScreen(SDL_Surface *surface)

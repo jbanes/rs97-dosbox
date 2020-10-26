@@ -27,6 +27,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #ifdef WIN32
 #include <signal.h>
 #include <process.h>
@@ -302,117 +303,44 @@ void GFX_BlitUnscaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination
     }
 }
 
-void GFX_BlitScaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
-{
-    int x, y;
-    int w = source->pitch/8; // Divide by 8 for 64 bit copy
-    int h = source->h;
-    int trailing = (destination->pitch - source->pitch)/8;
-    
-    int scaleFactor = (source->h) / (destination->h - source->h);
-    int counter = 0;
-
-    if(SDL_MUSTLOCK(source)) SDL_LockSurface(source);
-    if(SDL_MUSTLOCK(destination)) SDL_LockSurface(destination);
-    
-    uint64_t *s = (uint64_t*)source->pixels;
-    uint64_t *d = (uint64_t*)destination->pixels;
-
-    for(y=0; y<h; y++)
-    {
-        for(x=0; x<w; x+=8)
-        {
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-            *d++ = *s++;
-        }
-        
-        d += trailing;
-        counter++;
-        
-        if(counter > scaleFactor)
-        {
-            s -= w;
-
-            for(x=0; x<w; x+=8)
-            {
-                *d++ = *s++;
-                *d++ = *s++;
-                *d++ = *s++;
-                *d++ = *s++;
-                *d++ = *s++;
-                *d++ = *s++;
-                *d++ = *s++;
-                *d++ = *s++;
-            }
-
-            d += trailing;
-            counter -= scaleFactor;
-        }
-    }
-    
-    if(SDL_MUSTLOCK(source)) SDL_UnlockSurface(source);
-    if(SDL_MUSTLOCK(destination)) SDL_UnlockSurface(destination);
-}
-
-// This is 565 form of 16 bit color
 #define BLEND16(A,B) ((((A) >> 1) & 0x7BEF) + (((B) >> 1) & 0x7BEF))
 void GFX_BlitDownscaledDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
 {
-    int x, y;
-    int w = destination->pitch/2; // Divide by 2 for 16 bit copy
-    int h = source->h;
-    int trailing = (destination->pitch - source->pitch/2)/2;
-    
-    int scaleFactor = (source->h) / (destination->h - source->h);
-    int counter = 0;
-
     if(SDL_MUSTLOCK(source)) SDL_LockSurface(source);
     if(SDL_MUSTLOCK(destination)) SDL_LockSurface(destination);
-    
+ 
     uint16_t *s = (uint16_t*)source->pixels;
     uint16_t *d = (uint16_t*)destination->pixels;
     
-    for(y=0; y<h; y++)
+    uint16_t buffer1[320];
+    uint16_t buffer2[320];
+    
+    int width = source->w/2;
+    int height = source->h/2;
+    int offsetx;
+    int offsety;
+    
+    for(int y=0; y<height; y++)
     {
-        for(x=0; x<w; x+=8)
+        offsety = (y << 1) * source->w;
+        
+        for(int x=0; x<width; x++)
         {
-            *d++ = BLEND16(*s++, *s++);
-            *d++ = BLEND16(*s++, *s++);
-            *d++ = BLEND16(*s++, *s++);
-            *d++ = BLEND16(*s++, *s++);
-            *d++ = BLEND16(*s++, *s++);
-            *d++ = BLEND16(*s++, *s++);
-            *d++ = BLEND16(*s++, *s++);
-            *d++ = BLEND16(*s++, *s++);
+            offsetx = x << 1;
+            buffer1[x] = (uint16_t)BLEND16(s[offsety + offsetx], s[offsety + offsetx | 1]);
         }
         
-        d += trailing;
-        counter++;
+        offsety = ((y << 1) | 1) * source->w;;
         
-        if(counter > scaleFactor)
+        for(int x=0; x<width; x++)
         {
-            s -= source->pitch/2;
-
-            for(x=0; x<w; x+=8)
-            {
-                *d++ = BLEND16(*s++, *s++);
-                *d++ = BLEND16(*s++, *s++);
-                *d++ = BLEND16(*s++, *s++);
-                *d++ = BLEND16(*s++, *s++);
-                *d++ = BLEND16(*s++, *s++);
-                *d++ = BLEND16(*s++, *s++);
-                *d++ = BLEND16(*s++, *s++);
-                *d++ = BLEND16(*s++, *s++);
-            }
-
-            d += trailing;
-            counter -= scaleFactor;
+            offsetx = x << 1;
+            buffer2[x] = (uint16_t)BLEND16(s[offsety + offsetx], s[offsety + offsetx | 1]);
+        }
+        
+        for(int x=0; x<width; x++)
+        {
+            d[y * destination->w + x] = BLEND16(buffer1[x], buffer2[x]);
         }
     }
     
@@ -423,7 +351,6 @@ void GFX_BlitDownscaledDinguxSurface(SDL_Surface *source, SDL_Surface *destinati
 void GFX_BlitDinguxSurface(SDL_Surface *source, SDL_Surface *destination)
 {
     if(GFX_PDownscale) GFX_BlitDownscaledDinguxSurface(source, destination);
-    else if(sdl.desktop.fullscreen && source->h < destination->h) GFX_BlitScaledDinguxSurface(source, destination);
     else SDL_BlitSurface(source, NULL, destination, NULL);
 }
 
@@ -448,6 +375,7 @@ static void PauseDOSBox(bool pressed)
     
     GFX_SetTitle(-1, -1, true);
     KEYBOARD_ClrBuffer();
+    SDL_FreeSurface(sdl.surface);
     
 #ifdef SDL_TRIPLEBUF
     sdl.surface = SDL_SetVideoMode(sdl.desktop.full.width, 240, 16, (sdl.desktop.doublebuf ? SDL_TRIPLEBUF : 0) | SDL_HWSURFACE);
@@ -478,6 +406,7 @@ static void PauseDOSBox(bool pressed)
             GFX_SetTitle(-1, -1, false);
             
             // Reset screen surface
+            SDL_FreeSurface(sdl.surface);
             GFX_RestoreMode();
             GFX_ResetScreen();
             
@@ -656,6 +585,9 @@ void GFX_TearDown(void) {
 
 Bitu GFX_SetSize(Bitu width, Bitu height, Bitu flags, double scalex, double scaley, GFX_CallBack_t callback) 
 {   
+    int sdl_width;
+    int sdl_height;
+    
     if (sdl.updating) GFX_EndUpdate( 0 );
 
     sdl.draw.width = width;
@@ -771,47 +703,39 @@ dosurface:
         if (flags & GFX_CAN_32) bpp = 32;
         
         sdl.desktop.type = SCREEN_SURFACE_DINGUX;
+        sdl_width = width;
+        sdl_height = height;
         
-        if(width <= sdl.desktop.full.width && height <= sdl.desktop.full.height) printf("Hardware scaling (%i, %i)\n", width, height);
-        else printf("Software scaling (%i, %i)\n", width, height);
-
-        if(width <= sdl.desktop.full.width && height <= sdl.desktop.full.height) 
+        if(!SDL_VideoModeOK(width, height, 16, SDL_HWSURFACE))
         {
+            sdl_width = width > sdl.desktop.full.width ? sdl.desktop.full.width : width;
+            sdl_height = height > 240 ? 240 : height;
+        }
+
+printf("Scaling (%i, %i), (%i, %i) -> (%i, %i)\n", width, height, sdl.desktop.full.width, sdl.desktop.full.height, sdl_width, sdl_height);
+
 #ifdef SDL_TRIPLEBUF
-            sdl.surface = SDL_SetVideoMode(width, (height < 240 && sdl.desktop.fullscreen ? 240 : height), 16, (sdl.desktop.doublebuf ? SDL_TRIPLEBUF : 0) | SDL_HWSURFACE);
+            sdl.surface = SDL_SetVideoMode(sdl_width, sdl_height, 16, (sdl.desktop.doublebuf ? SDL_TRIPLEBUF : 0) | SDL_HWSURFACE);
 #else
 
-            sdl.surface = SDL_SetVideoMode(width, (height < 240 && sdl.desktop.fullscreen ? 240 : height), 16, (sdl.desktop.doublebuf ? SDL_DOUBLEBUF : 0) | SDL_HWSURFACE);
+            sdl.surface = SDL_SetVideoMode(sdl_width, sdl_height, 16, (sdl.desktop.doublebuf ? SDL_DOUBLEBUF : 0) | SDL_HWSURFACE);
 #endif
             sdl.blit.buffer = SDL_CreateRGBSurface(SDL_SWSURFACE, // for mixing menu and game screen
-                                    width,
-                                    height,
+                                    sdl_width,
+                                    sdl_height,
                                     16,
                                     0, 0, 0, 0);
-        }
-        else 
-        {
-#ifdef SDL_TRIPLEBUF
-            sdl.surface = SDL_SetVideoMode(sdl.desktop.full.width, sdl.desktop.full.height, 16, (sdl.desktop.doublebuf ? SDL_TRIPLEBUF : 0) | SDL_HWSURFACE);
-#else
-            sdl.surface = SDL_SetVideoMode(sdl.desktop.full.width, sdl.desktop.full.height, 16, (sdl.desktop.doublebuf ? SDL_DOUBLEBUF : 0) | SDL_HWSURFACE);
-#endif
-            sdl.blit.buffer = SDL_CreateRGBSurface(SDL_SWSURFACE, // for mixing menu and game screen
-                                    sdl.desktop.full.width,
-                                    sdl.desktop.full.height,
-                                    16,
-                                    0, 0, 0, 0);
-        }
         
         GFX_PDownscale = NULL;
         
-        if(width <= sdl.desktop.full.width && height <= sdl.desktop.full.height) 
+        if(width <= sdl_width && height <= sdl_height) 
         {
             sdl.clip.w = width;
             sdl.clip.h = height;
             sdl.clip.x = 0; // (Sint16)((sdl.desktop.full.width-width)/2);
             sdl.clip.y = 0; // (Sint16)((sdl.desktop.full.height-height)/2);
             sdl.blit.surface = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, bpp, 0, 0, 0, 0);
+            printf("Using IPU scaled surface of %ix%i\n", width, height);
         } 
         else 
         {
@@ -842,19 +766,19 @@ dosurface:
                     sdl.desktop.full.width,
                     sdl.desktop.full.height,
                     sdl.desktop.bpp,
-                    width, height, bpp);
+                    sdl_width, sdl_height, bpp);
         
         if(sdl.surface == NULL) E_Exit("Could not set windowed video mode %ix%i-%i: %s", width, height, bpp, SDL_GetError());
         
         printf("Blit Surface: %i x %i / ", sdl.blit.surface->w, sdl.blit.surface->h);
         printf("Surface: %i x %i\n", sdl.surface->w, sdl.surface->h);
-        
+        fflush(stdout);       
         
         // Clear the back-buffers
         SDL_FillRect(sdl.surface, NULL, 0);
         SDL_FillRect(sdl.blit.buffer, NULL, 0);
         SDL_FillRect(sdl.blit.surface, NULL, 0);
-        
+  
         if(sdl.surface) 
         {
             switch (sdl.surface->format->BitsPerPixel) 
@@ -1717,7 +1641,7 @@ static void GUI_StartUp(Section * sec) {
     }
     } else { // sdl.desktop.want_type != SCREEN_SURFACE_DINGUX
         // test which modes are available and fill sdl.desktop data
-        sdl.desktop.bpp = SDL_VideoModeOK(320, 480, 16, SDL_HWSURFACE); // let SDL choose bpp
+        sdl.desktop.bpp = SDL_VideoModeOK(320, 240, 16, SDL_HWSURFACE); // let SDL choose bpp
         if(!sdl.desktop.full.fixed) { // i.e. fullresolution=original
 //            sdl.desktop.fullscreen = true;
             sdl.desktop.fullscreen = !GFX_IsRetroFW20();
@@ -1824,6 +1748,9 @@ bool GFX_IsDoubleBuffering(void)
 {
     return sdl.desktop.doublebuf;
 }
+
+int start_pressed = 0;
+int select_pressed = 0;
 
 void GFX_Events() 
 {
@@ -1943,6 +1870,19 @@ void GFX_Events()
                 break;
                 
             default:
+                
+                if(event.key.keysym.sym == SDLK_RETURN) start_pressed = (event.type == SDL_KEYDOWN);
+                if(event.key.keysym.sym == SDLK_ESCAPE) select_pressed = (event.type == SDL_KEYDOWN);
+                
+                if(start_pressed && select_pressed)
+                {
+                    MENU_Toggle();
+                    PauseDOSBox(menu_active);
+                    
+                    start_pressed = select_pressed = 0;
+                    
+                    return;
+                }
                 
                 // This is to activate the menu. See MENU_CheckEvent for the dismissal handling
                 if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_END)

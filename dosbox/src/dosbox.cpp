@@ -434,8 +434,8 @@ void DOSBOX_Init(void)
 		"                  handle.");
 
 	const char* cyclest[] = { "auto","fixed","max","%u",0 };
-	Pstring = Pmulti_remain->GetSection()->Add_string("type",Property::Changeable::Always,"max");
-	Pmulti_remain->SetValue("max");
+	Pstring = Pmulti_remain->GetSection()->Add_string("type",Property::Changeable::Always,"auto");
+	Pmulti_remain->SetValue("auto");
 	Pstring->Set_values(cyclest);
 
 	Pstring = Pmulti_remain->GetSection()->Add_string("parameters",Property::Changeable::Always,"");
